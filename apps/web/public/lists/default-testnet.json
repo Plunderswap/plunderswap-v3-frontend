@@ -1,0 +1,52 @@
+{
+  "name": "Plunderswap Testnet",
+  "timestamp": "2023-05-22T08:34:22.295Z",
+  "version": {
+    "major": 1,
+    "minor": 1,
+    "patch": 2
+  },
+  "logoURI": "https://plunderswap.com/logo.png",
+  "keywords": ["plunderswap", "extended"],
+  "tokens": [
+    {
+      "name": "USD Coin",
+      "symbol": "USDC",
+      "address": "0x1fD09F6701a1852132A649fe9D07F2A3b991eCfA",
+      "chainId": 33101,
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png"
+    },
+    {
+      "name": "TestSTREAM",
+      "symbol": "STREAM",
+      "address": "0x51b9f3ddb948bcc16b89b48d83b920bc01dbed55",
+      "chainId": 33101,
+      "decimals": 18,
+      "logoURI": "https://zilstream.sgp1.cdn.digitaloceanspaces.com/STREAM.png"
+    },
+    {
+      "name": "TestXSGD",
+      "symbol": "XSGD",
+      "address": "0x8895Aa1bEaC254E559A3F91e579CF4a67B70ce02",
+      "chainId": 33101,
+      "decimals": 18,
+      "logoURI": "https://meta.viewblock.io/zilliqa.zil180v66mlw007ltdv8tq5t240y7upwgf7djklmwh/logo"
+    },
+    {
+      "name": "TestGARY",
+      "symbol": "GARY",
+      "address": "0x5900Ac075A67742f5eA4204650FEad9E674c664F",
+      "chainId": 33101,
+      "decimals": 18,
+      "logoURI": "https://meta.viewblock.io/ZIL.zil1w5hwupgc9rxyuyd742g2c9annwahugrx80fw9h/logo"
+    },
+    {
+      "name": "TestZRC (ZRC Proxy)",
+      "symbol": "ZRC",
+      "address": "0x453b11386FBd54bC532892c0217BBc316fc7b918",
+      "chainId": 33101,
+      "decimals": 8
+    }
+  ]
+}

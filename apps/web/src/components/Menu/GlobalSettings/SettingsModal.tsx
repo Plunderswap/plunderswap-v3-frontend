@@ -29,9 +29,8 @@ import {
   useUserSingleHopOnly,
 } from '@pancakeswap/utils/user'
 import { ExpertModal } from '@pancakeswap/widgets-internal'
-import { TOKEN_RISK } from 'components/AccessRisk'
-import AccessRiskTooltips from 'components/AccessRisk/AccessRiskTooltips'
 import { useActiveChainId } from 'hooks/useActiveChainId'
+import { useSpeedQuote } from 'hooks/useSpeedQuote'
 import useTheme from 'hooks/useTheme'
 import { useWebNotifications } from 'hooks/useWebNotifications'
 import { ReactNode, Suspense, lazy, useCallback, useState } from 'react'
@@ -40,7 +39,6 @@ import { useSubgraphHealthIndicatorManager, useUserUsernameVisibility } from 'st
 import { useUserShowTestnet } from 'state/user/hooks/useUserShowTestnet'
 import { useUserTokenRisk } from 'state/user/hooks/useUserTokenRisk'
 import { useMMLinkedPoolByDefault } from 'state/user/mmLinkedPool'
-import { useSpeedQuote } from 'hooks/useSpeedQuote'
 import {
   useOnlyOneAMMSourceEnabled,
   useRoutingSettingChanged,
@@ -150,7 +148,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 <Text>{t('Dark mode')}</Text>
                 <ThemeSwitcher isDark={isDark} toggleTheme={() => setTheme(isDark ? 'light' : 'dark')} />
               </Flex>
-              <Flex justifyContent="space-between" alignItems="center" mb="24px">
+              {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
                 <Flex alignItems="center">
                   <Text>{t('Subgraph Health Indicator')}</Text>
                   <QuestionHelper
@@ -169,7 +167,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                     setSubgraphHealth(!subgraphHealth)
                   }}
                 />
-              </Flex>
+              </Flex> */}
               <Flex justifyContent="space-between" alignItems="center" mb="24px">
                 <Flex alignItems="center">
                   <Text>{t('Show username')}</Text>
@@ -213,37 +211,6 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                   }}
                 />
               </Flex>
-              {chainId === ChainId.BSC && (
-                <>
-                  <Flex justifyContent="space-between" alignItems="center" mb="24px">
-                    <Flex alignItems="center">
-                      <Text>{t('Token Risk Scanning')}</Text>
-                      <QuestionHelper
-                        text={
-                          <AccessRiskTooltips
-                            hasResult
-                            riskLevel={TOKEN_RISK.SOME_RISK}
-                            riskLevelDescription={t(
-                              'Automatic risk scanning for the selected token. This scanning result is for reference only, and should NOT be taken as investment advice.',
-                            )}
-                          />
-                        }
-                        placement="top"
-                        ml="4px"
-                      />
-                    </Flex>
-                    <Toggle
-                      id="toggle-token-risk"
-                      checked={tokenRisk}
-                      scale="md"
-                      onChange={() => {
-                        setTokenRisk(!tokenRisk)
-                      }}
-                    />
-                  </Flex>
-                  <GasSettings />
-                </>
-              )}
             </Flex>
           </>
         )}
@@ -274,19 +241,14 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
             </Flex>
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
-                <Text>{t('Flippy sounds')}</Text>
+                <Text>{t('Sounds')}</Text>
                 <QuestionHelper
-                  text={t('Fun sounds to make a truly immersive pancake-flipping trading experience')}
+                  text={t('Fun sounds to make a truly immersive trading experience')}
                   placement="top"
                   ml="4px"
                 />
               </Flex>
-              <PancakeToggle
-                id="toggle-audio-play"
-                checked={audioPlay}
-                onChange={() => setAudioMode((s) => !s)}
-                scale="md"
-              />
+              <Toggle id="toggle-audio-play" checked={audioPlay} onChange={() => setAudioMode((s) => !s)} scale="md" />
             </Flex>
             <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">

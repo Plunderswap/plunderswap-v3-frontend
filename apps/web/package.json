@@ -77,6 +77,7 @@
     "@web3inbox/core": "0.0.25",
     "@web3inbox/widget-react": "0.6.26",
     "@yornaath/batshit": "^0.9.0",
+    "@zilliqa-js/zilliqa": "^3.5.0",
     "ajv": "^6.12.3",
     "bignumber.js": "^9.0.0",
     "bottleneck": "^2.19.5",

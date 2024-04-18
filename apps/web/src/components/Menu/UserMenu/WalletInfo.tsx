@@ -11,7 +11,6 @@ import {
   InjectedModalProps,
   LinkExternal,
   Message,
-  ScanLink,
   Skeleton,
   Text,
   TooltipText,
@@ -25,6 +24,7 @@ import useNativeCurrency from 'hooks/useNativeCurrency'
 import useTokenBalance, { useBSCCakeBalance } from 'hooks/useTokenBalance'
 
 import { formatBigInt, getFullDisplayBalance } from '@pancakeswap/utils/formatBalance'
+import { toBech32Address } from '@zilliqa-js/crypto'
 import InternalLink from 'components/Links'
 import { SUPPORT_BUY_CRYPTO } from 'config/constants/supportChains'
 import { useDomainNameForAddress } from 'hooks/useDomain'
@@ -59,6 +59,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
   const { balance: cakeBalance, fetchStatus: cakeFetchStatus } = useBSCCakeBalance()
   const [mobileTooltipShow, setMobileTooltipShow] = useState(false)
   const { logout } = useAuth()
+  const Zil1Address = toBech32Address(account)
 
   const handleLogout = () => {
     onDismiss?.()
@@ -103,6 +104,12 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
       <FlexGap flexDirection="column" mb="24px" gap="8px">
         <CopyAddress tooltipMessage={t('Copied')} account={account ?? undefined} />
         {domainName ? <Text color="textSubtle">{domainName}</Text> : null}
+      </FlexGap>
+      <FlexGap flexDirection="column" mb="24px" gap="8px">
+        <Text color="secondary" fontSize="12px" textTransform="uppercase" fontWeight="bold" mb="8px">
+          {t('Your Zil1 Address')}
+        </Text>
+        <CopyAddress tooltipMessage={t('Copied')} account={Zil1Address} mb="24px" />
       </FlexGap>
       {hasLowNativeBalance && SUPPORT_BUY_CRYPTO.includes(chainId as ChainId) && (
         <Message variant="warning" mb="24px">
@@ -180,7 +187,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
         </Box>
       )}
 
-      <Box mb="24px">
+      {/* <Box mb="24px">
         <Flex justifyContent="space-between" alignItems="center" mb="8px">
           <Flex bg={COLORS.BNB} borderRadius="16px" pl="4px" pr="8px" py="2px">
             <ChainLogo chainId={ChainId.BSC} />
@@ -238,7 +245,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
             <Text>{formatBigInt(cakeBalance, 3)}</Text>
           )}
         </Flex>
-      </Box>
+      </Box> */}
       <Button variant="secondary" width="100%" minHeight={48} onClick={handleLogout}>
         {t('Disconnect Wallet')}
       </Button>

@@ -18,7 +18,7 @@ export const zilliqaTestnet = defineChain({
   },
   blockExplorers: {
     default: {
-      name: 'EVMX',
+      name: 'Otterscan',
       url: 'https://otterscan.testnet.zilliqa.com',
     },
   },
@@ -45,8 +45,8 @@ export const zilliqa = defineChain({
   },
   blockExplorers: {
     default: {
-      name: 'EVMX',
-      url: 'https://evmx.zilliqa.com',
+      name: 'Otterscan',
+      url: 'https://otterscan.zilliqa.com',
     },
   },
   contracts: {

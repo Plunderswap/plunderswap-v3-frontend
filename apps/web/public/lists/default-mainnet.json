@@ -1,0 +1,22 @@
+{
+  "name": "PlunderSwap Default List",
+  "timestamp": "2022-01-26T11:45:09Z",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "tags": {},
+  "logoURI": "https://plunderswap.com/logo.png",
+  "keywords": ["plunderswap", "default"],
+  "tokens": [
+    {
+      "name": "Zilliqa-bridged USDT token",
+      "symbol": "zUSDT",
+      "address": "0x2274005778063684fbB1BfA96a2b725dC37D75f9",
+      "chainId": 32769,
+      "decimals": 6,
+      "logoURI": "https://plunderswap.github.io/token-lists/images/0x1fD09F6701a1852132A649fe9D07F2A3b991eCfA.svg"
+    }
+  ]
+}
