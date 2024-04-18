@@ -21,6 +21,7 @@ export const chainNames: Record<ChainId, string> = {
   [ChainId.SEPOLIA]: 'sepolia',
   [ChainId.ARBITRUM_SEPOLIA]: 'arbSepolia',
   [ChainId.BASE_SEPOLIA]: 'baseSepolia',
+  [ChainId.ZILLIQA]: 'zilliqa',
   [ChainId.ZILLIQA_TESTNET]: 'zilliqaTestnet',
 }
 
@@ -54,5 +55,6 @@ export const defiLlamaChainNames: Record<ChainId, string> = {
   [ChainId.SEPOLIA]: '',
   [ChainId.ARBITRUM_SEPOLIA]: '',
   [ChainId.BASE_SEPOLIA]: '',
+  [ChainId.ZILLIQA]: '',
   [ChainId.ZILLIQA_TESTNET]: '',
 }

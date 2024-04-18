@@ -85,8 +85,8 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.SEPOLIA]: [scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
-  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc],
   [ChainId.ZILLIQA]: [WNATIVE[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA]],
+  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -111,8 +111,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.SEPOLIA]: [scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
-  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc],
   [ChainId.ZILLIQA]: [WNATIVE[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA]],
+  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

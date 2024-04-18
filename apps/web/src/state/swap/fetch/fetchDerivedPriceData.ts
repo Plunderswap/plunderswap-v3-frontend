@@ -28,7 +28,7 @@ const SWAP_INFO_BY_CHAIN = {
     // v3: V3_SUBGRAPH_URLS[ChainId.ETHEREUM],
   },
   [ChainId.BSC_TESTNET]: {
-    v3: V3_SUBGRAPH_URLS[ChainId.BSC_TESTNET],
+    // v3: V3_SUBGRAPH_URLS[ChainId.BSC_TESTNET],
   },
   [ChainId.GOERLI]: {},
   [ChainId.ARBITRUM_ONE]: {
@@ -67,6 +67,8 @@ const SWAP_INFO_BY_CHAIN = {
   [ChainId.SEPOLIA]: {},
   [ChainId.ARBITRUM_SEPOLIA]: {},
   [ChainId.BASE_SEPOLIA]: {},
+  [ChainId.ZILLIQA]: {},
+  [ChainId.ZILLIQA_TESTNET]: {},
 } satisfies Record<ChainId, Partial<ProtocolEndpoint>>
 
 export const getTokenBestTvlProtocol = async (tokenAddress: string, chainId: ChainId): Promise<Protocol | null> => {

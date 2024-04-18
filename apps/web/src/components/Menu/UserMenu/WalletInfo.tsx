@@ -59,7 +59,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowNativeBalance, onDismiss 
   const { balance: cakeBalance, fetchStatus: cakeFetchStatus } = useBSCCakeBalance()
   const [mobileTooltipShow, setMobileTooltipShow] = useState(false)
   const { logout } = useAuth()
-  const Zil1Address = toBech32Address(account)
+  const Zil1Address = toBech32Address(account ?? '')
 
   const handleLogout = () => {
     onDismiss?.()

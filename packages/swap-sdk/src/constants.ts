@@ -224,6 +224,22 @@ export const WETH9 = {
     'Wrapped Ether',
     'https://weth.io'
   ),
+  [ChainId.ZILLIQA]: new ERC20Token(
+    ChainId.ZILLIQA,
+    '0x94e18aE7dd5eE57B55f30c4B63E2760c09EFb192',
+    18,
+    'WZIL',
+    'Wrapped ZIL',
+    'https://www.zilliqa.com'
+  ),
+  [ChainId.ZILLIQA_TESTNET]: new ERC20Token(
+    ChainId.ZILLIQA_TESTNET,
+    '0x878c5008A348A60a5B239844436A7b483fAdb7F2',
+    18,
+    'WZIL',
+    'Wrapped ZIL',
+    'https://www.zilliqa.com'
+  ),
 }
 
 export const WBNB = {

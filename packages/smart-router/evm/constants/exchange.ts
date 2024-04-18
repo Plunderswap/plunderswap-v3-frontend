@@ -22,6 +22,8 @@ import {
   polygonZkEvmTokens,
   scrollSepoliaTokens,
   sepoliaTokens,
+  zilliqaTestnetTokens,
+  zilliqaTokens,
   zkSyncTestnetTokens,
   zksyncTokens,
 } from '@pancakeswap/tokens'
@@ -49,6 +51,7 @@ export const SMART_ROUTER_ADDRESSES = {
   [ChainId.SEPOLIA]: '0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86',
   [ChainId.ARBITRUM_SEPOLIA]: '0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86',
   [ChainId.BASE_SEPOLIA]: '0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86',
+  [ChainId.ZILLIQA]: '0x495eeAD26e47fa23D96540039376dA783c802Ed0',
   [ChainId.ZILLIQA_TESTNET]: '0x495eeAD26e47fa23D96540039376dA783c802Ed0',
 } as const satisfies Record<ChainId, string>
 
@@ -73,6 +76,7 @@ export const V2_ROUTER_ADDRESS: ChainMap<string> = {
   [ChainId.SEPOLIA]: '0x8cFe327CEc66d1C090Dd72bd0FF11d690C33a2Eb',
   [ChainId.ARBITRUM_SEPOLIA]: '0x8cFe327CEc66d1C090Dd72bd0FF11d690C33a2Eb',
   [ChainId.BASE_SEPOLIA]: '0x8cFe327CEc66d1C090Dd72bd0FF11d690C33a2Eb',
+  [ChainId.ZILLIQA]: '0x33C6a20D2a605da9Fd1F506ddEd449355f0564fe',
   [ChainId.ZILLIQA_TESTNET]: '0x144e7AEee22F388350E9EAEFBb626A021fcd0250',
 }
 
@@ -97,6 +101,7 @@ export const STABLE_SWAP_INFO_ADDRESS: ChainMap<string> = {
   [ChainId.SEPOLIA]: '',
   [ChainId.ARBITRUM_SEPOLIA]: '',
   [ChainId.BASE_SEPOLIA]: '',
+  [ChainId.ZILLIQA]: '',
   [ChainId.ZILLIQA_TESTNET]: '',
 }
 
@@ -130,6 +135,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.SEPOLIA]: [sepoliaTokens.usdc, sepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
+  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil],
+  [ChainId.ZILLIQA]: [zilliqaTokens.wzil],
 }
 
 const czusd = new ERC20Token(ChainId.BSC, '0xE68b79e51bf826534Ff37AA9CeE71a3842ee9c70', 18, 'CZUSD', 'CZUSD')

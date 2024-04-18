@@ -51,6 +51,7 @@
     "@pancakeswap/tsconfig": "workspace:*",
     "@stylelint/postcss-css-in-js": "^0.37.3",
     "@types/node": "^18.19.24",
+    "@zilliqa-js/util": "3.5.0",
     "eslint-plugin-address": "^0.0.2",
     "eslint-plugin-lodash": "^7.4.0",
     "husky": "^7.0.4",

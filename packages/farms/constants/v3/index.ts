@@ -19,7 +19,7 @@ export const farmsV3ConfigChainMap: Record<FarmV3SupportedChainId, ComputedFarmC
   [ChainId.ETHEREUM]: ethFarms,
   [ChainId.GOERLI]: goerliFarms,
   [ChainId.BSC]: bscFarms,
-  // [ChainId.BSC_TESTNET]: bscTestnetFarms,
+  [ChainId.BSC_TESTNET]: [],
   [ChainId.ZKSYNC_TESTNET]: zkSyncTestnetFarms,
   [ChainId.POLYGON_ZKEVM]: polygonZkEVMFarms,
   [ChainId.POLYGON_ZKEVM_TESTNET]: polygonZkEVMTestnetFarms,

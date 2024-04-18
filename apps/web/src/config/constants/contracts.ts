@@ -1,6 +1,5 @@
 import { ChainId } from '@pancakeswap/chains'
 import { masterChefV3Addresses } from '@pancakeswap/farms'
-import { GAUGES_ADDRESS, GAUGES_CALC_ADDRESS } from '@pancakeswap/gauges'
 import { ICAKE } from '@pancakeswap/ifos'
 import { CAKE_VAULT } from '@pancakeswap/pools'
 import { V3_QUOTER_ADDRESSES } from '@pancakeswap/smart-router'
@@ -37,6 +36,7 @@ export default {
     [ChainId.OPBNB_TESTNET]: '0xcA11bde05977b3631167028862bE2a173976CA11',
     [ChainId.BASE_TESTNET]: '0xcA11bde05977b3631167028862bE2a173976CA11',
     [ChainId.SCROLL_SEPOLIA]: '0xcA11bde05977b3631167028862bE2a173976CA11',
+    [ChainId.ZILLIQA]: '0x3c2ffc98284b2f6e1035eaeed75e9273b5b63223',
     [ChainId.ZILLIQA_TESTNET]: '0x3c2ffc98284b2f6e1035eaeed75e9273b5b63223',
   },
   pancakeProfile: {
@@ -229,8 +229,8 @@ export default {
     [ChainId.BSC]: '0x5692DB8177a81A6c6afc8084C2976C9933EC1bAB',
     // [ChainId.BSC_TESTNET]: '0x4879fcB447E7F4c7843A6D15dF5526061304dcFb',
   },
-  gaugesVoting: GAUGES_ADDRESS,
-  gaugesVotingCalc: GAUGES_CALC_ADDRESS,
+  gaugesVoting: [],
+  gaugesVotingCalc: [],
   revenueSharingVeCake: {
     [ChainId.BSC]: '0xCaF4e48a4Cb930060D0c3409F40Ae7b34d2AbE2D',
     // [ChainId.BSC_TESTNET]: '0x58fde4bf684B631363640808F452952D8c14084b',

@@ -169,7 +169,6 @@ export function useWallchainApi(
           setStatus('not-found')
           setApprovalAddress(undefined)
           setMasterInput(undefined)
-          captureException(e)
           setLastUpdate(Date.now())
         })
     } else {

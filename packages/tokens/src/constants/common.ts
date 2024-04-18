@@ -71,6 +71,15 @@ export const USDT_ETH = new ERC20Token(
   'https://tether.to/',
 )
 
+export const USDT_ZIL = new ERC20Token(
+  ChainId.ZILLIQA,
+  '0x2274005778063684fbB1BfA96a2b725dC37D75f9',
+  6,
+  'zUSDT',
+  'Tether USD',
+  'https://tether.to/',
+)
+
 export const BUSD_BSC = new ERC20Token(
   ChainId.BSC,
   '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
@@ -241,6 +250,7 @@ export const CAKE = {
 export const USDC = {
   [ChainId.BSC]: USDC_BSC,
   [ChainId.BSC_TESTNET]: USDC_TESTNET,
+  [ChainId.ZILLIQA_TESTNET]: USDC_TESTNET,
   [ChainId.ETHEREUM]: USDC_ETH,
   [ChainId.GOERLI]: USDC_GOERLI,
   [ChainId.ZKSYNC]: new ERC20Token(ChainId.ZKSYNC, '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4', 6, 'USDC', 'USD Coin'),
@@ -328,6 +338,7 @@ export const USDC = {
 export const USDT = {
   [ChainId.BSC]: USDT_BSC,
   [ChainId.ETHEREUM]: USDT_ETH,
+  [ChainId.ZILLIQA]: USDT_ZIL,
   [ChainId.ARBITRUM_ONE]: new ERC20Token(
     ChainId.ARBITRUM_ONE,
     '0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9',
@@ -402,4 +413,6 @@ export const STABLE_COIN = {
   [ChainId.SEPOLIA]: USDC[ChainId.SEPOLIA],
   [ChainId.ARBITRUM_SEPOLIA]: USDC[ChainId.ARBITRUM_SEPOLIA],
   [ChainId.BASE_SEPOLIA]: USDC[ChainId.BASE_SEPOLIA],
+  [ChainId.ZILLIQA]: USDT[ChainId.ZILLIQA],
+  [ChainId.ZILLIQA_TESTNET]: USDC[ChainId.ZILLIQA_TESTNET],
 } satisfies Record<ChainId, ERC20Token>
