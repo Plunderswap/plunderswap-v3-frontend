@@ -1,11 +1,11 @@
 import { ChainId } from '@pancakeswap/chains'
 import uniq from 'lodash/uniq'
 
-export const supportedChainIdV2 = [ChainId.GOERLI, ChainId.BSC, ChainId.BSC_TESTNET, ChainId.ETHEREUM] as const
+export const supportedChainIdV2 = [ChainId.GOERLI, ChainId.BSC, ChainId.ETHEREUM] as const
 export const supportedChainIdV3 = [
   ChainId.GOERLI,
   ChainId.BSC,
-  ChainId.BSC_TESTNET,
+  // ChainId.BSC_TESTNET,
   ChainId.ETHEREUM,
   ChainId.ZKSYNC_TESTNET,
   ChainId.POLYGON_ZKEVM_TESTNET,
@@ -37,7 +37,6 @@ export const masterChefV3Addresses = {
   [ChainId.ETHEREUM]: '0x556B9306565093C855AEA9AE92A594704c2Cd59e',
   [ChainId.GOERLI]: '0x864ED564875BdDD6F421e226494a0E7c071C06f8',
   [ChainId.BSC]: '0x556B9306565093C855AEA9AE92A594704c2Cd59e',
-  [ChainId.BSC_TESTNET]: '0x4c650FB471fe4e0f476fD3437C3411B1122c4e3B',
   [ChainId.ZKSYNC_TESTNET]: '0x3c6Aa61f72932aD5D7C917737367be32D5509e6f',
   [ChainId.POLYGON_ZKEVM_TESTNET]: '0xb66b07590B30d4E6E22e45Ddc83B06Bb018A7B44',
   [ChainId.POLYGON_ZKEVM]: '0xE9c7f3196Ab8C09F6616365E8873DaEb207C0391',

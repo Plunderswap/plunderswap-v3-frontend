@@ -2,7 +2,6 @@
 import BundleAnalyzer from '@next/bundle-analyzer'
 import { withWebSecurityHeaders } from '@pancakeswap/next-config/withWebSecurityHeaders'
 import smartRouterPkgs from '@pancakeswap/smart-router/package.json' assert { type: 'json' }
-import { withSentryConfig } from '@sentry/nextjs'
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -14,25 +13,6 @@ const withBundleAnalyzer = BundleAnalyzer({
 })
 
 const withVanillaExtract = createVanillaExtractPlugin()
-
-const sentryWebpackPluginOptions =
-  process.env.VERCEL_ENV === 'production'
-    ? {
-        // Additional config options for the Sentry Webpack plugin. Keep in mind that
-        // the following options are set automatically, and overriding them is not
-        // recommended:
-        //   release, url, org, project, authToken, configFile, stripPrefix,
-        //   urlPrefix, include, ignore
-        silent: false, // Logging when deploying to check if there is any problem
-        validate: true,
-        hideSourceMaps: false,
-        // https://github.com/getsentry/sentry-webpack-plugin#options.
-      }
-    : {
-        hideSourceMaps: false,
-        silent: true, // Suppresses all logs
-        dryRun: !process.env.SENTRY_AUTH_TOKEN,
-      }
 
 const workerDeps = Object.keys(smartRouterPkgs.dependencies)
   .map((d) => d.replace('@pancakeswap/', 'packages/'))
@@ -196,12 +176,6 @@ const config = {
   },
   webpack: (webpackConfig, { webpack, isServer }) => {
     // tree shake sentry tracing
-    webpackConfig.plugins.push(
-      new webpack.DefinePlugin({
-        __SENTRY_DEBUG__: false,
-        __SENTRY_TRACING__: false,
-      }),
-    )
     if (!isServer && webpackConfig.optimization.splitChunks) {
       // webpack doesn't understand worker deps on quote worker, so we need to manually add them
       // https://github.com/webpack/webpack/issues/16895
@@ -221,6 +195,4 @@ const config = {
   },
 }
 
-export default withBundleAnalyzer(
-  withVanillaExtract(withSentryConfig(withWebSecurityHeaders(config)), sentryWebpackPluginOptions),
-)
+export default withBundleAnalyzer(withVanillaExtract(withWebSecurityHeaders(config)))

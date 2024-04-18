@@ -1,9 +1,9 @@
 import React from "react";
 import { styled } from "styled-components";
-import { Variant, variants } from "./types";
 import { Image } from "../../../../components/Image";
 import { RefreshIcon, WalletFilledIcon, WarningIcon } from "../../../../components/Svg";
 import { Colors } from "../../../../theme/types";
+import { Variant, variants } from "./types";
 
 const MenuIconWrapper = styled.div<{ borderColor: keyof Colors }>`
   align-items: center;

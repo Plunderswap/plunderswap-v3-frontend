@@ -83,6 +83,8 @@ export const SERVER_NODES = {
   [ChainId.SEPOLIA]: sepolia.rpcUrls.public.http,
   [ChainId.ARBITRUM_SEPOLIA]: arbitrumSepolia.rpcUrls.public.http,
   [ChainId.BASE_SEPOLIA]: baseSepolia.rpcUrls.public.http,
+  [ChainId.ZILLIQA]: ['https://api.zilliqa.com'],
+  [ChainId.ZILLIQA_TESTNET]: ['https://api.testnet.zilliqa.com'],
 } satisfies Record<ChainId, readonly string[]>
 
 export const PUBLIC_NODES = {
@@ -155,4 +157,6 @@ export const PUBLIC_NODES = {
   [ChainId.SEPOLIA]: sepolia.rpcUrls.public.http,
   [ChainId.ARBITRUM_SEPOLIA]: arbitrumSepolia.rpcUrls.public.http,
   [ChainId.BASE_SEPOLIA]: baseSepolia.rpcUrls.public.http,
+  [ChainId.ZILLIQA]: ['https://api.zilliqa.com'],
+  [ChainId.ZILLIQA_TESTNET]: ['https://api.testnet.zilliqa.com'],
 } satisfies Record<ChainId, readonly string[]>

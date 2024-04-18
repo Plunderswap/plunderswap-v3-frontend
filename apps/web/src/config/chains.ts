@@ -1,28 +1,61 @@
 import { ChainId, chainNames } from '@pancakeswap/chains'
 import memoize from 'lodash/memoize'
-import {
-  Chain,
-  arbitrum,
-  arbitrumGoerli,
-  arbitrumSepolia,
-  base,
-  baseGoerli,
-  baseSepolia,
-  bscTestnet,
-  bsc as bsc_,
-  goerli,
-  linea,
-  lineaTestnet,
-  mainnet,
-  opBNB,
-  opBNBTestnet,
-  polygonZkEvm,
-  polygonZkEvmTestnet,
-  scrollSepolia,
-  sepolia,
-  zkSync,
-  zkSyncTestnet,
-} from 'wagmi/chains'
+import { defineChain } from 'viem'
+import { Chain, bscTestnet, bsc as bsc_ } from 'wagmi/chains'
+
+export const zilliqaTestnet = defineChain({
+  id: 33101,
+  name: 'Zilliqa Testnet',
+  network: 'zilliqaTestnet',
+  nativeCurrency: { name: 'Zilliqa', symbol: 'ZIL', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://api.testnet.zilliqa.com'],
+    },
+    public: {
+      http: ['https://api.testnet.zilliqa.com'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'EVMX',
+      url: 'https://otterscan.testnet.zilliqa.com',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0x3c2ffc98284b2f6e1035eaeed75e9273b5b63223',
+      blockCreated: 5313022,
+    },
+  },
+})
+
+export const zilliqa = defineChain({
+  id: 32769,
+  name: 'Zilliqa',
+  network: 'Zilliqa',
+  nativeCurrency: { name: 'Zilliqa', symbol: 'ZIL', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://api.zilliqa.com'],
+    },
+    public: {
+      http: ['https://api.zilliqa.com'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'EVMX',
+      url: 'https://evmx.zilliqa.com',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0x38899efb93d5106d3adb86662c557f237f6ecf57',
+      blockCreated: 3251173,
+    },
+  },
+})
 
 export const CHAIN_QUERY_NAME = chainNames
 
@@ -74,25 +107,4 @@ export const L2_CHAIN_IDS: ChainId[] = [
   ChainId.BASE_SEPOLIA,
 ]
 
-export const CHAINS = [
-  bsc,
-  bscTestnet,
-  mainnet,
-  goerli,
-  sepolia,
-  polygonZkEvm,
-  polygonZkEvmTestnet,
-  zkSync,
-  zkSyncTestnet,
-  arbitrum,
-  arbitrumGoerli,
-  arbitrumSepolia,
-  linea,
-  lineaTestnet,
-  base,
-  baseGoerli,
-  baseSepolia,
-  opBNB,
-  opBNBTestnet,
-  scrollSepolia,
-]
+export const CHAINS = [zilliqa, zilliqaTestnet, bscTestnet]

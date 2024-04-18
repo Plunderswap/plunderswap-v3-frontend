@@ -24,7 +24,16 @@ export function useFeeTierDistribution(
   currencyA: Currency | undefined | null,
   currencyB: Currency | undefined | null,
 ): FeeTierDistribution {
-  const { isPending, error, distributions, tvlByFeeTier } = usePoolTVL(currencyA?.wrapped, currencyB?.wrapped)
+  // const { isPending, error, distributions, tvlByFeeTier } = usePoolTVL(currencyA?.wrapped, currencyB?.wrapped)
+  const isPending = false
+  const error = null
+  const distributions = undefined
+  const tvlByFeeTier = {
+    [FeeAmount.LOWEST]: [0, 0],
+    [FeeAmount.LOW]: [0, 0],
+    [FeeAmount.MEDIUM]: [0, 0],
+    [FeeAmount.HIGH]: [0, 0],
+  }
 
   // fetch all pool states to determine pool state
   const [poolStateVeryLow] = usePool(currencyA, currencyB, FeeAmount.LOWEST)

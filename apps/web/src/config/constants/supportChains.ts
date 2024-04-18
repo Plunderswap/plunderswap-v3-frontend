@@ -16,11 +16,11 @@ export const SUPPORT_BUY_CRYPTO = [
 export const LIQUID_STAKING_SUPPORTED_CHAINS = [
   ChainId.BSC,
   ChainId.ETHEREUM,
-  ChainId.BSC_TESTNET,
+  // ChainId.BSC_TESTNET,
   ChainId.ARBITRUM_GOERLI,
 ]
 export const FIXED_STAKING_SUPPORTED_CHAINS = [ChainId.BSC]
 
 export const V3_MIGRATION_SUPPORTED_CHAINS = [ChainId.BSC, ChainId.ETHEREUM]
 
-export const SUPPORT_CAKE_STAKING = [ChainId.BSC, ChainId.BSC_TESTNET]
+export const SUPPORT_CAKE_STAKING = [ChainId.BSC]

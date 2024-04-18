@@ -40,11 +40,11 @@ export default function FeeSelector({
   const farmV3Config = farmsV3ConfigChainMap[currencyA?.chainId as ChainId]
 
   const farmV3 = useMemo(() => {
-    if (currencyA && currencyB) {
-      const [tokenA, tokenB] = [currencyA.wrapped, currencyB.wrapped]
-      const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA]
-      return farmV3Config?.find((f) => f.token.equals(token0) && f.quoteToken.equals(token1))
-    }
+    // if (currencyA && currencyB) {
+    //   const [tokenA, tokenB] = [currencyA.wrapped, currencyB.wrapped]
+    //   const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA]
+    //   return farmV3Config?.find((f) => f.token.equals(token0) && f.quoteToken.equals(token1))
+    // }
     return null
   }, [currencyA, currencyB, farmV3Config])
 

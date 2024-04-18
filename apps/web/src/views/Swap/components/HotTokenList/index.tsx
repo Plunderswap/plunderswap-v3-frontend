@@ -10,7 +10,7 @@ import { styled } from 'styled-components'
 import { TabToggle, TabToggleGroup } from 'components/TabToggle'
 import { InfoDataSource as DataSourceType } from 'state/info/types'
 
-import useTradingRewardTokenList from '../../hooks/useTradingRewardTokenList'
+// import useTradingRewardTokenList from '../../hooks/useTradingRewardTokenList'
 import TokenTable from './SwapTokenTable'
 import { useTokenHighLightList } from './useList'
 
@@ -67,7 +67,8 @@ const HotTokenList: React.FC<{ handleOutputSelect: (newCurrencyOutput: Currency)
   const [index, setIndex] = useState(0)
   const { isMobile } = useMatchBreakpoints()
   const [confirmed, setConfirmed] = useState(false)
-  const { tokenPairs } = useTradingRewardTokenList()
+  // const { tokenPairs } = useTradingRewardTokenList()
+  const tokenPairs: any[] = []
 
   useEffect(() => {
     if (query.showTradingReward) {

@@ -25,7 +25,7 @@ export function getV3Subgraphs({ noderealApiKey }: SubgraphParams) {
     [ChainId.ETHEREUM]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-eth',
     [ChainId.GOERLI]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-goerli',
     [ChainId.BSC]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-bsc',
-    [ChainId.BSC_TESTNET]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-chapel',
+    [ChainId.BSC_TESTNET]: null,
     [ChainId.ARBITRUM_ONE]: 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-arb',
     [ChainId.ARBITRUM_GOERLI]: 'https://api.thegraph.com/subgraphs/name/chef-jojo/exhange-v3-arb-goerli',
     [ChainId.POLYGON_ZKEVM]: 'https://api.studio.thegraph.com/query/45376/exchange-v3-polygon-zkevm/version/latest',
@@ -43,6 +43,7 @@ export function getV3Subgraphs({ noderealApiKey }: SubgraphParams) {
     [ChainId.SEPOLIA]: null,
     [ChainId.ARBITRUM_SEPOLIA]: null,
     [ChainId.BASE_SEPOLIA]: null,
+    [ChainId.ZILLIQA_TESTNET]: null,
   } satisfies Record<ChainId, string | null>
 }
 
