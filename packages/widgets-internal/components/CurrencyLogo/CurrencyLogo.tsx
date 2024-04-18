@@ -4,7 +4,7 @@ import { Currency } from "@pancakeswap/sdk";
 import { BinanceIcon, TokenLogo } from "@pancakeswap/uikit";
 import { useMemo } from "react";
 import { styled } from "styled-components";
-import { space, SpaceProps } from "styled-system";
+import { SpaceProps, space } from "styled-system";
 
 import { getCurrencyLogoUrls } from "./utils";
 
@@ -53,7 +53,7 @@ export function CurrencyLogo({
     return (
       <StyledLogo
         size={size}
-        srcs={[`https://plunderswap.com/native/${currency.chainId}.png`]}
+        srcs={[`https://plunderswap.com/images/chains/${currency.chainId}.png`]}
         width={size}
         style={style}
         {...props}
