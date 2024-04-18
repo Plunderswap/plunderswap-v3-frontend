@@ -22,14 +22,15 @@ export const tokenImageChainNameMapping = {
   [ChainId.LINEA]: 'linea/',
   [ChainId.BASE]: 'base/',
   [ChainId.OPBNB]: 'opbnb/',
+  [ChainId.ZILLIQA]: 'zilliqa/',
 }
 
 export const getImageUrlFromToken = (token: Token) => {
   const address = token?.isNative ? token.wrapped.address : token.address
 
   return token?.isNative && token.chainId !== ChainId.BSC
-    ? `${ASSET_CDN}/web/native/${token.chainId}.png`
-    : `https://tokens.pancakeswap.finance/images/${tokenImageChainNameMapping[token.chainId]}${address}.png`
+    ? `${ASSET_CDN}/plunderswap/native/${token.chainId}.png`
+    : `https://plunderswap.com/images/${tokenImageChainNameMapping[token.chainId]}${address}.png`
 }
 
 export const TokenPairImage: React.FC<React.PropsWithChildren<TokenPairImageProps>> = ({

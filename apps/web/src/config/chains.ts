@@ -28,6 +28,7 @@ export const zilliqaTestnet = defineChain({
       blockCreated: 5313022,
     },
   },
+  testnet: true,
 })
 
 export const zilliqa = defineChain({

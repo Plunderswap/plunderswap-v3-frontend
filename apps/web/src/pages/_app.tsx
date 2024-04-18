@@ -23,7 +23,6 @@ import { Fragment } from 'react'
 import { PersistGate } from 'redux-persist/integration/react'
 import { V4CakeIcon } from 'views/Home/components/V4CakeIcon'
 
-import { useDataDogRUM } from 'hooks/useDataDogRUM'
 import { useLoadExperimentalFeatures } from 'hooks/useExperimentalFeatureEnabled'
 import { useInitGlobalWorker } from 'hooks/useWorker'
 import { persistor, useStore } from 'state'
@@ -44,7 +43,6 @@ BigNumber.config({
 
 function GlobalHooks() {
   useInitGlobalWorker()
-  useDataDogRUM()
   useLoadExperimentalFeatures()
   usePollBlockNumber()
   useEagerConnect()

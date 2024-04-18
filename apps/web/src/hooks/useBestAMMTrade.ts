@@ -18,7 +18,6 @@ import { POOLS_NORMAL_REVALIDATE } from 'config/pools'
 import { useIsWrapping } from 'hooks/useWrapCallback'
 import { useCurrentBlock } from 'state/block/hooks'
 import { useFeeDataWithGasPrice } from 'state/user/hooks'
-import { tracker } from 'utils/datadog'
 import { createViemPublicClientGetter } from 'utils/viem'
 import { publicClient } from 'utils/wagmi'
 
@@ -316,14 +315,6 @@ function bestTradeHookFactory({
           signal,
         })
         const duration = Math.floor(performance.now() - startTime)
-
-        if (trackPerf) {
-          tracker.log(`[PERF] ${key} duration:${duration}ms`, {
-            chainId: currency.chainId,
-            label: key,
-            duration,
-          })
-        }
 
         if (!res) {
           return undefined
