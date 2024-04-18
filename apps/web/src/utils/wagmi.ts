@@ -24,8 +24,8 @@ export const injectedConnector = new InjectedConnector({
 export const coinbaseConnector = new CoinbaseWalletConnector({
   chains,
   options: {
-    appName: 'PancakeSwap',
-    appLogoUrl: 'https://pancakeswap.com/logo.png',
+    appName: 'PlunderSwap',
+    appLogoUrl: 'https://plunderswap.com/logo.png',
   },
 })
 
@@ -35,7 +35,7 @@ export const walletConnectConnector = new WalletConnectConnector({
     // ignore the error in test environment
     // Error: To use QR modal, please install @walletconnect/modal package
     showQrModal: process.env.NODE_ENV !== 'test',
-    projectId: 'e542ff314e26ff34de2d4fba98db70bb',
+    projectId: '39d2eb6a6e536fb139160697cb32f9a5',
   },
 })
 
@@ -43,7 +43,7 @@ export const walletConnectNoQrCodeConnector = new WalletConnectConnector({
   chains,
   options: {
     showQrModal: false,
-    projectId: 'e542ff314e26ff34de2d4fba98db70bb',
+    projectId: '39d2eb6a6e536fb139160697cb32f9a5',
   },
 })
 
@@ -65,7 +65,7 @@ const bloctoConnector = new BloctoConnector({
 // const ledgerConnector = new LedgerConnector({
 //   chains,
 //   options: {
-//     projectId: 'e542ff314e26ff34de2d4fba98db70bb',
+//     projectId: '39d2eb6a6e536fb139160697cb32f9a5',
 //   },
 // })
 
@@ -81,7 +81,7 @@ export const cyberWalletConnector = isCyberWallet()
   ? new CyberWalletConnector({
       chains: chains as any,
       options: {
-        name: 'PancakeSwap',
+        name: 'PlunderSwap',
         appId: 'b825cd87-2db3-456d-b108-d61e74d89771',
       },
     })
