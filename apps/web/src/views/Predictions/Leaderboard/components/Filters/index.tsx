@@ -83,7 +83,7 @@ const Filters: React.FC<React.PropsWithChildren<FiltersProps>> = ({
       targetChains?.map((i) => ({
         label: i?.name ?? '',
         value: i?.id?.toString?.() ?? '',
-        imageUrl: `${ASSET_CDN}/web/chains/${i.id}.png`,
+        imageUrl: `${ASSET_CDN}/images/chains/${i.id}.png`,
       })) ?? []
     )
   }, [])

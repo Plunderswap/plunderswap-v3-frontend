@@ -1,5 +1,5 @@
-import { ERC20Token, WBNB } from '@pancakeswap/sdk'
 import { ChainId } from '@pancakeswap/chains'
+import { ERC20Token, WBNB } from '@pancakeswap/sdk'
 
 import { BUSD_TESTNET, CAKE_TESTNET } from './common'
 
@@ -19,12 +19,12 @@ export const bscTestnetTokens = {
   wbtc: new ERC20Token(ChainId.BSC_TESTNET, '0xfC8bFbe9644e1BC836b8821660593e7de711e564', 8, 'WBTC', 'Wrapped BTC'),
   usdc: new ERC20Token(
     ChainId.BSC_TESTNET,
-    '0xCA8eB2dec4Fe3a5abbFDc017dE48E461A936623D',
+    '0xE64842F59fE25b2BDD174dE898Ba495593530a2F',
     18,
     'USDC',
     'Binance-Peg USD Coin',
   ),
-  usdt: new ERC20Token(ChainId.BSC_TESTNET, '0x0fB5D7c73FA349A90392f873a4FA1eCf6a3d0a96', 18, 'USDT', 'Tether USD'),
+  usdt: new ERC20Token(ChainId.BSC_TESTNET, '0xb80f7D993bBe12C19f9187D29748eD47f3c1fBD9', 18, 'USDT', 'Tether USD'),
   mockBusd: new ERC20Token(
     ChainId.BSC_TESTNET,
     '0x3304dd20f6Fe094Cb0134a6c8ae07EcE26c7b6A7',

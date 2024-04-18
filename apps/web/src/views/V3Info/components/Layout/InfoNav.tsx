@@ -1,5 +1,5 @@
-import { useTranslation } from '@pancakeswap/localization'
 import { ChainId } from '@pancakeswap/chains'
+import { useTranslation } from '@pancakeswap/localization'
 import {
   Box,
   ButtonMenu,
@@ -20,7 +20,7 @@ import { multiChainId, multiChainPaths, multiChainShortName } from 'state/info/c
 import { useChainNameByQuery, useMultiChainPath } from 'state/info/hooks'
 import { styled } from 'styled-components'
 import { chains } from 'utils/wagmi'
-import { arbitrum, bsc, mainnet, polygonZkEvm, zkSync, linea, base, opBNB } from 'wagmi/chains'
+import { arbitrum, base, bsc, linea, mainnet, opBNB, polygonZkEvm, zkSync } from 'wagmi/chains'
 import { v3InfoPath } from '../../constants'
 import Search from '../Search'
 
@@ -97,7 +97,7 @@ export const NetworkSwitcher: React.FC<{ activeIndex: number }> = ({ activeIndex
     <UserMenu
       alignItems="top"
       ml="8px"
-      avatarSrc={`${ASSET_CDN}/web/chains/${multiChainId[chainName]}.png`}
+      avatarSrc={`${ASSET_CDN}/images/chains/${multiChainId[chainName]}.png`}
       text={
         foundChain ? (
           <>
