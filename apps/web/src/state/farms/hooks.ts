@@ -9,6 +9,7 @@ import { useAppDispatch } from 'state'
 import { getMasterChefContract } from 'utils/contractHelpers'
 import { useBCakeProxyContractAddress } from 'views/Farms/hooks/useBCakeProxyContractAddress'
 
+import { FARMS_API } from 'config/constants/endpoints'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from '.'
 import {
@@ -41,7 +42,7 @@ export function useFarmV2PublicAPI() {
     queryKey: ['farm-v2-pubic-api', chainId],
 
     queryFn: async () => {
-      return fetch(`https://farms-api.pancakeswap.com/${chainId}`)
+      return fetch(`${FARMS_API}/${chainId}`)
         .then((res) => res.json())
         .then((res) => res.data)
     },
