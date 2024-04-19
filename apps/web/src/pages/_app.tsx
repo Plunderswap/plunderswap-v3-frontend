@@ -1,16 +1,13 @@
 import { ResetCSS, ScrollToTopButtonV2, ToastListener } from '@pancakeswap/uikit'
 import BigNumber from 'bignumber.js'
-import { SentryErrorBoundary } from 'components/ErrorBoundary'
 import GlobalCheckClaimStatus from 'components/GlobalCheckClaimStatus'
 import { PageMeta } from 'components/Layout/Page'
 import { NetworkModal } from 'components/NetworkModal'
-import { FixedSubgraphHealthIndicator } from 'components/SubgraphHealthIndicator/FixedSubgraphHealthIndicator'
 import TransactionsDetailModal from 'components/TransactionDetailModal'
 import { useAccountEventListener } from 'hooks/useAccountEventListener'
 import useEagerConnect from 'hooks/useEagerConnect'
 import useEagerConnectMP from 'hooks/useEagerConnect.bmp'
 import useLockedEndNotification from 'hooks/useLockedEndNotification'
-import useSentryUser from 'hooks/useSentryUser'
 import useThemeCookie from 'hooks/useThemeCookie'
 import useUserAgent from 'hooks/useUserAgent'
 import { NextPage } from 'next'
@@ -21,9 +18,7 @@ import Head from 'next/head'
 import Script from 'next/script'
 import { Fragment } from 'react'
 import { PersistGate } from 'redux-persist/integration/react'
-import { V4CakeIcon } from 'views/Home/components/V4CakeIcon'
 
-import { useLoadExperimentalFeatures } from 'hooks/useExperimentalFeatureEnabled'
 import { useInitGlobalWorker } from 'hooks/useWorker'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
@@ -43,12 +38,12 @@ BigNumber.config({
 
 function GlobalHooks() {
   useInitGlobalWorker()
-  useLoadExperimentalFeatures()
+  // useLoadExperimentalFeatures()
   usePollBlockNumber()
   useEagerConnect()
   useUserAgent()
   useAccountEventListener()
-  useSentryUser()
+  // useSentryUser()
   useThemeCookie()
   useLockedEndNotification()
   return null
@@ -59,7 +54,7 @@ function MPGlobalHooks() {
   useEagerConnectMP()
   useUserAgent()
   useAccountEventListener()
-  useSentryUser()
+  // useSentryUser()
   useLockedEndNotification()
   return null
 }
@@ -75,10 +70,7 @@ function MyApp(props: AppProps<{ initialReduxState: any; dehydratedState: any }>
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, minimum-scale=1, viewport-fit=cover"
         />
-        <meta
-          name="description"
-          content="Cheaper and faster than Uniswap? Discover PancakeSwap, the leading DEX on BNB Smart Chain (BSC) with the best farms in DeFi and a lottery for CAKE."
-        />
+        <meta name="description" content="PlunderSwap" />
         <meta name="theme-color" content="#1FC7D4" />
         {(Component as NextPageWithLayout).mp && (
           // eslint-disable-next-line @next/next/no-sync-scripts
@@ -142,7 +134,7 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-const ProductionErrorBoundary = process.env.NODE_ENV === 'production' ? SentryErrorBoundary : Fragment
+const ProductionErrorBoundary = Fragment
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   if (Component.pure) {
@@ -165,12 +157,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       </ShowMenu>
       <EasterEgg iterations={2} />
       <ToastListener />
-      <FixedSubgraphHealthIndicator />
+      {/* <FixedSubgraphHealthIndicator /> */}
       <NetworkModal pageSupportedChains={Component.chains} />
       <TransactionsDetailModal />
       {isShowScrollToTopButton && <ScrollToTopButtonV2 />}
       {shouldScreenWallet && <Blocklist />}
-      {isShowV4IconButton && <V4CakeIcon />}
+      {/* {isShowV4IconButton && <V4CakeIcon />} */}
     </ProductionErrorBoundary>
   )
 }

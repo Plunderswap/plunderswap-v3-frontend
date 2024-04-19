@@ -53,7 +53,7 @@ const config = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'static-nft.pancakeswap.com',
+        hostname: 'static-nft.plunderswap.com',
         pathname: '/mainnet/**',
       },
     ],
@@ -162,16 +162,16 @@ const config = {
         destination: '/info/pairs/:address',
         permanent: true,
       },
-      {
-        source: '/api/v3/:chainId/farms/liquidity/:address',
-        destination: 'https://farms-api.pancakeswap.com/v3/:chainId/liquidity/:address',
-        permanent: false,
-      },
-      {
-        source: '/images/tokens/:address',
-        destination: 'https://tokens.pancakeswap.finance/images/:address',
-        permanent: false,
-      },
+      // {
+      //   source: '/api/v3/:chainId/farms/liquidity/:address',
+      //   destination: 'https://farms-api.pancakeswap.com/v3/:chainId/liquidity/:address',
+      //   permanent: false,
+      // },
+      // {
+      //   source: '/images/tokens/:address',
+      //   destination: 'https://tokens.pancakeswap.finance/images/:address',
+      //   permanent: false,
+      // },
     ]
   },
   webpack: (webpackConfig, { webpack, isServer }) => {
