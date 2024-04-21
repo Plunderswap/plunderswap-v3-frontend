@@ -1,7 +1,7 @@
-import { memo, ReactNode } from "react";
-import { styled } from "styled-components";
 import { useTranslation } from "@pancakeswap/localization";
-import { LinkExternal, Flex, Svg, Image, Button } from "@pancakeswap/uikit";
+import { Flex, Image, LinkExternal } from "@pancakeswap/uikit";
+import { ReactNode, memo } from "react";
+import { styled } from "styled-components";
 
 const Wrapper = styled.div<{ $isSide: boolean }>`
   width: 100%;
@@ -70,7 +70,7 @@ const Footer: React.FC<
         </Flex>
       )}
       {isSide && <Flex flexGrow={1} />}
-      {helpUrl && (
+      {/* {helpUrl && (
         <Flex
           flexGrow={isSide ? 0 : 1}
           alignItems="center"
@@ -87,7 +87,7 @@ const Footer: React.FC<
           </BubbleWrapper>
           {helpImage}
         </Flex>
-      )}
+      )} */}
     </Wrapper>
   );
 };

@@ -1,30 +1,33 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Box, Flex, PageSection, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Box, Container, PageSection, useMatchBreakpoints } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
 import { styled } from 'styled-components'
-import MultipleBanner from './components/Banners/MultipleBanner'
-import CakeDataRow from './components/CakeDataRow'
-import CakeSection from './components/CakeSection'
-import CommunitySection from './components/CommunitySection'
-import { RightTopBox } from './components/CommunitySection/ImagesOnBg'
-import EcoSystemSection from './components/EcoSystemSection'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
-import MetricsSection from './components/MetricsSection'
-import { NewsSection } from './components/NewsSection'
-import {
-  InnerWedgeWrapper,
-  OuterWedgeWrapper,
-  WedgeBottomRight,
-  WedgeTopLeft,
-  WedgeTopRight,
-} from './components/WedgeSvgs'
+import SalesSection from './components/SalesSection'
+import { earnSectionData, swapSectionData } from './components/SalesSection/data'
+import { InnerWedgeWrapper, OuterWedgeWrapper, WedgeTopLeft, WedgeTopRight } from './components/WedgeSvgs'
 
 const StyledHeroSection = styled(PageSection)`
   padding-top: 16px;
 
   ${({ theme }) => theme.mediaQueries.md} {
     padding-top: 48px;
+  }
+`
+const UserBannerWrapper = styled(Container)`
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding-left: 0px;
+  padding-right: 0px;
+
+  ${({ theme }) => theme.mediaQueries.lg} {
+    padding-left: 24px;
+    padding-right: 24px;
   }
 `
 
@@ -79,10 +82,10 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         index={2}
         hasCurvedDivider={false}
       >
-        <MultipleBanner />
+        {/* <MultipleBanner /> */}
         <Hero />
       </StyledHeroSection>
-      <PageSection
+      {/* <PageSection
         innerProps={{ style: { margin: '0', width: '100%' } }}
         containerProps={{
           id: 'home-2',
@@ -91,7 +94,7 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         hasCurvedDivider={false}
       >
         <MetricsSection />
-      </PageSection>
+      </PageSection> */}
       <PageSection
         innerProps={{ style: { ...HomeSectionContainerStyles, maxWidth: 'auto' } }}
         background={theme.colors.background}
@@ -106,11 +109,12 @@ const Home: React.FC<React.PropsWithChildren> = () => {
             <WedgeTopLeft />
           </InnerWedgeWrapper>
         </OuterWedgeWrapper>
-        <EcoSystemSection />
+        <SalesSection {...swapSectionData(t)} />
+        {/* <EcoSystemSection /> */}
       </PageSection>
       <PageSection
         innerProps={{ style: HomeSectionContainerStyles }}
-        background={theme.colors.background}
+        background={theme.colors.gradientCardHeader}
         containerProps={{
           id: 'home4-2',
         }}
@@ -122,8 +126,9 @@ const Home: React.FC<React.PropsWithChildren> = () => {
             <WedgeTopRight />
           </InnerWedgeWrapper>
         </OuterWedgeWrapper>
-        <CakeSection />
-        <Flex style={{ gap: 5 }} justifyContent="center" mt="40px">
+        <SalesSection {...earnSectionData(t)} />
+        {/* <CakeSection /> */}
+        {/* <Flex style={{ gap: 5 }} justifyContent="center" mt="40px">
           <Text fontSize={24} bold>
             {t('CAKE')}
           </Text>
@@ -136,9 +141,9 @@ const Home: React.FC<React.PropsWithChildren> = () => {
           <InnerWedgeWrapper id="bottom-wedge4-2">
             <WedgeBottomRight />
           </InnerWedgeWrapper>
-        </OuterWedgeWrapper>
+        </OuterWedgeWrapper> */}
       </PageSection>
-      <PageSection
+      {/* <PageSection
         innerProps={{ style: HomeSectionContainerStyles }}
         containerProps={{
           id: 'home-3',
@@ -160,8 +165,8 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         index={2}
         hasCurvedDivider={false}
       >
-        <NewsSection />
-      </PageSection>
+        <NewsSection /> 
+      </PageSection> */}
       <PageSection
         innerProps={{ style: HomeSectionContainerStyles }}
         background="linear-gradient(180deg, #7645D9 0%, #5121B1 100%)"

@@ -3,56 +3,45 @@ import { FooterLinkType } from "../../../components/Footer/types";
 
 export const footerLinks: (t: ContextApi["t"]) => FooterLinkType[] = (t) => [
   {
-    label: t("Ecosystem"),
+    label: t("About"),
     items: [
+      // {
+      //   label: t('Contact'),
+      //   href: 'https://docs.plunderswap.com/contact-us',
+      //   isHighlighted: true,
+      // },
+      // {
+      //   label: t('Brand'),
+      //   href: 'https://docs.plunderswap.com/brand',
+      // },
+      // {
+      //   label: t('Blog'),
+      //   href: 'https://medium.com/pancakeswap',
+      // },
       {
-        label: t("Trade"),
-        href: "/swap",
+        label: t("Community"),
+        href: "https://docs.plunderswap.com/contact-us/communities/",
       },
-      {
-        label: t("Earn"),
-        href: "/farms",
-      },
-      {
-        label: t("Game"),
-        href: "https://pancakeswap.games/",
-      },
-      {
-        label: t("NFT"),
-        href: "/nfts",
-      },
-      {
-        label: t("Tokenomics"),
-        href: "https://docs.pancakeswap.finance/governance-and-tokenomics/cake-tokenomics",
-      },
-      {
-        label: t("Litepaper"),
-        href: "https://plunderswap.com/litepaper/v2litepaper.pdf",
-      },
-      {
-        label: t("CAKE Emission Projection"),
-        href: "https://analytics.pancakeswap.finance/",
-      },
-      {
-        label: t("Merchandise"),
-        href: "https://merch.pancakeswap.finance/",
-      },
+      // {
+      //   label: t('Litepaper'),
+      //   href: 'https://v2litepaper.plunderswap.com/',
+      // },
     ],
   },
   {
-    label: "Business",
+    label: t("Help"),
     items: [
+      // {
+      //   label: t('Customer Support'),
+      //   href: 'https://docs.plunderswap.com/contact-us/customer-support',
+      // },
       {
-        label: t("Farms and Syrup Pools"),
-        href: "https://docs.pancakeswap.finance/ecosystem-and-partnerships/business-partnerships/syrup-pools-and-farms",
+        label: t("Troubleshooting"),
+        href: "https://docs.plunderswap.com/help/troubleshooting",
       },
       {
-        label: t("IFO"),
-        href: "https://docs.pancakeswap.finance/ecosystem-and-partnerships/business-partnerships/initial-farm-offerings-ifos",
-      },
-      {
-        label: t("NFT Marketplace"),
-        href: "https://docs.pancakeswap.finance/ecosystem-and-partnerships/business-partnerships/nft-market-applications",
+        label: t("Guides"),
+        href: "https://docs.plunderswap.com/get-started",
       },
     ],
   },
@@ -60,58 +49,37 @@ export const footerLinks: (t: ContextApi["t"]) => FooterLinkType[] = (t) => [
     label: t("Developers"),
     items: [
       {
-        label: t("Contributing"),
-        href: "https://docs.pancakeswap.finance/developers/contributing",
-      },
-      {
-        label: t("Github"),
-        href: "https://github.com/pancakeswap",
-      },
-      {
-        label: t("Bug Bounty"),
-        href: "https://docs.pancakeswap.finance/developers/bug-bounty",
-      },
-      {
-        label: t("v4"),
-        href: "/v4",
-      },
-    ],
-  },
-  {
-    label: t("Support"),
-    items: [
-      {
-        label: t("Contact"),
-        href: "https://docs.pancakeswap.finance/contact-us/customer-support",
-      },
-      {
-        label: t("Troubleshooting"),
-        href: "https://docs.pancakeswap.finance/readme/help/troubleshooting",
+        label: "Github",
+        href: "https://github.com/Plunderswap",
       },
       {
         label: t("Documentation"),
-        href: "https://docs.pancakeswap.finance/",
+        href: "https://docs.plunderswap.com",
       },
+      // {
+      //   label: t('Bug Bounty'),
+      //   href: 'https://docs.plunderswap.com/code/bug-bounty',
+      // },
+      // {
+      //   label: t('Audits'),
+      //   href: 'https://docs.plunderswap.com/help/faq#is-pancakeswap-safe-has-pancakeswap-been-audited',
+      // },
+      // {
+      //   label: t('Careers'),
+      //   href: 'https://docs.plunderswap.com/hiring/become-a-chef',
+      // },
     ],
   },
   {
-    label: t("About"),
+    label: "Legal",
     items: [
       {
-        label: t("Terms Of Service"),
-        href: "https://pancakeswap.finance/terms-of-service",
+        label: "Privacy Policy",
+        href: "https://docs.plunderswap.com/contact-us/privacy-policy/",
       },
       {
-        label: t("Blog"),
-        href: "https://blog.pancakeswap.finance/",
-      },
-      {
-        label: t("Brand Assets"),
-        href: "https://docs.pancakeswap.finance/ecosystem-and-partnerships/brand",
-      },
-      {
-        label: t("Careers"),
-        href: "https://docs.pancakeswap.finance/team/become-a-chef",
+        label: "Terms and Conditions",
+        href: "https://docs.plunderswap.com/contact-us/terms/",
       },
     ],
   },

@@ -1,16 +1,16 @@
 import { Trans } from '@pancakeswap/localization'
 import { AtomBox, Button, Heading, Image, LinkExternal, Text } from '@pancakeswap/uikit'
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import 'swiper/css'
 import 'swiper/css/autoplay'
+import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperClass } from 'swiper/types'
-import { Autoplay } from 'swiper/modules'
 
 const IntroSteps = [
   {
     title: <Trans>Your first step in the DeFi world</Trans>,
-    icon: 'https://cdn.pancakeswap.com/wallets/wallet_intro.png',
+    icon: 'https://dev.plunderswap.com/images/wallets/parrot_wallet_2.png',
     description: (
       <Trans>
         A Web3 Wallet allows you to send and receive crypto assets like bitcoin, BNB, ETH, NFTs and much more.
@@ -19,7 +19,7 @@ const IntroSteps = [
   },
   {
     title: <Trans>Login using a wallet connection</Trans>,
-    icon: 'https://cdn.pancakeswap.com/wallets/world_lock.png',
+    icon: 'https://dev.plunderswap.com/images/wallets/wallet_apps_TP.png',
     description: (
       <Trans>
         Instead of setting up new accounts and passwords for every website, simply set up your wallet in one go, and

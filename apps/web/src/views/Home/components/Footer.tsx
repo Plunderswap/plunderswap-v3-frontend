@@ -1,92 +1,10 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Box, Flex, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Box, Container, Flex, Heading, Link, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { ASSET_CDN } from 'config/constants/endpoints'
-import { keyframes, styled } from 'styled-components'
+import { styled } from 'styled-components'
 import { useAccount } from 'wagmi'
+import CompositeImage from './CompositeImage'
 import SunburstSvg from './SunburstSvg'
-
-const Image = styled.img``
-
-const floatingAnim = (x: string, y: string) => keyframes`
-  from {
-    transform: translateX(0px) translateY(0px);
-  }
-  50% {
-    transform: translate(${x}) translateY(${y});
-  }
-  to {
-    transform: translateX(0px) translateY(0px);
-  }
-`
-
-const ImageWrapper = styled.div`
-  z-index: 2;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  > * {
-    will-change: transform;
-  }
-  .pancake {
-    position: absolute;
-    width: 120px;
-    top: 20px;
-    left: -40px;
-    display: none;
-    animation: ${floatingAnim('3px', '2px')} 3s ease-in-out 1s infinite;
-    ${({ theme }) => theme.mediaQueries.sm} {
-      display: block;
-    }
-    ${({ theme }) => theme.mediaQueries.lg} {
-      left: calc(50% - 60px - 300px);
-    }
-  }
-  .rock {
-    position: absolute;
-    width: 120px;
-    top: 16px;
-    right: 5px;
-    animation: ${floatingAnim('3px', '3px')} 3s ease-in-out 0.5s infinite;
-    ${({ theme }) => theme.mediaQueries.lg} {
-      left: calc(50% - 60px + 240px);
-    }
-  }
-  .big-pancake {
-    width: 160px;
-    position: absolute;
-    bottom: 10px;
-    right: -60px;
-    animation: ${floatingAnim('8px', '6px')} 3s ease-in-out 2.5s infinite;
-    ${({ theme }) => theme.mediaQueries.lg} {
-      left: calc(50% - 80px + 270px);
-    }
-  }
-  .rock2 {
-    width: 140px;
-    position: absolute;
-    bottom: 10px;
-    left: 20px;
-    animation: ${floatingAnim('1px', '1px')} 3s ease-in-out 3.5s infinite;
-    ${({ theme }) => theme.mediaQueries.lg} {
-      left: calc(50% - 70px - 240px);
-    }
-  }
-`
-
-const ImageBox: React.FC = () => {
-  return (
-    <ImageWrapper>
-      <Image className="pancake" src={`${ASSET_CDN}/web/landing/cta-pancake.png`} alt="pancake" />
-      <Image className="rock" src={`${ASSET_CDN}/web/landing/cta-rock.png`} alt="rock" />
-      <Image className="big-pancake" src={`${ASSET_CDN}/web/landing/cta-pancake-big.png`} alt="big-pancake" />
-      <Image className="rock2" src={`${ASSET_CDN}/web/landing/cta-rock-2.png`} alt="rock2" />
-    </ImageWrapper>
-  )
-}
 
 const BgWrapper = styled.div`
   overflow: hidden;
@@ -117,13 +35,49 @@ const Wrapper = styled(Flex)`
   justify-content: center;
   overflow: hidden;
   height: 480px;
-  ${({ theme }) => theme.mediaQueries.sm} {
-    height: 560px;
-  }
-  ${({ theme }) => theme.mediaQueries.lg} {
-    height: 400px;
+`
+
+const FloatingPancakesWrapper = styled(Container)`
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden;
+  ${({ theme }) => theme.mediaQueries.md} {
+    visibility: visible;
   }
 `
+
+const TopLeftImgWrapper = styled(Flex)`
+  position: absolute;
+  left: 0;
+  top: 0;
+`
+
+const BottomRightImgWrapper = styled(Flex)`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+`
+
+const topLeftImage = {
+  path: '/images/home/coins/',
+  attributes: [
+    { src: 'coins-1', alt: 'Zilcoin flying on the bottom' },
+    { src: 'coins-2', alt: 'Zilcoin flying on the left' },
+  ],
+}
+
+const bottomRightImage = {
+  path: '/images/home/coins/',
+  attributes: [
+    { src: 'coins-3', alt: 'Zilcoin flying on the bottom' },
+    { src: 'coins-4', alt: 'Zilcoin flying on the top' },
+  ],
+}
 
 const Footer = () => {
   const { t } = useTranslation()
@@ -136,13 +90,31 @@ const Footer = () => {
         <Flex position="relative" zIndex={2} alignItems="center" justifyContent="center" width="100%" height="100%">
           <StyledSunburst />
         </Flex>
-        <ImageBox />
       </BgWrapper>
-
+      {!isMobile && (
+        <FloatingPancakesWrapper>
+          <TopLeftImgWrapper>
+            <CompositeImage {...topLeftImage} maxHeight="256px" />
+          </TopLeftImgWrapper>
+          <BottomRightImgWrapper>
+            <CompositeImage {...bottomRightImage} maxHeight="256px" />
+          </BottomRightImgWrapper>
+        </FloatingPancakesWrapper>
+      )}
       <Wrapper>
-        <Text mb="24px" fontWeight={600} color="#F4EEFF" textAlign="center" fontSize={isMobile ? 32 : 40}>
-          {t("Join Everyone's Favorite DEX Now!")}
+        <Heading mb="24px" scale="xl" color="white">
+          {t('Start in seconds.')}
+        </Heading>
+        <Text textAlign="center" color="white">
+          {t('Connect your crypto wallet to start using the app in seconds.')}
         </Text>
+        <Text mb="24px" bold color="white">
+          {t('No registration needed.')}
+        </Text>
+
+        <Link external href="https://docs.plunderswap.com/">
+          {t('Learn how to start')}
+        </Link>
         {!account && <ConnectWalletButton mt="24px" />}
       </Wrapper>
     </Box>

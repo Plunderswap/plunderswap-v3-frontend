@@ -1,17 +1,38 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Button, Flex, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Button, Flex, Heading, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { NextLinkFromReactRouter } from '@pancakeswap/widgets-internal'
-
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { ASSET_CDN } from 'config/constants/endpoints'
 import useTheme from 'hooks/useTheme'
-import { useLayoutEffect, useRef } from 'react'
-import { styled } from 'styled-components'
+import Image from 'next/legacy/image'
+import { keyframes, styled } from 'styled-components'
 import { useAccount } from 'wagmi'
-import { useDrawCanvas } from '../hooks/useDrawCanvas'
-import { useDrawSequenceImages } from '../hooks/useDrawSequence'
-import { checkIsIOS, useIsIOS } from '../hooks/useIsIOS'
+import parrotImage from '../../../../public/images/home/parrot_on_treasure.png'
+import CompositeImage, { CompositeImageProps } from './CompositeImage'
 import { SlideSvgDark, SlideSvgLight } from './SlideSvg'
+
+const flyingAnim = () => keyframes`
+  from {
+    transform: translate(0,  0px);
+  }
+  50% {
+    transform: translate(-5px, -5px);
+  }
+  to {
+    transform: translate(0, 0px);
+  }
+`
+
+const fading = () => keyframes`
+  from {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 0.9;
+  }
+`
 
 const BgWrapper = styled.div`
   z-index: -1;
@@ -31,156 +52,48 @@ const InnerWrapper = styled.div`
 
 const BunnyWrapper = styled.div`
   width: 100%;
+  animation: ${flyingAnim} 3.5s ease-in-out infinite;
+  will-change: transform;
   > span {
     overflow: visible !important; // make sure the next-image pre-build blur image not be cropped
   }
 `
 
-const CakeBox = styled.div`
-  width: 300px;
-  height: 300px;
-  > canvas {
-    transform: scale(0.33) translate(-50%, -50%);
-    transform-origin: top left;
-    &.is-ios {
-      transform: scale(0.75) translate(-50%, -50%);
-    }
-  }
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    width: 500px;
-    height: 500px;
-    > canvas {
-      transform: scale(0.45) translate(-50%, -50%);
-      &.is-ios {
-        transform: scale(1) translate(-50%, -50%);
-      }
-    }
-    transform-origin: center center;
-  }
-  ${({ theme }) => theme.mediaQueries.md} {
-    > canvas {
-      transform: scale(0.6) translate(-50%, -50%);
-      transform-origin: top left;
-      &.is-ios {
-        transform: scale(1) translate(-50%, -50%);
-      }
-    }
-    ${({ theme }) => theme.mediaQueries.lg} {
-      > canvas {
-        &.is-ios {
-          transform: scale(1.45) translate(-50%, -52%);
-        }
-      }
-    }
-    position: relative;
-    width: 605px;
-    height: 736px;
-    overflow: hidden;
-    margin-bottom: -100px;
-    margin-right: -100px;
-  }
-`
-const VideoWrapper = styled.div`
-  opacity: 0;
-  visibility: hidden;
+const StarsWrapper = styled.div`
   position: absolute;
-`
+  top: 0;
+  left: 0;
 
-const CakeVideo = styled.video``
-
-const CakeCanvas = styled.canvas`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: transparent;
-`
-
-const StyledText = styled(Text)`
-  font-size: 32px;
-  ${({ theme }) => theme.mediaQueries.sm} {
-    font-size: 40px;
+  & :nth-child(2) {
+    animation: ${fading} 2s ease-in-out infinite;
+    animation-delay: 1s;
   }
-  ${({ theme }) => theme.mediaQueries.lg} {
-    font-size: 64px;
+
+  & :nth-child(3) {
+    animation: ${fading} 5s ease-in-out infinite;
+    animation-delay: 0.66s;
   }
-  ${({ theme }) => theme.mediaQueries.xxl} {
-    font-size: 88px;
+
+  & :nth-child(4) {
+    animation: ${fading} 2.5s ease-in-out infinite;
+    animation-delay: 0.33s;
   }
 `
 
-const width = 1080
-const height = 1080
+const starsImage: CompositeImageProps = {
+  path: '/images/home/lunar-bunny/',
+  attributes: [
+    { src: 'star-l', alt: '3D Star' },
+    { src: 'star-r', alt: '3D Star' },
+    { src: 'star-top-r', alt: '3D Star' },
+  ],
+}
 
 const Hero = () => {
   const { t } = useTranslation()
   const { address: account } = useAccount()
   const { theme } = useTheme()
   const { isMobile, isXs, isMd } = useMatchBreakpoints()
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const starVideoRef = useRef<HTMLVideoElement>(null)
-  const cakeVideoRef = useRef<HTMLVideoElement>(null)
-  const rock01VideoRef = useRef<HTMLVideoElement>(null)
-  const rock02VideoRef = useRef<HTMLVideoElement>(null)
-  const rock03VideoRef = useRef<HTMLVideoElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const internalRef = useRef(0)
-  const seqInternalRef = useRef(0)
-  const { isIOS } = useIsIOS()
-  const { drawImage, isVideoPlaying } = useDrawCanvas(
-    videoRef,
-    canvasRef,
-    internalRef,
-    width,
-    height,
-    () => {
-      if (isVideoPlaying.current === false) {
-        isVideoPlaying.current = true
-        internalRef.current = window.requestAnimationFrame(() => {
-          drawImage?.()
-        })
-      }
-    },
-    () => {
-      if (videoRef.current) {
-        videoRef.current.currentTime = 3
-        videoRef.current.play()
-      }
-    },
-    [starVideoRef, cakeVideoRef, rock01VideoRef, rock02VideoRef, rock03VideoRef],
-  )
-
-  useLayoutEffect(() => {
-    starVideoRef.current?.play()
-    cakeVideoRef.current?.play()
-    rock01VideoRef.current?.play()
-    rock02VideoRef.current?.play()
-    setTimeout(() => {
-      rock03VideoRef.current?.play()
-    }, 3000)
-    return () => {
-      clearInterval(seqInternalRef.current)
-      cancelAnimationFrame(internalRef.current)
-    }
-  }, [])
-
-  const { drawSequenceImage, playing } = useDrawSequenceImages(
-    `${ASSET_CDN}/web/landing/hero-sequence`,
-    checkIsIOS() || isMobile ? 70 : 0,
-    canvasRef,
-    seqInternalRef,
-    () => clearInterval(seqInternalRef.current),
-    () => {
-      if (playing.current === false) {
-        playing.current = true
-        seqInternalRef.current = window.setInterval(() => {
-          drawSequenceImage(500, 500)
-        }, 1000 / 15)
-      }
-    },
-    true,
-  )
 
   return (
     <>
@@ -216,35 +129,14 @@ const Hero = () => {
         id="homepage-hero"
       >
         <Flex flex="1" flexDirection="column">
-          <Text textAlign={isMobile || isMd ? 'center' : 'left'} pr={isMobile ? 0 : '10px'} mb="16px">
-            <StyledText display="inline-block" lineHeight="110%" fontWeight={600} color="text" mr="8px">
-              {t("Everyone's")}
-            </StyledText>
-            <StyledText
-              display="inline-block"
-              fontWeight={600}
-              lineHeight="110%"
-              color="secondary"
-              mr={isMobile ? 0 : '8px'}
-            >
-              {t('Favorite')}
-            </StyledText>
-            {isMobile && <br />}
-            <StyledText display="inline-block" lineHeight="110%" fontWeight={600} color="text">
-              {t('DEX')}
-            </StyledText>
-          </Text>
-          <Text
-            mb="24px"
-            color={theme.isDark ? '#B8ADD2' : '#7A6EAA'}
-            maxWidth={600}
-            fontSize={['20px', '20px', null, '24px']}
-            textAlign={isMobile ? 'center' : 'left'}
-            lineHeight="110%"
-            fontWeight={600}
-          >
-            {t('Trade, earn, and own crypto on the all-in-one multichain DEX')}
-          </Text>
+          <Heading scale="xxl" color="secondary" mb="24px">
+            {t('TRADE. EARN. TRIUMPH.')}
+          </Heading>
+          <Heading scale="md" mb="24px">
+            {t(
+              'Avast, ye traders! Set sail on a treasure-laden journey with our cryptocurrency decentralized exchange! ',
+            )}
+          </Heading>
 
           <Flex justifyContent={isMobile || isMd ? 'center' : 'start'}>
             {!account && <ConnectWalletButton style={{ borderRadius: isXs ? 12 : undefined }} scale="md" mr="8px" />}
@@ -267,37 +159,11 @@ const Hero = () => {
           position="relative"
         >
           <BunnyWrapper>
-            <CakeBox>
-              <CakeCanvas
-                className={isIOS || isMobile ? 'is-ios' : undefined}
-                width={isIOS || isMobile ? 500 : width}
-                height={isIOS || isMobile ? 500 : height}
-                ref={canvasRef}
-              />
-              {!(isIOS || isMobile) && (
-                <VideoWrapper>
-                  <CakeVideo ref={videoRef} width={width} autoPlay muted playsInline>
-                    <source src={`${ASSET_CDN}/web/landing/bunnyv2.webm`} type="video/webm" />
-                  </CakeVideo>
-                  <CakeVideo ref={starVideoRef} width={width} autoPlay loop muted playsInline>
-                    <source src={`${ASSET_CDN}/web/landing/star.webm`} type="video/webm" />
-                  </CakeVideo>
-                  <CakeVideo ref={cakeVideoRef} width={width} autoPlay loop muted playsInline>
-                    <source src={`${ASSET_CDN}/web/landing/hero-cake.webm`} type="video/webm" />
-                  </CakeVideo>
-                  <CakeVideo ref={rock01VideoRef} width={width} autoPlay loop muted playsInline>
-                    <source src={`${ASSET_CDN}/web/landing/rock01.webm`} type="video/webm" />
-                  </CakeVideo>
-                  <CakeVideo ref={rock02VideoRef} width={width} autoPlay loop muted playsInline>
-                    <source src={`${ASSET_CDN}/web/landing/rock02.webm`} type="video/webm" />
-                  </CakeVideo>
-                  <CakeVideo ref={rock03VideoRef} width={width} autoPlay loop muted playsInline>
-                    <source src={`${ASSET_CDN}/web/landing/rock03.webm`} type="video/webm" />
-                  </CakeVideo>
-                </VideoWrapper>
-              )}
-            </CakeBox>
+            <Image src={parrotImage} priority placeholder="blur" alt={t('Pirate Parrot')} />
           </BunnyWrapper>
+          <StarsWrapper>
+            <CompositeImage {...starsImage} />
+          </StarsWrapper>
         </Flex>
       </Flex>
     </>

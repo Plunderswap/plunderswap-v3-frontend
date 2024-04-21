@@ -4,9 +4,9 @@ import { ASSET_CDN } from './endpoints'
 import { PageMeta } from './types'
 
 export const DEFAULT_META: PageMeta = {
-  title: 'PancakeSwap',
-  description: 'Trade, earn, and own crypto on the all-in-one multichain DEX',
-  image: `${ASSET_CDN}/web/og/hero.jpg`,
+  title: 'PlunderSwap',
+  description: 'TRADE. EARN. TRIUMPH. Avast, ye traders!',
+  image: 'https://dev.plunderswap.com/images/hero.png',
 }
 
 interface PathList {
