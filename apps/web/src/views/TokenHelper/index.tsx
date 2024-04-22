@@ -10,7 +10,6 @@ import { AppBody } from 'components/App'
 import { CommitButton } from 'components/CommitButton'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { CommonBasesType } from 'components/SearchModal/types'
-import proxyAbi from 'config/abi/erc20Zrc2Proxy.json'
 import { useCurrency } from 'hooks/Tokens'
 import useAccountActiveChain from 'hooks/useAccountActiveChain'
 import useWrapCallback, { WrapType } from 'hooks/useWrapCallback'
@@ -204,19 +203,33 @@ export default function TokenHelper() {
   }
 
   const getProxyAddress = async (token: WrappedTokenInfo | Token) => {
-    const zrc2AddressCall = [
-      {
-        abi: proxyAbi,
-        address: token.address,
-        functionName: 'zrc2_address',
-      },
-    ]
-    const [zrc2addr] = await publicClient.multicall({
-      contracts: zrc2AddressCall,
-      allowFailure: false,
+    const [zrc2addrResponse] = await publicClient.multicall({
+      contracts: [
+        {
+          abi: [
+            {
+              inputs: [],
+              name: 'zrc2_address',
+              outputs: [
+                {
+                  internalType: 'address',
+                  name: '',
+                  type: 'address',
+                },
+              ],
+              stateMutability: 'view',
+              type: 'function',
+            },
+          ],
+          address: token.address,
+          functionName: 'zrc2_address',
+        },
+      ],
     })
-    setZrc2Address(zrc2addr)
-    await getTokenBalance(token, zrc2addr)
+    if (zrc2addrResponse.status === 'success') {
+      setZrc2Address(zrc2addrResponse.result as string)
+      await getTokenBalance(token, zrc2addrResponse.result as string)
+    }
   }
 
   const getTokenBalance = async (token: WrappedTokenInfo | Token, tokenAddress: string) => {
@@ -264,7 +277,7 @@ export default function TokenHelper() {
             {
               vname: 'amount',
               type: 'Uint128',
-              value: new BigNumber(formattedAmount).shiftedBy(token.decimals).toString(),
+              value: new BigNumber(formattedAmount).shiftedBy(token?.decimals ?? 12).toString(),
             },
           ],
           {
@@ -314,9 +327,7 @@ export default function TokenHelper() {
                 <Wrapper id="swap-page">
                   <AutoColumn gap="sm">
                     <CurrencyInputPanel
-                      label={
-                        independentField === Field.OUTPUT && !showWrap && tradeInfo ? t('From (estimated)') : t('From')
-                      }
+                      label={t('From')}
                       value={formattedAmount}
                       showMaxButton={false}
                       // showQuickInputButton
