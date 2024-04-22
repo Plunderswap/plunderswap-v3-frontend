@@ -24,3 +24,5 @@ export const FIXED_STAKING_SUPPORTED_CHAINS = [ChainId.BSC]
 export const V3_MIGRATION_SUPPORTED_CHAINS = [ChainId.BSC, ChainId.ETHEREUM]
 
 export const SUPPORT_CAKE_STAKING = [ChainId.BSC]
+
+export const ZILLIQA_CHAINS = [ChainId.ZILLIQA, ChainId.ZILLIQA_TESTNET]

@@ -152,18 +152,7 @@ const config: (
       hideSubNav: true,
       showItemsOnMobile: false,
       showOnMobile: false,
-      items: [
-        //    {
-        //      label: t('Farms'),
-        //      href: '/farms',
-        //      disabled: true,
-        //     },
-        //    {
-        //      label: t('Staking'),
-        //     href: '/staking',
-        //      disabled: true,
-        //    },
-      ].map((item) => addMenuItemSupported(item, chainId)),
+      items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
     // {
     //   label: t('Game'),
