@@ -226,19 +226,19 @@ export const WETH9 = {
   ),
   [ChainId.ZILLIQA]: new ERC20Token(
     ChainId.ZILLIQA,
-    '0x94e18aE7dd5eE57B55f30c4B63E2760c09EFb192',
+    '0x17D5af5658A24bd964984b36d28e879a8626adC3',
     18,
-    'WZIL',
-    'Wrapped ZIL',
-    'https://www.zilliqa.com'
+    'zETH',
+    'Zilliqa-bridged Ethereum',
+    'https://weth.io'
   ),
   [ChainId.ZILLIQA_TESTNET]: new ERC20Token(
     ChainId.ZILLIQA_TESTNET,
-    '0x878c5008A348A60a5B239844436A7b483fAdb7F2',
+    '0x17D5af5658A24bd964984b36d28e879a8626adC3',
     18,
-    'WZIL',
-    'Wrapped ZIL',
-    'https://www.zilliqa.com'
+    'zETH',
+    'Zilliqa-bridged Ethereum',
+    'https://weth.io'
   ),
 }
 
@@ -384,12 +384,12 @@ export const NATIVE = {
   [ChainId.ZILLIQA]: {
     name: 'Zilliqa',
     symbol: 'ZIL',
-    decimals: 12,
+    decimals: 18,
   },
   [ChainId.ZILLIQA_TESTNET]: {
     name: 'Zilliqa Testnet',
     symbol: 'ZIL',
-    decimals: 12,
+    decimals: 18,
   },
 } satisfies Record<
   ChainId,

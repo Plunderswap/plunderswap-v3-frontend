@@ -37,6 +37,15 @@ export const USDC_TESTNET = new ERC20Token(
   'https://www.centre.io/usdc',
 )
 
+export const USDC_ZIL_TESTNET = new ERC20Token(
+  ChainId.ZILLIQA_TESTNET,
+  '0x1fD09F6701a1852132A649fe9D07F2A3b991eCfA',
+  18,
+  'USDC',
+  'Zilliqa-peg USD Coin',
+  'https://www.centre.io/usdc',
+)
+
 export const USDC_ETH = new ERC20Token(
   ChainId.ETHEREUM,
   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
@@ -250,7 +259,7 @@ export const CAKE = {
 export const USDC = {
   [ChainId.BSC]: USDC_BSC,
   [ChainId.BSC_TESTNET]: USDC_TESTNET,
-  [ChainId.ZILLIQA_TESTNET]: USDC_TESTNET,
+  [ChainId.ZILLIQA_TESTNET]: USDC_ZIL_TESTNET,
   [ChainId.ETHEREUM]: USDC_ETH,
   [ChainId.GOERLI]: USDC_GOERLI,
   [ChainId.ZKSYNC]: new ERC20Token(ChainId.ZKSYNC, '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4', 6, 'USDC', 'USD Coin'),
