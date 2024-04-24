@@ -56,9 +56,7 @@ export const getTokenListBaseURL = (chainId: number) =>
 
 export const getTokenListTokenUrl = (token: Token) =>
   Object.keys(chainName).includes(String(token.chainId))
-    ? `https://tokens.pancakeswap.finance/images/${
-        token.chainId === ChainId.BSC ? "" : `${chainName[token.chainId]}/`
-      }${token.address}.png`
+    ? `https://plunderswap.github.io/token-lists/images/${token.address}.png`
     : null;
 
 const commonCurrencySymbols = [
@@ -81,7 +79,7 @@ export const getCommonCurrencyUrlBySymbol = memoize(
   (symbol?: string): string | undefined =>
     symbol && commonCurrencySymbols.includes(symbol)
       ? `https://tokens.pancakeswap.finance/images/symbol/${symbol.toLocaleLowerCase()}.png`
-      : undefined,
+      : `https://plunderswap.github.io/token-lists/images/${symbol.toLocaleLowerCase()}.svg`,
   (symbol?: string) => `logoUrls#symbol#${symbol}`
 );
 
