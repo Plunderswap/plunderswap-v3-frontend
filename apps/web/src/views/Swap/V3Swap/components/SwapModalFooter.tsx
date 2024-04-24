@@ -137,12 +137,12 @@ export const SwapModalFooter = memo(function SwapModalFooter({
                       </Text>
                       {`: ${t('The difference between the market price and estimated price due to trade size.')}`}
                     </Text>
-                    <Text mt="10px">
+                    {/* <Text mt="10px">
                       <Text bold display="inline-block">
                         {t('MM')}
                       </Text>
                       {`: ${t('No slippage against quote from market maker')}`}
-                    </Text>
+                    </Text> */}
                   </>
                 ) : (
                   <>{t('The difference between the market price and your price due to trade size.')}</>
@@ -198,7 +198,7 @@ export const SwapModalFooter = memo(function SwapModalFooter({
                         'Fee ranging from 0.1% to 0.01% depending on the pool fee tier. You can check the fee tier by clicking the magnifier icon under the “Route” section.',
                       )}
                     </Text>
-                    <Text mt="12px">
+                    {/* <Text mt="12px">
                       <Link
                         style={{ display: 'inline' }}
                         ml="4px"
@@ -207,7 +207,7 @@ export const SwapModalFooter = memo(function SwapModalFooter({
                       >
                         {t('Fee Breakdown and Tokenomics')}
                       </Link>
-                    </Text>
+                    </Text> */}
                   </>
                 )
               }

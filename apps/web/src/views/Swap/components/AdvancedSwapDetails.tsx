@@ -1,7 +1,7 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { Currency, CurrencyAmount, Percent, TradeType } from '@pancakeswap/sdk'
 import { LegacyPair as Pair } from '@pancakeswap/smart-router/legacy-router'
-import { AutoColumn, Flex, Link, Modal, ModalV2, QuestionHelper, SearchIcon, Text } from '@pancakeswap/uikit'
+import { AutoColumn, Flex, Modal, ModalV2, QuestionHelper, SearchIcon, Text } from '@pancakeswap/uikit'
 import { formatAmount } from '@pancakeswap/utils/formatFractions'
 import { memo, useState } from 'react'
 
@@ -72,12 +72,12 @@ export const TradeSummary = memo(function TradeSummary({
                     </Text>
                     {`: ${t('The difference between the market price and estimated price due to trade size.')}`}
                   </Text>
-                  <Text mt="10px">
+                  {/* <Text mt="10px">
                     <Text bold display="inline-block">
                       {t('MM')}
                     </Text>
                     {`: ${t('No slippage against quote from market maker')}`}
-                  </Text>
+                  </Text> */}
                 </>
               }
               ml="4px"
@@ -107,7 +107,7 @@ export const TradeSummary = memo(function TradeSummary({
                       'Fee ranging from 0.1% to 0.01% depending on the pool fee tier. You can check the fee tier by clicking the magnifier icon under the “Route” section.',
                     )}
                   </Text>
-                  <Text mt="12px">
+                  {/* <Text mt="12px">
                     <Link
                       style={{ display: 'inline' }}
                       ml="4px"
@@ -120,8 +120,8 @@ export const TradeSummary = memo(function TradeSummary({
                     >
                       {t('Fee Breakdown and Tokenomics')}
                     </Link>
-                  </Text>
-                  <Text mt="10px">
+                  </Text> */}
+                  {/* <Text mt="10px">
                     <Text bold display="inline-block">
                       {t('MM')}
                     </Text>
@@ -129,7 +129,7 @@ export const TradeSummary = memo(function TradeSummary({
                     {t(
                       'PancakeSwap does not charge any fees for trades. However, the market makers charge an implied fee of 0.05% - 0.25% (non-stablecoin) / 0.01% (stablecoin) factored into the quotes provided by them.',
                     )}
-                  </Text>
+                  </Text> */}
                 </>
               }
               ml="4px"

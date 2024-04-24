@@ -14,7 +14,6 @@ import {
   Modal,
   ModalV2,
   NotificationDot,
-  PancakeToggle,
   PreTitle,
   QuestionHelper,
   RowFixed,
@@ -250,7 +249,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
               </Flex>
               <Toggle id="toggle-audio-play" checked={audioPlay} onChange={() => setAudioMode((s) => !s)} scale="md" />
             </Flex>
-            <Flex justifyContent="space-between" alignItems="center" mb="24px">
+            {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text>{t('Fast routing (BETA)')}</Text>
                 <QuestionHelper
@@ -265,7 +264,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 onChange={() => setSpeedQuote((s) => !s)}
                 scale="md"
               />
-            </Flex>
+            </Flex> */}
             <RoutingSettingsButton />
           </>
         )}
@@ -338,7 +337,7 @@ function RoutingSettings() {
           <PreTitle mb="24px">{t('Liquidity source')}</PreTitle>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
-              <Text>PancakeSwap V3</Text>
+              <Text>PlunderSwap V3</Text>
               <QuestionHelper
                 text={
                   <Flex>
@@ -362,7 +361,7 @@ function RoutingSettings() {
           </Flex>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
-              <Text>PancakeSwap V2</Text>
+              <Text>PlunderSwap V2</Text>
               <QuestionHelper
                 text={
                   <Flex flexDirection="column">
@@ -387,7 +386,7 @@ function RoutingSettings() {
           </Flex>
           <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
-              <Text>PancakeSwap {t('StableSwap')}</Text>
+              <Text>PlunderSwap {t('StableSwap')}</Text>
               <QuestionHelper
                 text={
                   <Flex flexDirection="column">
@@ -402,7 +401,7 @@ function RoutingSettings() {
                 ml="4px"
               />
             </Flex>
-            <PancakeToggle
+            <Toggle
               disabled={isStableSwapByDefault && onlyOneAMMSourceEnabled}
               id="stable-swap-toggle"
               scale="md"
@@ -412,7 +411,7 @@ function RoutingSettings() {
               }}
             />
           </Flex>
-          <Flex justifyContent="space-between" alignItems="center" mb="24px">
+          {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
             <Flex alignItems="center">
               <Text>{`PancakeSwap ${t('MM Linked Pool')}`}</Text>
               <QuestionHelper
@@ -436,7 +435,7 @@ function RoutingSettings() {
               onChange={(e) => setIsMMLinkedPoolByDefault(e.target.checked)}
               scale="md"
             />
-          </Flex>
+          </Flex> */}
           {onlyOneAMMSourceEnabled && (
             <Message variant="warning">
               <MessageText>
