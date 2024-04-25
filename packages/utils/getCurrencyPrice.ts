@@ -1,6 +1,6 @@
 import { ChainId, isTestnetChainId } from '@pancakeswap/chains'
 
-const PRICE_API = 'https://wallet-api.pancakeswap.com/v1/prices/list/'
+const PRICE_API = 'https://wallet-api.plunderswap.com/v1/prices/list/'
 
 const zeroAddress = '0x0000000000000000000000000000000000000000' as const
 

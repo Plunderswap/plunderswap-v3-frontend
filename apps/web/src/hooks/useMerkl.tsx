@@ -16,7 +16,8 @@ import { useAllLists } from 'state/lists/hooks'
 import { getContract } from 'utils/contractHelpers'
 import { Address, useWalletClient } from 'wagmi'
 
-export const MERKL_API_V2 = 'https://api.angle.money/v2/merkl'
+// export const MERKL_API_V2 = 'https://api.angle.money/v2/merkl'
+export const MERKL_API_V2 = ''
 
 export function useMerklInfo(poolAddress: string | null): {
   rewardsPerToken: CurrencyAmount<Currency>[]

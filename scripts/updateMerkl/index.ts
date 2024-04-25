@@ -33,7 +33,7 @@ type MerklConfigResponse = {
 }
 
 const fetchAllMerklConfig = async (): Promise<MerklConfigResponse> => {
-  const response = await fetch('https://api.angle.money/v2/merkl')
+  const response = await fetch('https://api.plunderswap.com/v2/merkl')
 
   if (!response.ok) {
     throw new Error('Unable to fetch merkl config')

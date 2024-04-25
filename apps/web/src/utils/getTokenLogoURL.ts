@@ -1,7 +1,6 @@
-import memoize from 'lodash/memoize'
-import { Token } from '@pancakeswap/sdk'
 import { ChainId } from '@pancakeswap/chains'
-import { safeGetAddress } from 'utils'
+import { Token } from '@pancakeswap/sdk'
+import memoize from 'lodash/memoize'
 import { isAddress } from 'viem'
 
 const mapping = {
@@ -15,10 +14,8 @@ const mapping = {
 
 const getTokenLogoURL = memoize(
   (token?: Token) => {
-    if (token && mapping[token.chainId] && isAddress(token.address)) {
-      return `https://assets-cdn.trustwallet.com/blockchains/${mapping[token.chainId]}/assets/${safeGetAddress(
-        token.address,
-      )}/logo.png`
+    if (token && isAddress(token.address)) {
+      return `https://plunderswap.github.io/token-lists/images/${token.address}.png`
     }
     return null
   },
@@ -27,10 +24,8 @@ const getTokenLogoURL = memoize(
 
 export const getTokenLogoURLByAddress = memoize(
   (address?: string, chainId?: number) => {
-    if (address && chainId && mapping[chainId] && isAddress(address)) {
-      return `https://assets-cdn.trustwallet.com/blockchains/${mapping[chainId]}/assets/${safeGetAddress(
-        address,
-      )}/logo.png`
+    if (address && chainId && isAddress(address)) {
+      return `https://plunderswap.github.io/token-lists/images/${address}.png`
     }
     return null
   },
