@@ -2,7 +2,7 @@
   "name": "PancakeSwap Default List",
   "timestamp": "2022-01-26T11:45:09Z",
   "version": {
-    "major": 4,
+    "major": 5,
     "minor": 0,
     "patch": 0
   },
@@ -38,7 +38,7 @@
       "name": "USD Coin",
       "address": "0xE64842F59fE25b2BDD174dE898Ba495593530a2F",
       "symbol": "USDC",
-      "decimals": 6,
+      "decimals": 18,
       "chainId": 97,
       "logoURI": "https://tokens.pancakeswap.finance/images/symbol/usdc.png"
     },
