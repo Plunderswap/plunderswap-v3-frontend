@@ -1,17 +1,13 @@
 import { useTranslation } from "@pancakeswap/localization";
 import { Currency, Price } from "@pancakeswap/swap-sdk-core";
-import { AutoColumn, BunnyKnownPlaceholder, ChartDisableIcon, LineGraphIcon } from "@pancakeswap/uikit";
+import { AutoColumn } from "@pancakeswap/uikit";
 import { FeeAmount } from "@pancakeswap/v3-sdk";
 // import * as Sentry from "@sentry/nextjs";
 import { format } from "d3";
-import { saturate } from "polished";
 import { useCallback, useMemo } from "react";
 import { styled, useTheme } from "styled-components";
 
-import { Chart } from "./Chart";
-import { InfoBox } from "./InfoBox";
-import Loader from "./Loader";
-import { Bound, ChartEntry, TickDataRaw, ZOOM_LEVELS, ZoomLevels } from "./types";
+import { Bound, ChartEntry, TickDataRaw, ZoomLevels } from "./types";
 
 const ChartWrapper = styled.div`
   position: relative;
@@ -141,8 +137,8 @@ export function LiquidityChartRangeInput({
   const isUninitialized = !currencyA || !currencyB || (formattedData === undefined && !isLoading);
 
   return (
-    <AutoColumn gap="md" style={{ minHeight: "200px", width: "100%", marginBottom: "16px" }}>
-      {isUninitialized ? (
+    <AutoColumn gap="md" style={{ minHeight: "0px", width: "100%", marginBottom: "0px" }}>
+      {/* {isUninitialized ? (
         <InfoBox message={t("Your position will appear here.")} icon={<BunnyKnownPlaceholder />} />
       ) : isLoading ? (
         <InfoBox icon={<Loader size="40px" stroke={theme.colors.text} />} />
@@ -176,7 +172,7 @@ export function LiquidityChartRangeInput({
             ticksAtLimit={ticksAtLimit}
           />
         </ChartWrapper>
-      )}
+      )} */}
     </AutoColumn>
   );
 }

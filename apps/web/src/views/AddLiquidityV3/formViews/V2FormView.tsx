@@ -1,18 +1,6 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { Pair, Percent } from '@pancakeswap/sdk'
-import {
-  AutoColumn,
-  Box,
-  BunnyKnownPlaceholder,
-  Button,
-  DynamicSection,
-  Flex,
-  LinkExternal,
-  Message,
-  MessageText,
-  ScanLink,
-  Text,
-} from '@pancakeswap/uikit'
+import { AutoColumn, Box, Button, Flex, Message, MessageText, ScanLink, Text } from '@pancakeswap/uikit'
 import { useIsExpertMode } from '@pancakeswap/utils/user'
 import { ReactNode, useCallback, useMemo } from 'react'
 import { ChainLinkSupportChains } from 'state/info/constant'
@@ -21,7 +9,6 @@ import { CommitButton } from 'components/CommitButton'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import CurrencyInputPanel from 'components/CurrencyInputPanel'
 import { CommonBasesType } from 'components/SearchModal/types'
-import { Bound } from 'config/constants/types'
 import { useActiveChainId } from 'hooks/useActiveChainId'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { Field } from 'state/mint/actions'
@@ -29,10 +16,8 @@ import { getBlockExploreLink } from 'utils'
 import { logGTMClickAddLiquidityEvent } from 'utils/customGTMEventTracking'
 import { LP2ChildrenProps } from 'views/AddLiquidity'
 
-import { InfoBox } from '@pancakeswap/widgets-internal'
 import ApproveLiquidityTokens from 'views/AddLiquidityV3/components/ApproveLiquidityTokens'
-import { HideMedium, MediumOnly, RightContainer } from './V3FormView'
-import RangeSelector from './V3FormView/components/RangeSelector'
+import { MediumOnly } from './V3FormView'
 
 export default function V2FormView({
   formattedAmounts,
@@ -104,15 +89,15 @@ export default function V2FormView({
             <Flex flexDirection="column">
               <MessageText>
                 {t(
-                  'Adding liquidity to this V2 pair is currently not available on PancakeSwap UI. Please follow the instructions to resolve it using blockchain explorer.',
+                  'Adding liquidity to this V2 pair is currently not available on PlunderSwap UI. Please follow the instructions to resolve it using blockchain explorer.',
                 )}
               </MessageText>
-              <LinkExternal
+              {/* <LinkExternal
                 href="https://docs.pancakeswap.finance/products/pancakeswap-exchange/faq#why-cant-i-add-liquidity-to-a-pair-i-just-created"
                 mt="0.25rem"
               >
                 {t('Learn more how to fix')}
-              </LinkExternal>
+              </LinkExternal> */}
               <ScanLink
                 useBscCoinFallback={chainId ? ChainLinkSupportChains.includes(chainId) : undefined}
                 href={pairExplorerLink}
@@ -190,10 +175,12 @@ export default function V2FormView({
           showCommonBases
           commonBasesType={CommonBasesType.LIQUIDITY}
         />
+        <Box mt="16px">
+          <MediumOnly>{buttons}</MediumOnly>
+        </Box>
       </AutoColumn>
-      <HideMedium>{buttons}</HideMedium>
 
-      <RightContainer>
+      {/* <RightContainer>
         <AutoColumn pt="12px" gap="24px">
           <DynamicSection disabled gap="12px">
             <InfoBox message={t('Your position will appear here.')} icon={<BunnyKnownPlaceholder />} />
@@ -213,9 +200,8 @@ export default function V2FormView({
               }}
             />
           </DynamicSection>
-          <MediumOnly>{buttons}</MediumOnly>
         </AutoColumn>
-      </RightContainer>
+      </RightContainer> */}
     </>
   )
 }
