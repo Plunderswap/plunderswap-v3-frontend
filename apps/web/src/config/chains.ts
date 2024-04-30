@@ -1,7 +1,7 @@
 import { ChainId, chainNames } from '@pancakeswap/chains'
 import memoize from 'lodash/memoize'
 import { defineChain } from 'viem'
-import { Chain, bscTestnet, bsc as bsc_ } from 'wagmi/chains'
+import { Chain, bsc as bsc_ } from 'wagmi/chains'
 
 export const zilliqaTestnet = defineChain({
   id: 33101,
@@ -108,4 +108,4 @@ export const L2_CHAIN_IDS: ChainId[] = [
   // ChainId.BASE_SEPOLIA,
 ]
 
-export const CHAINS = [zilliqa, zilliqaTestnet, bscTestnet]
+export const CHAINS = [zilliqa, zilliqaTestnet]
