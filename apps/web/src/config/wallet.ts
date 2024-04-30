@@ -1,7 +1,5 @@
-import { isCyberWallet } from '@cyberlab/cyber-app-sdk'
 import { WalletConfigV2 } from '@pancakeswap/ui-wallets'
 import { WalletFilledIcon } from '@pancakeswap/uikit'
-import { getTrustWalletProvider } from '@pancakeswap/wagmi/connectors/trustWallet'
 import type { ExtendEthereum } from 'global'
 import { walletConnectNoQrCodeConnector } from '../utils/wagmi'
 import { ASSET_CDN } from './constants/endpoints'
@@ -12,12 +10,12 @@ export enum ConnectorNames {
   WalletConnect = 'walletConnect',
   WalletConnectV1 = 'walletConnectLegacy',
   // BSC = 'bsc',
-  BinanceW3W = 'BinanceW3W',
-  Blocto = 'blocto',
+  // BinanceW3W = 'BinanceW3W',
+  // Blocto = 'blocto',
   WalletLink = 'coinbaseWallet',
   // Ledger = 'ledger',
-  TrustWallet = 'trustWallet',
-  CyberWallet = 'cyberwallet',
+  // TrustWallet = 'trustWallet',
+  // CyberWallet = 'cyberwallet',
 }
 
 const createQrCode = (chainId: number, connect) => async () => {
@@ -73,19 +71,19 @@ const walletsConfig = ({
       qrCode,
       downloadLink: 'https://metamask.app.link/dapp/plunderswap.com/',
     },
-    {
-      id: 'BinanceW3W',
-      title: 'Binance Web3 Wallet',
-      icon: `${ASSET_CDN}/images/wallets/binance-w3w.png`,
-      connectorId: isBinanceWeb3WalletInstalled() ? ConnectorNames.Injected : ConnectorNames.BinanceW3W,
-      get installed() {
-        if (isBinanceWeb3WalletInstalled()) {
-          return true
-        }
-        // still showing the SDK if not installed
-        return undefined
-      },
-    },
+    // {
+    //   id: 'BinanceW3W',
+    //   title: 'Binance Web3 Wallet',
+    //   icon: `${ASSET_CDN}/images/wallets/binance-w3w.png`,
+    //   connectorId: isBinanceWeb3WalletInstalled() ? ConnectorNames.Injected : ConnectorNames.BinanceW3W,
+    //   get installed() {
+    //     if (isBinanceWeb3WalletInstalled()) {
+    //       return true
+    //     }
+    //     // still showing the SDK if not installed
+    //     return undefined
+    //   },
+    // },
     // {
     //   id: 'binance',
     //   title: 'Binance Wallet',
@@ -109,22 +107,22 @@ const walletsConfig = ({
       icon: `${ASSET_CDN}/images/wallets/coinbase.png`,
       connectorId: ConnectorNames.WalletLink,
     },
-    {
-      id: 'trust',
-      title: 'Trust Wallet',
-      icon: `${ASSET_CDN}/images/wallets/trust.png`,
-      connectorId: ConnectorNames.TrustWallet,
-      get installed() {
-        return !!getTrustWalletProvider()
-      },
-      deepLink: 'https://link.trustwallet.com/open_url?coin_id=20000714&url=https://plunderswap.com/',
-      downloadLink: 'https://chrome.google.com/webstore/detail/trust-wallet/egjidjbpglichdcondbcbdnbeeppgdph',
-      guide: {
-        desktop: 'https://trustwallet.com/browser-extension',
-        mobile: 'https://trustwallet.com/',
-      },
-      qrCode,
-    },
+    // {
+    //   id: 'trust',
+    //   title: 'Trust Wallet',
+    //   icon: `${ASSET_CDN}/images/wallets/trust.png`,
+    //   connectorId: ConnectorNames.TrustWallet,
+    //   get installed() {
+    //     return !!getTrustWalletProvider()
+    //   },
+    //   deepLink: 'https://link.trustwallet.com/open_url?coin_id=20000714&url=https://plunderswap.com/',
+    //   downloadLink: 'https://chrome.google.com/webstore/detail/trust-wallet/egjidjbpglichdcondbcbdnbeeppgdph',
+    //   guide: {
+    //     desktop: 'https://trustwallet.com/browser-extension',
+    //     mobile: 'https://trustwallet.com/',
+    //   },
+    //   qrCode,
+    // },
     {
       id: 'walletconnect',
       title: 'WalletConnect',
@@ -166,38 +164,38 @@ const walletsConfig = ({
         desktop: 'https://chrome.google.com/webstore/detail/rabby/acmacodkjbdgmoleebolmdjonilkdbch',
       },
     },
-    {
-      id: 'math',
-      title: 'MathWallet',
-      icon: `${ASSET_CDN}/images/wallets/mathwallet.png`,
-      connectorId: ConnectorNames.Injected,
-      get installed() {
-        return typeof window !== 'undefined' && Boolean(window.ethereum?.isMathWallet)
-      },
-      qrCode,
-    },
-    {
-      id: 'tokenpocket',
-      title: 'TokenPocket',
-      icon: `${ASSET_CDN}/images/wallets/tokenpocket.png`,
-      connectorId: ConnectorNames.Injected,
-      get installed() {
-        return typeof window !== 'undefined' && Boolean(window.ethereum?.isTokenPocket)
-      },
-      qrCode,
-    },
-    {
-      id: 'safepal',
-      title: 'SafePal',
-      icon: `${ASSET_CDN}/images/wallets/safepal.png`,
-      connectorId: ConnectorNames.Injected,
-      get installed() {
-        return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isSafePal)
-      },
-      downloadLink:
-        'https://chrome.google.com/webstore/detail/safepal-extension-wallet/lgmpcpglpngdoalbgeoldeajfclnhafa',
-      qrCode,
-    },
+    // {
+    //   id: 'math',
+    //   title: 'MathWallet',
+    //   icon: `${ASSET_CDN}/images/wallets/mathwallet.png`,
+    //   connectorId: ConnectorNames.Injected,
+    //   get installed() {
+    //     return typeof window !== 'undefined' && Boolean(window.ethereum?.isMathWallet)
+    //   },
+    //   qrCode,
+    // },
+    // {
+    //   id: 'tokenpocket',
+    //   title: 'TokenPocket',
+    //   icon: `${ASSET_CDN}/images/wallets/tokenpocket.png`,
+    //   connectorId: ConnectorNames.Injected,
+    //   get installed() {
+    //     return typeof window !== 'undefined' && Boolean(window.ethereum?.isTokenPocket)
+    //   },
+    //   qrCode,
+    // },
+    // {
+    //   id: 'safepal',
+    //   title: 'SafePal',
+    //   icon: `${ASSET_CDN}/images/wallets/safepal.png`,
+    //   connectorId: ConnectorNames.Injected,
+    //   get installed() {
+    //     return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isSafePal)
+    //   },
+    //   downloadLink:
+    //     'https://chrome.google.com/webstore/detail/safepal-extension-wallet/lgmpcpglpngdoalbgeoldeajfclnhafa',
+    //   qrCode,
+    // },
     {
       id: 'coin98',
       title: 'Coin98',
@@ -211,30 +209,30 @@ const walletsConfig = ({
       },
       qrCode,
     },
-    {
-      id: 'blocto',
-      title: 'Blocto',
-      icon: `${ASSET_CDN}/images/wallets/blocto.png`,
-      connectorId: ConnectorNames.Blocto,
-      get installed() {
-        return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isBlocto)
-          ? true
-          : undefined // undefined to show SDK
-      },
-    },
-    {
-      id: 'cyberwallet',
-      title: 'CyberWallet',
-      icon: `${ASSET_CDN}/images/wallets/cyberwallet.png`,
-      connectorId: ConnectorNames.CyberWallet,
-      get installed() {
-        return typeof window !== 'undefined' && isCyberWallet()
-      },
-      isNotExtension: true,
-      guide: {
-        desktop: 'https://docs.cyber.co/sdk/cyber-account#supported-chains',
-      },
-    },
+    // {
+    //   id: 'blocto',
+    //   title: 'Blocto',
+    //   icon: `${ASSET_CDN}/images/wallets/blocto.png`,
+    //   connectorId: ConnectorNames.Blocto,
+    //   get installed() {
+    //     return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isBlocto)
+    //       ? true
+    //       : undefined // undefined to show SDK
+    //   },
+    // },
+    // {
+    //   id: 'cyberwallet',
+    //   title: 'CyberWallet',
+    //   icon: `${ASSET_CDN}/images/wallets/cyberwallet.png`,
+    //   connectorId: ConnectorNames.CyberWallet,
+    //   get installed() {
+    //     return typeof window !== 'undefined' && isCyberWallet()
+    //   },
+    //   isNotExtension: true,
+    //   guide: {
+    //     desktop: 'https://docs.cyber.co/sdk/cyber-account#supported-chains',
+    //   },
+    // },
     // {
     //   id: 'ledger',
     //   title: 'Ledger',
@@ -274,5 +272,5 @@ const docLangCodeMapping: Record<string, string> = {
 
 export const getDocLink = (code: string) =>
   docLangCodeMapping[code]
-    ? `https://docs.plunderswap.com/get-started/wallet-guide`
-    : `https://docs.plunderswap.com/get-started/wallet-guide`
+    ? 'https://docs.plunderswap.com/get-started/wallet-guide'
+    : 'https://docs.plunderswap.com/get-started/wallet-guide'
