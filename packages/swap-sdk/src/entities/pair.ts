@@ -1,33 +1,33 @@
+import { ChainId } from '@pancakeswap/chains'
 import {
+  BigintIsh,
+  CurrencyAmount,
+  FIVE,
   InsufficientInputAmountError,
   InsufficientReservesError,
-  sqrt,
-  CurrencyAmount,
-  Price,
-  FIVE,
+  MINIMUM_LIQUIDITY,
   ONE,
+  Price,
   ZERO,
   _10000,
   _9975,
-  BigintIsh,
-  MINIMUM_LIQUIDITY,
+  sqrt,
 } from '@pancakeswap/swap-sdk-core'
+import invariant from 'tiny-invariant'
 import {
   Address,
-  encodePacked,
-  keccak256,
-  GetCreate2AddressOptions,
-  toBytes,
-  Hex,
-  pad,
-  isBytes,
   ByteArray,
-  getAddress,
-  slice,
+  GetCreate2AddressOptions,
+  Hex,
   concat,
+  encodePacked,
+  getAddress,
+  isBytes,
+  keccak256,
+  pad,
+  slice,
+  toBytes,
 } from 'viem'
-import invariant from 'tiny-invariant'
-import { ChainId } from '@pancakeswap/chains'
 import { FACTORY_ADDRESS_MAP, INIT_CODE_HASH_MAP } from '../constants'
 import { ERC20Token } from './token'
 
@@ -108,8 +108,8 @@ export class Pair {
       tokenAmounts[0].currency.chainId,
       Pair.getAddress(tokenAmounts[0].currency, tokenAmounts[1].currency),
       18,
-      'Cake-LP',
-      'Pancake LPs'
+      'Plunder-LP',
+      'Plunder LPs'
     )
     this.tokenAmounts = tokenAmounts as [CurrencyAmount<ERC20Token>, CurrencyAmount<ERC20Token>]
   }
