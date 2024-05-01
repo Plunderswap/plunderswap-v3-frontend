@@ -79,7 +79,7 @@ export const getCommonCurrencyUrlBySymbol = memoize(
   (symbol?: string): string | undefined =>
     symbol && commonCurrencySymbols.includes(symbol)
       ? `https://tokens.pancakeswap.finance/images/symbol/${symbol.toLocaleLowerCase()}.png`
-      : `https://plunderswap.github.io/token-lists/images/${symbol?.toLocaleLowerCase()}.svg`,
+      : `https://plunderswap.github.io/token-lists/images/${symbol?.toLocaleLowerCase()}.png`,
   (symbol?: string) => `logoUrls#symbol#${symbol}`
 );
 
