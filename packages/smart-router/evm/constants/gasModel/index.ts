@@ -18,6 +18,8 @@ import {
   polygonZkEvmTestnetTokens,
   polygonZkEvmTokens,
   scrollSepoliaTokens,
+  zilliqaTestnetTokens,
+  zilliqaTokens,
   zkSyncTestnetTokens,
   zksyncTokens,
 } from '@pancakeswap/tokens'
@@ -43,8 +45,8 @@ export const usdGasTokensByChain = {
   [ChainId.SEPOLIA]: [scrollSepoliaTokens.usdc],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc],
-  [ChainId.ZILLIQA]: [],
-  [ChainId.ZILLIQA_TESTNET]: [],
+  [ChainId.ZILLIQA]: [zilliqaTokens.usdt],
+  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.usdc],
 } satisfies Record<ChainId, Token[]>
 
 export * from './stableSwap'

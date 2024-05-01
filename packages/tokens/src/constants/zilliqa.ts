@@ -11,4 +11,12 @@ export const zilliqaTokens = {
     'ZIL',
     'https://www.zilliqa.com/',
   ),
+  usdt: new ERC20Token(
+    ChainId.ZILLIQA,
+    '0x2274005778063684fbB1BfA96a2b725dC37D75f9',
+    18,
+    'zUSDT',
+    'Zilliqa-bridged USDT',
+    'https://tether.to/',
+  ),
 }
