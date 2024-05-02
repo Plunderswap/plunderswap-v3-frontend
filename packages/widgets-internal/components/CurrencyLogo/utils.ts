@@ -17,10 +17,8 @@ const mapping: { [key: number]: string } = {
 
 export const getTokenLogoURL = memoize(
   (token?: Token) => {
-    if (token && mapping[token.chainId]) {
-      return `https://assets-cdn.trustwallet.com/blockchains/${mapping[token.chainId]}/assets/${getAddress(
-        token.address
-      )}/logo.png`;
+    if (token) {
+      return `https://plunderswap.github.io/token-lists/images/${getAddress(token.address)}.png`;
     }
     return null;
   },
@@ -29,10 +27,8 @@ export const getTokenLogoURL = memoize(
 
 export const getTokenLogoURLByAddress = memoize(
   (address?: string, chainId?: number) => {
-    if (address && chainId && mapping[chainId]) {
-      return `https://assets-cdn.trustwallet.com/blockchains/${mapping[chainId]}/assets/${getAddress(
-        address
-      )}/logo.png`;
+    if (address) {
+      return `https://plunderswap.github.io/token-lists/images/${getAddress(address)}.png`;
     }
     return null;
   },
