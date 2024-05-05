@@ -55,7 +55,7 @@ export const CHAIN_REFRESH_TIME = {
   [ChainId.BASE_SEPOLIA]: 6_000,
   [ChainId.ARBITRUM_SEPOLIA]: 6_000,
   [ChainId.ZILLIQA]: 30_000,
-  [ChainId.ZILLIQA_TESTNET]: 10_000,
+  [ChainId.ZILLIQA_TESTNET]: 25_000,
 } as const satisfies Record<ChainId, number>
 
 // used for display in the default list when adding liquidity
@@ -167,13 +167,13 @@ export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(50n, BIPS_BASE)
 export const ZERO_PERCENT = new Percent('0')
 export const ONE_HUNDRED_PERCENT = new Percent('1')
 
-export const BASE_FEE = new Percent(25n, BIPS_BASE)
+export const BASE_FEE = new Percent(35n, BIPS_BASE)
 export const INPUT_FRACTION_AFTER_FEE = ONE_HUNDRED_PERCENT.subtract(BASE_FEE)
 
 // BNB
-export const DEFAULT_INPUT_CURRENCY = 'BNB'
+export const DEFAULT_INPUT_CURRENCY = 'ZIL'
 // CAKE
-export const DEFAULT_OUTPUT_CURRENCY = '0xb80f7D993bBe12C19f9187D29748eD47f3c1fBD9'
+export const DEFAULT_OUTPUT_CURRENCY = '0x2274005778063684fbB1BfA96a2b725dC37D75f9'
 
 // Handler string is passed to Gelato to use PCS router
 export const GELATO_HANDLER = 'pancakeswap'

@@ -135,8 +135,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.SEPOLIA]: [sepoliaTokens.usdc, sepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
-  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil],
-  [ChainId.ZILLIQA]: [zilliqaTokens.wzil],
+  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc],
+  [ChainId.ZILLIQA]: [zilliqaTokens.wzil, zilliqaTokens.usdt],
 }
 
 const czusd = new ERC20Token(ChainId.BSC, '0xE68b79e51bf826534Ff37AA9CeE71a3842ee9c70', 18, 'CZUSD', 'CZUSD')
