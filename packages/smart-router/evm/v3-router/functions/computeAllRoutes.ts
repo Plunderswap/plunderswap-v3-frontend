@@ -4,8 +4,10 @@ import { logger } from '../utils/logger'
 import { BaseRoute, Pool } from '../types'
 import { buildBaseRoute, getOutputCurrency, involvesCurrency } from '../utils'
 
+logger.enable('error,log')
+
 export function computeAllRoutes(input: Currency, output: Currency, candidatePools: Pool[], maxHops = 3): BaseRoute[] {
-  logger.metric('Computing routes from', candidatePools.length, 'pools')
+  logger.log('Computing routes from', candidatePools.length, 'pools')
   const poolsUsed = Array<boolean>(candidatePools.length).fill(false)
   const routes: BaseRoute[] = []
 

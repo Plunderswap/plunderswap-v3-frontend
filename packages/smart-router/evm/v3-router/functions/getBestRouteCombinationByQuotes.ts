@@ -15,6 +15,8 @@ interface Config {
   maxSplits?: number
 }
 
+logger.enable('error,log')
+
 export function getBestRouteCombinationByQuotes(
   amount: CurrencyAmount<Currency>,
   quoteCurrency: Currency,

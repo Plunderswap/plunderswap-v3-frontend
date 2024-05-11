@@ -1,11 +1,13 @@
-import { BigintIsh, Currency, CurrencyAmount, TradeType, ZERO } from '@pancakeswap/sdk'
 import { ChainId } from '@pancakeswap/chains'
-
+import { BigintIsh, Currency, CurrencyAmount, TradeType, ZERO } from '@pancakeswap/sdk'
+import { ROUTE_CONFIG_BY_CHAIN } from './constants'
 import { computeAllRoutes, getBestRouteCombinationByQuotes } from './functions'
 import { createGasModel } from './gasModel'
 import { getRoutesWithValidQuote } from './getRoutesWithValidQuote'
-import { BestRoutes, TradeConfig, RouteConfig, SmartRouterTrade, RouteType } from './types'
-import { ROUTE_CONFIG_BY_CHAIN } from './constants'
+import { BestRoutes, RouteConfig, RouteType, SmartRouterTrade, TradeConfig } from './types'
+import { logger } from './utils/logger'
+
+logger.enable('error,log')
 
 export async function getBestTrade(
   amount: CurrencyAmount<Currency>,
@@ -99,18 +101,18 @@ async function getBestRoutes(
     quoterOptimization,
     signal,
   })
-  // routesWithValidQuote.forEach(({ percent, path, amount: a, quote }) => {
-  //   const pathStr = path.map((t) => t.symbol).join('->')
-  //   console.log(
-  //     `${percent}% Swap`,
-  //     a.toExact(),
-  //     a.currency.symbol,
-  //     'through',
-  //     pathStr,
-  //     ':',
-  //     quote.toExact(),
-  //     quote.currency.symbol,
-  //   )
-  // })
+  routesWithValidQuote.forEach(({ percent, path, amount: a, quote }) => {
+    const pathStr = path.map((t) => t.symbol).join('->')
+    console.log(
+      `${percent}% Swap`,
+      a.toExact(),
+      a.currency.symbol,
+      'through',
+      pathStr,
+      ':',
+      quote.toExact(),
+      quote.currency.symbol,
+    )
+  })
   return getBestRouteCombinationByQuotes(amount, currency, routesWithValidQuote, tradeType, { maxSplits })
 }
