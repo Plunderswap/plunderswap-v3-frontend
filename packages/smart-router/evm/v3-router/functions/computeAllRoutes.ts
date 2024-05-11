@@ -54,6 +54,6 @@ export function computeAllRoutes(input: Currency, output: Currency, candidatePoo
 
   computeRoutes(input, output, [])
 
-  logger.metric('Computed routes from', candidatePools.length, 'pools', routes.length, 'routes')
+  logger.log('Computed routes from', candidatePools.length, 'pools', routes.length, 'routes')
   return routes
 }

@@ -8,7 +8,7 @@ import memoize from 'lodash/memoize.js'
 import { Address, getAddress } from 'viem'
 
 import { PoolType, SubgraphProvider, V2PoolWithTvl, V3PoolWithTvl, WithTvl } from '../../types'
-import { computeV2PoolAddress, logger, metric } from '../../utils'
+import { computeV2PoolAddress, metric } from '../../utils'
 import { PoolMeta, V3PoolMeta } from './internalTypes'
 
 interface FactoryParams<M extends PoolMeta, P extends WithTvl> {
@@ -46,7 +46,7 @@ function subgraphPoolProviderFactory<M extends PoolMeta, P extends WithTvl>({
     const client = provider({ chainId })
 
     if (!client) {
-      logger.error('No subgraph client found for chainId', chainId)
+      // logger.error('No subgraph client found for chainId', chainId)
       return []
     }
 

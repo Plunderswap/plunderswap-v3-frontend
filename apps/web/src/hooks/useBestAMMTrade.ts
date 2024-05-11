@@ -230,13 +230,13 @@ function bestTradeHookFactory({
             ),
         )
       }
+
       if (tokenOutFee && tokenOutFee.result.buyFeeBps > 0n) {
         pools = pools?.filter(
           (pool) =>
             !(pool.type === PoolType.V3 && currency && (pool.token0.equals(currency) || pool.token1.equals(currency))),
         )
       }
-
       return pools
     }, [candidatePools, tokenInFee, tokenOutFee, baseCurrency, currency])
 
@@ -297,7 +297,7 @@ function bestTradeHookFactory({
           amount.currency.symbol
         } -> ${currency.symbol}, tradeType ${tradeType}`
         const startTime = performance.now()
-        SmartRouter.logger.log(label)
+        SmartRouter.logger.log(label, candidatePools)
         SmartRouter.logger.metric(label, candidatePools)
         const res = await getBestTrade(deferAmount, currency, tradeType, {
           gasPriceWei:
