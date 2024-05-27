@@ -1,5 +1,3 @@
-import { CommonBasesType } from 'components/SearchModal/types'
-
 import { Currency, CurrencyAmount, Percent } from '@pancakeswap/sdk'
 import {
   AutoColumn,
@@ -22,6 +20,8 @@ import {
   ZOOM_LEVELS,
   ZoomLevels,
 } from '@pancakeswap/widgets-internal'
+import { CommonBasesType } from 'components/SearchModal/types'
+import { getViemClients } from 'utils/viem'
 
 import { tryParsePrice } from 'hooks/v3/utils'
 import { logGTMClickAddLiquidityEvent } from 'utils/customGTMEventTracking'
@@ -280,39 +280,47 @@ export default function V3FormView({
         value: hexToBigInt(value),
         account,
       }
-
-      sendTransactionAsync({
-        ...txn,
-        gas: calculateGasMargin(BigInt(20000000)),
-        gasPrice,
-      })
-        .then((response) => {
-          const baseAmount = formatRawAmount(
-            parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
-            baseCurrency.decimals,
-            4,
-          )
-          const quoteAmount = formatRawAmount(
-            parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
-            quoteCurrency.decimals,
-            4,
-          )
-
-          setAttemptingTxn(false)
-          addTransaction(response, {
-            type: 'add-liquidity-v3',
-            summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
+      getViemClients({ chainId })
+        ?.estimateGas(txn)
+        .then((gas) => {
+          sendTransactionAsync({
+            ...txn,
+            gas: calculateGasMargin(gas),
           })
-          setTxHash(response.hash)
-          onAddLiquidityCallback(response.hash)
-        })
-        .catch((error) => {
-          console.error('Failed to send transaction', error)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (!isUserRejected(error)) {
-            setTxnErrorMessage(transactionErrorToUserReadableMessage(error, t))
-          }
-          setAttemptingTxn(false)
+            // disable above from getViem to 289 and line 324 reenable below to use hardcoded gas
+            // sendTransactionAsync({
+            //   ...txn,
+            //   gas: calculateGasMargin(BigInt(20000000)),
+            //   gasPrice,
+            // })
+            .then((response) => {
+              const baseAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
+                baseCurrency.decimals,
+                4,
+              )
+              const quoteAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
+                quoteCurrency.decimals,
+                4,
+              )
+
+              setAttemptingTxn(false)
+              addTransaction(response, {
+                type: 'add-liquidity-v3',
+                summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
+              })
+              setTxHash(response.hash)
+              onAddLiquidityCallback(response.hash)
+            })
+            .catch((error) => {
+              console.error('Failed to send transaction', error)
+              // we only care if the error is something _other_ than the user rejected the tx
+              if (!isUserRejected(error)) {
+                setTxnErrorMessage(transactionErrorToUserReadableMessage(error, t))
+              }
+              setAttemptingTxn(false)
+            })
         })
     }
   }, [
