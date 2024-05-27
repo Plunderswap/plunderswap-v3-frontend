@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ElementType } from "react";
 import { BoxProps } from "../Box";
-import { DropdownMenuItems } from "../DropdownMenu/types";
+import { DropdownMenuItemType, DropdownMenuItems } from "../DropdownMenu/types";
 
 export type MenuItemsType = {
   label: string;
@@ -9,6 +9,7 @@ export type MenuItemsType = {
   icon?: ElementType<any>;
   fillIcon?: ElementType<any>;
   items?: DropdownMenuItems[];
+  type?: DropdownMenuItemType;
   disabled?: boolean;
   showOnMobile?: boolean;
   showItemsOnMobile?: boolean;
