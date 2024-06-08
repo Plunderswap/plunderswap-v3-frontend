@@ -1,4 +1,4 @@
-import { TranslateFunction } from '@Plunderswap/localization'
+import { TranslateFunction } from '@pancakeswap/localization'
 import { parseViemError } from './errors'
 
 /**
