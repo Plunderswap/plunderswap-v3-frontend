@@ -1,5 +1,5 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Currency, CurrencyAmount, ERC20Token } from '@pancakeswap/sdk'
+import { Currency, CurrencyAmount, ERC20Token, WNATIVE } from '@pancakeswap/sdk'
 import { MaxUint256 } from '@pancakeswap/swap-sdk-core'
 import { useToast } from '@pancakeswap/uikit'
 import isUndefinedOrNull from '@pancakeswap/utils/isUndefinedOrNull'
@@ -11,6 +11,7 @@ import { isUserRejected, logError } from 'utils/sentry'
 import { Address, useAccount } from 'wagmi'
 import { SendTransactionResult } from 'wagmi/actions'
 import useGelatoLimitOrdersLib from './limitOrders/useGelatoLimitOrdersLib'
+import { useActiveChainId } from './useActiveChainId'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
 import { useTokenContract } from './useContract'
 import useTokenAllowance from './useTokenAllowance'
@@ -44,7 +45,12 @@ export function useApproveCallback(
   const { callWithGasPrice } = useCallWithGasPrice()
   const { t } = useTranslation()
   const { toastError } = useToast()
-  const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
+  const { chainId } = useActiveChainId()
+  let token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
+  if (token?.isNative || token === undefined) {
+    const wrappedNativeToken = chainId ? WNATIVE[chainId] : undefined
+    token = wrappedNativeToken
+  }
   const { allowance: currentAllowance, refetch } = useTokenAllowance(token, account ?? undefined, spender)
   const pendingApproval = useHasPendingApproval(token?.address, spender)
   const [pending, setPending] = useState<boolean>(pendingApproval)
@@ -63,7 +69,7 @@ export function useApproveCallback(
   // check the current approval status
   const approvalState: ApprovalState = useMemo(() => {
     if (!amountToApprove || !spender) return ApprovalState.UNKNOWN
-    if (amountToApprove.currency?.isNative) return ApprovalState.APPROVED
+    // if (amountToApprove.currency?.isNative) return ApprovalState.APPROVED
     // we might not have enough data to know whether or not we need to approve
     if (!currentAllowance) return ApprovalState.UNKNOWN
 

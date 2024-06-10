@@ -1,4 +1,4 @@
-import { CurrencyAmount, Token } from '@pancakeswap/sdk'
+import { CurrencyAmount, ERC20Token, Token } from '@pancakeswap/sdk'
 import { useMemo } from 'react'
 import { erc20ABI } from 'wagmi'
 
@@ -8,7 +8,7 @@ import { useActiveChainId } from 'hooks/useActiveChainId'
 import { publicClient } from 'utils/wagmi'
 
 function useTokenAllowance(
-  token?: Token,
+  token?: Token | ERC20Token,
   owner?: string,
   spender?: string,
 ): {
