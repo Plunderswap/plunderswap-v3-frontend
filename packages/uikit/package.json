@@ -86,7 +86,7 @@
     "happy-dom": "^13.3.8",
     "jest-styled-components": "^7.0.8",
     "js-cookie": "*",
-    "next-themes": "^0.2.1",
+    "next-themes": "^0.3.0",
     "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-countup": "^6.4.0",
@@ -108,7 +108,7 @@
   },
   "peerDependencies": {
     "js-cookie": "*",
-    "next-themes": "^0.2.1",
+    "next-themes": "^0.3.0",
     "react": "^18.2.0",
     "react-device-detect": "*",
     "react-dom": "^18.2.0",
