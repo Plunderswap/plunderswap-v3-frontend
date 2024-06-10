@@ -1,6 +1,6 @@
 import { Badge, BadgeLogo, BadgeText } from "./Badge";
 
-const pancakeSwapLogo = "https://plunderswap.com/banners/pancakeswap-logo.png";
+const pancakeSwapLogo = "/logo.png";
 
 interface PancakeSwapBadgeProps {
   whiteText?: boolean;
@@ -9,8 +9,8 @@ interface PancakeSwapBadgeProps {
 export const PancakeSwapBadge: React.FC<React.PropsWithChildren<PancakeSwapBadgeProps>> = ({ whiteText }) => {
   return (
     <Badge
-      logo={<BadgeLogo src={pancakeSwapLogo} alt="pancakeSwapLogo" />}
-      text={<BadgeText color={whiteText ? "#ffffff" : "#090909"}>PancakeSwap</BadgeText>}
+      logo={<BadgeLogo src={pancakeSwapLogo} alt="plunderSwapLogo" />}
+      text={<BadgeText color={whiteText ? "#ffffff" : "#090909"}>PlunderSwap</BadgeText>}
     />
   );
 };
