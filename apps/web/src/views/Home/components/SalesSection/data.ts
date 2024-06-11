@@ -45,7 +45,7 @@ export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
   },
   images: {
     path: '/images/home/',
-    attributes: [{ src: 'ZIL_treasure_chest', alt: t('Treasure chest') }],
+    attributes: [{ src: 'V3_Treasure_Chest_trans', alt: t('Treasure chest') }],
   },
 })
 
