@@ -28,9 +28,9 @@ export const swapSectionData = (t: TranslateFunction): SalesSectionProps => ({
 })
 
 export const earnSectionData = (t: TranslateFunction): SalesSectionProps => ({
-  headingText: t('Liquidity Lagoon: Stash your loot and claim your share.'),
+  headingText: t('Liquidity Lagoon: Concentrated Liquidity Maximum Yield.'),
   bodyText: t(
-    'Embark on a treasure-filled journey at Liquidity Lagoon. Discover bountiful loot with robust liquidity pools and rule decentralized finance!',
+    'Embark on a treasure-filled journey at Liquidity Lagoon. Discover bountiful loot with robust V2 and V3 liquidity pools and rule decentralized finance!',
   ),
   reverse: true,
   primaryButton: {
