@@ -242,15 +242,15 @@ export function BackgroundGraphic({ className, src, width, height, ...variants }
 
 export const FloatingGraphic = styled(BannerGraphicItem)`
   left: 0;
-  top: 30%;
+  top: 10%;
 
   ${({ theme }) => theme.mediaQueries.sm} {
-    left: 10%;
+    left: 20%;
     top: 10%;
   }
 
   ${({ theme }) => theme.mediaQueries.md} {
-    left: 10%;
+    left: 20%;
     top: 0;
   }
 

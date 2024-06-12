@@ -15,7 +15,6 @@ const Container = styled(FlexGap).attrs({
 })<WithBackground>`
   border-radius: 32px;
   max-width: 100%;
-  height: 192px;
 
   ${(props) =>
     props.$background &&
