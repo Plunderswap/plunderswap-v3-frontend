@@ -1,5 +1,5 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Box, Container, Flex, PageSection, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { Box, Container, PageSection, useMatchBreakpoints } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
 import { styled } from 'styled-components'
 import { V3InfoBanner } from './components/Banners/V3InfoBanner'
@@ -76,18 +76,6 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         `}
       </style>
       <StyledHeroSection
-        innerProps={{ style: { margin: '0', width: '100%', overflow: 'visible', padding: '0px' } }}
-        containerProps={{
-          id: 'home-1',
-        }}
-        index={2}
-        hasCurvedDivider={false}
-      >
-        <Flex style={{ gap: 5 }} justifyContent="center" mt="40px">
-          <V3InfoBanner />
-        </Flex>
-      </StyledHeroSection>
-      <StyledHeroSection
         innerProps={{ style: { margin: '0', width: '100%', overflow: 'visible', padding: '8px' } }}
         containerProps={{
           id: 'home-1',
@@ -95,6 +83,7 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         index={2}
         hasCurvedDivider={false}
       >
+        <V3InfoBanner />
         <Hero />
       </StyledHeroSection>
       {/* <PageSection

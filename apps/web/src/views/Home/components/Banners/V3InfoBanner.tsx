@@ -3,17 +3,22 @@ import { useMatchBreakpoints } from '@pancakeswap/uikit'
 import {
   BannerActionContainer,
   BannerContainer,
+  BannerGraphics,
   BannerMain,
   BannerTitle,
   ButtonLinkAction,
+  FloatingGraphic,
   PancakeSwapBadge,
 } from '@pancakeswap/widgets-internal'
 import styled from 'styled-components'
+
+const floatingAsset = `/images/home/V3_Treasure_Chest_trans.png`
 
 const StyledButtonLinkAction = styled(ButtonLinkAction)`
   height: 33px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.secondary};
+  margin-top: 10px;
 
   ${({ theme }) => theme.mediaQueries.sm} {
     height: 48px;
@@ -28,8 +33,8 @@ export const V3InfoBanner = () => {
   const { isMobile, isTablet } = useMatchBreakpoints()
 
   const readWhitepaperAction = (
-    <StyledButtonLinkAction textAlign="center" color="white" href={whitepaperLink} padding={['8px 12px']}>
-      {isMobile ? t('Read documentation') : t('Read documentation')}
+    <StyledButtonLinkAction color="white" href={whitepaperLink} padding={['8px 12px']}>
+      {isMobile ? t('Whitepaper') : t('Read documentation')}
     </StyledButtonLinkAction>
   )
 
@@ -39,11 +44,20 @@ export const V3InfoBanner = () => {
         badges={<PancakeSwapBadge />}
         title={
           <BannerTitle variant="purple">
-            {isMobile || isTablet ? t('Plunderswap V3 is here!') : t('Plunderswap V3 is here!')}
+            {isMobile || isTablet
+              ? t('PlunderSwap V3 is here.')
+              : t('PlunderSwap V3 is here. Concentrated liquidity, ahoy!')}
           </BannerTitle>
         }
         actions={<BannerActionContainer>{readWhitepaperAction}</BannerActionContainer>}
       />
+      <BannerGraphics>
+        <FloatingGraphic
+          src={floatingAsset}
+          width={isMobile || isTablet ? 230 : 280}
+          height={isMobile || isTablet ? 230 : 280}
+        />
+      </BannerGraphics>
     </BannerContainer>
   )
 }
