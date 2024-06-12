@@ -25,6 +25,7 @@ export const _100 = 100n
 export const _9975 = 9975n
 export const _10000 = 10000n
 
+export const MaxUint128 = BigInt('0xffffffffffffffffffffffffffffffff')
 export const MaxUint256 = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
 
 export enum VMType {
