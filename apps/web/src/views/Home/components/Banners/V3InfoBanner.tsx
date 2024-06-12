@@ -34,7 +34,7 @@ export const V3InfoBanner = () => {
 
   const readWhitepaperAction = (
     <StyledButtonLinkAction color="white" href={whitepaperLink} padding={['8px 12px']}>
-      {isMobile ? t('Whitepaper') : t('Read documentation')}
+      {t('Read documentation')}
     </StyledButtonLinkAction>
   )
 
