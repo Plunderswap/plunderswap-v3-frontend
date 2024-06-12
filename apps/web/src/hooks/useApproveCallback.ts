@@ -1,8 +1,8 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { Currency, CurrencyAmount, ERC20Token, WNATIVE } from '@pancakeswap/sdk'
-import { MaxUint256 } from '@pancakeswap/swap-sdk-core'
 import { useToast } from '@pancakeswap/uikit'
 import isUndefinedOrNull from '@pancakeswap/utils/isUndefinedOrNull'
+import { MaxUint128 } from '@pancakeswap/v3-sdk'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHasPendingApproval, useTransactionAdder } from 'state/transactions/hooks'
 import { calculateGasMargin } from 'utils'
@@ -123,7 +123,7 @@ export function useApproveCallback(
 
       const estimatedGas = await tokenContract.estimateGas
         .approve(
-          [spender as Address, MaxUint256], // TODO: Fix viem
+          [spender as Address, MaxUint128], // TODO: Fix viem
           // @ts-ignore
           {
             account: tokenContract.account,
@@ -134,7 +134,7 @@ export function useApproveCallback(
           useExact = true
           return tokenContract.estimateGas
             .approve(
-              [spender as Address, MaxUint256],
+              [spender as Address, MaxUint128],
               // [spender as Address, overrideAmountApprove ?? amountToApprove?.quotient ?? targetAmount ?? MaxUint256],
               // @ts-ignore
               {
@@ -150,7 +150,7 @@ export function useApproveCallback(
         })
 
       if (!estimatedGas) return undefined
-      const finalAmount = MaxUint256
+      const finalAmount = MaxUint128
       // const finalAmount =
       //   overrideAmountApprove ?? (useExact ? amountToApprove?.quotient ?? targetAmount ?? MaxUint256 : MaxUint256)
       return callWithGasPrice(tokenContract, 'approve' as const, [spender as Address, finalAmount], {
