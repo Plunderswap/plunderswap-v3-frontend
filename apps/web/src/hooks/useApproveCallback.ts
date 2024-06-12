@@ -134,7 +134,8 @@ export function useApproveCallback(
           useExact = true
           return tokenContract.estimateGas
             .approve(
-              [spender as Address, overrideAmountApprove ?? amountToApprove?.quotient ?? targetAmount ?? MaxUint256],
+              [spender as Address, MaxUint256],
+              // [spender as Address, overrideAmountApprove ?? amountToApprove?.quotient ?? targetAmount ?? MaxUint256],
               // @ts-ignore
               {
                 account: tokenContract.account,
@@ -149,8 +150,9 @@ export function useApproveCallback(
         })
 
       if (!estimatedGas) return undefined
-      const finalAmount =
-        overrideAmountApprove ?? (useExact ? amountToApprove?.quotient ?? targetAmount ?? MaxUint256 : MaxUint256)
+      const finalAmount = MaxUint256
+      // const finalAmount =
+      //   overrideAmountApprove ?? (useExact ? amountToApprove?.quotient ?? targetAmount ?? MaxUint256 : MaxUint256)
       return callWithGasPrice(tokenContract, 'approve' as const, [spender as Address, finalAmount], {
         gas: calculateGasMargin(estimatedGas),
       })
