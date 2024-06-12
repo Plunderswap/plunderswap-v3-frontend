@@ -97,6 +97,12 @@ export const SwapCommitButton = memo(function SwapCommitButton({
     amountToApprove ?? undefined,
     routerAddress,
   )
+
+  let forcedApprovalState = approvalState
+  if (amountToApprove?.currency.isNative) {
+    forcedApprovalState = ApprovalState.APPROVED
+  }
+
   const { priceImpactWithoutFee } = useMemo(
     () => (!showWrap ? computeTradePriceBreakdown(trade) : {}),
     [showWrap, trade],
@@ -205,9 +211,9 @@ export const SwapCommitButton = memo(function SwapCommitButton({
   // never show if price impact is above threshold in non expert mode
   const showApproveFlow =
     !swapInputError &&
-    (approvalState === ApprovalState.NOT_APPROVED ||
-      approvalState === ApprovalState.PENDING ||
-      (approvalSubmitted && approvalState === ApprovalState.APPROVED)) &&
+    (forcedApprovalState === ApprovalState.NOT_APPROVED ||
+      forcedApprovalState === ApprovalState.PENDING ||
+      (approvalSubmitted && forcedApprovalState === ApprovalState.APPROVED)) &&
     !(priceImpactSeverity > 3 && !isExpertMode)
 
   // Modals
@@ -223,7 +229,7 @@ export const SwapCommitButton = memo(function SwapCommitButton({
   const { confirmModalState, pendingModalSteps, startSwapFlow, resetSwapFlow } = useConfirmModalState({
     txHash,
     chainId,
-    approval: approvalState,
+    approval: forcedApprovalState,
     approvalToken: trade?.inputAmount?.currency,
     isPendingError,
     isExpertMode,
@@ -237,7 +243,7 @@ export const SwapCommitButton = memo(function SwapCommitButton({
     <ConfirmSwapModal
       trade={trade}
       txHash={txHash}
-      approval={approvalState}
+      approval={forcedApprovalState}
       attemptingTxn={attemptingTxn}
       originalTrade={tradeToConfirm}
       showApproveFlow={showApproveFlow}
