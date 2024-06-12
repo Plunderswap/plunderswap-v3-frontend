@@ -32,7 +32,6 @@ import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
 import { basisPointsToPercent } from 'utils/exchange'
 import { formatCurrencyAmount, formatRawAmount } from 'utils/formatCurrencyAmount'
 import { isUserRejected } from 'utils/sentry'
-import { getViemClients } from 'utils/viem'
 import { hexToBigInt } from 'viem'
 
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
@@ -199,23 +198,31 @@ export default function IncreaseLiquidityV3({ currencyA: baseCurrency, currencyB
             })
 
       setAttemptingTxn(true)
-      getViemClients({ chainId })
-        ?.estimateGas({
-          account,
-          to: manager.address,
-          data: calldata,
-          value: hexToBigInt(value),
-        })
-        .then((gasLimit) => {
-          return sendTransactionAsync({
-            account,
-            to: manager.address,
-            data: calldata,
-            value: hexToBigInt(value),
-            gas: calculateGasMargin(gasLimit),
-            chainId,
-          })
-        })
+      // getViemClients({ chainId })
+      //   ?.estimateGas({
+      //     account,
+      //     to: manager.address,
+      //     data: calldata,
+      //     value: hexToBigInt(value),
+      //   })
+      //   .then((gasLimit) => {
+      //     return sendTransactionAsync({
+      //       account,
+      //       to: manager.address,
+      //       data: calldata,
+      //       value: hexToBigInt(value),
+      //       gas: calculateGasMargin(gasLimit),
+      //       chainId,
+      //     })
+      //   })
+      sendTransactionAsync({
+        account,
+        to: manager.address,
+        data: calldata,
+        value: hexToBigInt(value),
+        gas: calculateGasMargin(BigInt(2000000)),
+        chainId,
+      })
         .then((response) => {
           const baseAmount = formatRawAmount(
             parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
