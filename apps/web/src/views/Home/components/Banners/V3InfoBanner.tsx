@@ -1,36 +1,14 @@
 import { useTranslation } from '@pancakeswap/localization'
 import { useMatchBreakpoints } from '@pancakeswap/uikit'
 import {
-  BackgroundGraphic,
   BannerActionContainer,
   BannerContainer,
-  BannerGraphics,
   BannerMain,
   BannerTitle,
   ButtonLinkAction,
-  FloatingGraphic,
-  GraphicDetail,
-  LinkExternalAction,
   PancakeSwapBadge,
 } from '@pancakeswap/widgets-internal'
-import { ASSET_CDN } from 'config/constants/endpoints'
 import styled from 'styled-components'
-
-const floatingAsset = `${ASSET_CDN}/web/banners/v4-info/floating-item.png`
-const bgDesktop = `${ASSET_CDN}/web/banners/v4-info/bg-desktop.png`
-const bgMobile = `${ASSET_CDN}/web/banners/v4-info/bg-mobile.png`
-
-const bgSmVariant: GraphicDetail = {
-  src: bgMobile,
-  width: 272,
-  height: 224,
-}
-
-const bgXsVariant: GraphicDetail = {
-  src: bgMobile,
-  width: 218,
-  height: 182,
-}
 
 const StyledButtonLinkAction = styled(ButtonLinkAction)`
   height: 33px;
@@ -44,22 +22,15 @@ const StyledButtonLinkAction = styled(ButtonLinkAction)`
 `
 
 const whitepaperLink = 'https://docs.plunderswap.com'
-const learnMoreLink = 'https://docs.plunderswap.com'
 
 export const V3InfoBanner = () => {
   const { t } = useTranslation()
   const { isMobile, isTablet } = useMatchBreakpoints()
 
   const readWhitepaperAction = (
-    <StyledButtonLinkAction color="white" href={whitepaperLink} padding={['8px 12px']}>
-      {isMobile ? t('Whitepaper') : t('Read documentation')}
+    <StyledButtonLinkAction textAlign="center" color="white" href={whitepaperLink} padding={['8px 12px']}>
+      {isMobile ? t('Read documentation') : t('Read documentation')}
     </StyledButtonLinkAction>
-  )
-
-  const learnMoreAction = (
-    <LinkExternalAction fontSize={['14px']} color="black" href={learnMoreLink}>
-      {isMobile ? t('Build') : t('Add liquidity')}
-    </LinkExternalAction>
   )
 
   return (
@@ -68,17 +39,11 @@ export const V3InfoBanner = () => {
         badges={<PancakeSwapBadge />}
         title={
           <BannerTitle variant="purple">
-            {isMobile || isTablet
-              ? t('PlunderSwap V3 is here.')
-              : t('PlunderSwap V3 is here. Concentrated liquidity, ahoy!')}
+            {isMobile || isTablet ? t('Plunderswap V3 is here!') : t('Plunderswap V3 is here!')}
           </BannerTitle>
         }
         actions={<BannerActionContainer>{readWhitepaperAction}</BannerActionContainer>}
       />
-      <BannerGraphics>
-        <BackgroundGraphic src={bgDesktop} width={468} height={224} sm={bgSmVariant} xs={bgXsVariant} />
-        <FloatingGraphic src={floatingAsset} width={99} height={99} />
-      </BannerGraphics>
     </BannerContainer>
   )
 }

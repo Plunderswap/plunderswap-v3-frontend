@@ -9,13 +9,15 @@ type ContainerProps = PropsWithChildren<{
 }>;
 
 const Container = styled(FlexGap).attrs({
-  flexDirection: "row",
+  flexDirection: "column",
   gap: "0",
   justifyContent: "space-between",
+  alignItems: "center",
+  width: "450px",
 })<WithBackground>`
   border-radius: 32px;
   max-width: 100%;
-  height: 192px;
+  height: 162px;
 
   ${(props) =>
     props.$background &&

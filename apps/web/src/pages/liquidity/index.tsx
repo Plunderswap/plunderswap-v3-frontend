@@ -14,8 +14,10 @@ import {
   HistoryIcon,
   IconButton,
   Link,
+  OpenNewIcon,
   Tag,
   Text,
+  useMatchBreakpoints,
   useModal,
 } from '@pancakeswap/uikit'
 import { Liquidity } from '@pancakeswap/widgets-internal'
@@ -31,6 +33,7 @@ import { useAtom } from 'jotai'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import React, { ReactNode, useMemo, useState } from 'react'
+
 import { styled } from 'styled-components'
 import atomWithStorageWithErrorCatch from 'utils/atomWithStorageWithErrorCatch'
 import { CHAIN_IDS } from 'utils/wagmi'
@@ -94,6 +97,7 @@ export default function PoolListPage() {
   const { token0, token1, fee } = router.query as { token0: string; token1: string; fee: string }
   const isNeedFilterByQuery = useMemo(() => token0 || token1 || fee, [token0, token1, fee])
   const [showAllPositionWithQuery, setShowAllPositionWithQuery] = useState(false)
+  const { isMobile, isTablet } = useMatchBreakpoints()
 
   const v2PairsSection: null | ReactNode[] = v2Pairs?.length
     ? v2Pairs.map((pair, index) => (
@@ -284,6 +288,30 @@ export default function PoolListPage() {
 
   return (
     <Page>
+      {/* {isMobile || isTablet ?
+        null :  */}
+      <Flex
+        flexDirection={['column-reverse', null, null, 'row']}
+        alignItems={['flex-end', null, null, 'center']}
+        justifyContent="center"
+      >
+        <Flex
+          flexDirection="column"
+          flex="1"
+          ml={[null, null, null, null]}
+          mr={[null, null, null, '16px']}
+          alignSelf={['flex-start', null, null, 'center']}
+        >
+          {/* <ColoredWordHeading text={t('Liquidity Lagoon: Concentrated Liquidity Maximum Yield')} /> */}
+          <Text color="textSubtle" mb="4px">
+            {t('Check out our v3 LP walkthrough and guides.')}
+          </Text>
+          <Link mb="14px" external href="https://docs.plunderswap.com/products/plunderswap-exchange/plunderswap-pools/">
+            {t('Learn about providing liquidity')}
+            <OpenNewIcon color="primary" ml="4px" />
+          </Link>
+        </Flex>
+      </Flex>
       <AppBody
         style={{
           maxWidth: '854px',
