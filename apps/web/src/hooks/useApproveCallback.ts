@@ -1,8 +1,7 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { Currency, CurrencyAmount, ERC20Token, WNATIVE } from '@pancakeswap/sdk'
+import { Currency, CurrencyAmount, ERC20Token, MaxUint256 } from '@pancakeswap/sdk'
 import { useToast } from '@pancakeswap/uikit'
 import isUndefinedOrNull from '@pancakeswap/utils/isUndefinedOrNull'
-import { MaxUint128 } from '@pancakeswap/v3-sdk'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useHasPendingApproval, useTransactionAdder } from 'state/transactions/hooks'
 import { calculateGasMargin } from 'utils'
@@ -11,7 +10,6 @@ import { isUserRejected, logError } from 'utils/sentry'
 import { Address, useAccount } from 'wagmi'
 import { SendTransactionResult } from 'wagmi/actions'
 import useGelatoLimitOrdersLib from './limitOrders/useGelatoLimitOrdersLib'
-import { useActiveChainId } from './useActiveChainId'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
 import { useTokenContract } from './useContract'
 import useTokenAllowance from './useTokenAllowance'
@@ -45,12 +43,7 @@ export function useApproveCallback(
   const { callWithGasPrice } = useCallWithGasPrice()
   const { t } = useTranslation()
   const { toastError } = useToast()
-  const { chainId } = useActiveChainId()
-  let token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
-  if (token?.isNative || token === undefined) {
-    const wrappedNativeToken = chainId ? WNATIVE[chainId] : undefined
-    token = wrappedNativeToken
-  }
+  const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
   const { allowance: currentAllowance, refetch } = useTokenAllowance(token, account ?? undefined, spender)
   const pendingApproval = useHasPendingApproval(token?.address, spender)
   const [pending, setPending] = useState<boolean>(pendingApproval)
@@ -69,7 +62,7 @@ export function useApproveCallback(
   // check the current approval status
   const approvalState: ApprovalState = useMemo(() => {
     if (!amountToApprove || !spender) return ApprovalState.UNKNOWN
-    // if (amountToApprove.currency?.isNative) return ApprovalState.APPROVED
+    if (amountToApprove.currency?.isNative) return ApprovalState.APPROVED
     // we might not have enough data to know whether or not we need to approve
     if (!currentAllowance) return ApprovalState.UNKNOWN
 
@@ -123,7 +116,7 @@ export function useApproveCallback(
 
       const estimatedGas = await tokenContract.estimateGas
         .approve(
-          [spender as Address, MaxUint128], // TODO: Fix viem
+          [spender as Address, MaxUint256], // TODO: Fix viem
           // @ts-ignore
           {
             account: tokenContract.account,
@@ -134,8 +127,7 @@ export function useApproveCallback(
           useExact = true
           return tokenContract.estimateGas
             .approve(
-              [spender as Address, MaxUint128],
-              // [spender as Address, overrideAmountApprove ?? amountToApprove?.quotient ?? targetAmount ?? MaxUint256],
+              [spender as Address, overrideAmountApprove ?? amountToApprove?.quotient ?? targetAmount ?? MaxUint256],
               // @ts-ignore
               {
                 account: tokenContract.account,
@@ -150,9 +142,8 @@ export function useApproveCallback(
         })
 
       if (!estimatedGas) return undefined
-      const finalAmount = MaxUint128
-      // const finalAmount =
-      //   overrideAmountApprove ?? (useExact ? amountToApprove?.quotient ?? targetAmount ?? MaxUint256 : MaxUint256)
+      const finalAmount =
+        overrideAmountApprove ?? (useExact ? amountToApprove?.quotient ?? targetAmount ?? MaxUint256 : MaxUint256)
       return callWithGasPrice(tokenContract, 'approve' as const, [spender as Address, finalAmount], {
         gas: calculateGasMargin(estimatedGas),
       })
