@@ -29,7 +29,7 @@ const Notifications = () => {
   const { t } = useTranslation()
 
   const isW3iInitialized = useInitWeb3InboxClient({
-    projectId: 'e542ff314e26ff34de2d4fba98db70bb',
+    projectId: 'c116518a92af1ff33980a8ced8d60ce6',
     domain: APP_DOMAIN,
   })
 

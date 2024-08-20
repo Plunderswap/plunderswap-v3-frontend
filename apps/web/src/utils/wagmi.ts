@@ -35,7 +35,7 @@ export const walletConnectConnector = new WalletConnectConnector({
     // ignore the error in test environment
     // Error: To use QR modal, please install @walletconnect/modal package
     showQrModal: process.env.NODE_ENV !== 'test',
-    projectId: '39d2eb6a6e536fb139160697cb32f9a5',
+    projectId: 'c116518a92af1ff33980a8ced8d60ce6',
   },
 })
 
@@ -43,7 +43,7 @@ export const walletConnectNoQrCodeConnector = new WalletConnectConnector({
   chains,
   options: {
     showQrModal: false,
-    projectId: '39d2eb6a6e536fb139160697cb32f9a5',
+    projectId: 'c116518a92af1ff33980a8ced8d60ce6',
   },
 })
 
