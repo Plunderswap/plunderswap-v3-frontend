@@ -242,6 +242,14 @@ export const WETH9 = {
     'Zilliqa-bridged Ethereum',
     'https://weth.io'
   ),
+  [ChainId.ZQ2_TESTNET]: new ERC20Token(
+    ChainId.ZQ2_TESTNET,
+    '0x17D5af5658A24bd964984b36d28e879a8626adC3',
+    18,
+    'zETH',
+    'Zilliqa-bridged Ethereum',
+    'https://weth.io'
+  ),
 }
 
 export const WBNB = {
