@@ -26,6 +26,7 @@ import {
   zilliqaTokens,
   zkSyncTestnetTokens,
   zksyncTokens,
+  zq2TestnetTokens,
 } from '@pancakeswap/tokens'
 
 import { ChainMap, ChainTokenList } from '../types'
@@ -53,6 +54,7 @@ export const SMART_ROUTER_ADDRESSES = {
   [ChainId.BASE_SEPOLIA]: '0x678Aa4bF4E210cf2166753e054d5b7c31cc7fa86',
   [ChainId.ZILLIQA]: '0xe30161F32A019d876F082d9FF13ed451a03A2086',
   [ChainId.ZILLIQA_TESTNET]: '0xcd205474f63234d0fF1efE65da4438167f6Fb2c1',
+  [ChainId.ZQ2_TESTNET]: '0x68b9D6cAd4a3117151c284244e90F2F4A2D4F3c7',
 } as const satisfies Record<ChainId, string>
 
 export const V2_ROUTER_ADDRESS: ChainMap<string> = {
@@ -78,6 +80,7 @@ export const V2_ROUTER_ADDRESS: ChainMap<string> = {
   [ChainId.BASE_SEPOLIA]: '0x8cFe327CEc66d1C090Dd72bd0FF11d690C33a2Eb',
   [ChainId.ZILLIQA]: '0x33C6a20D2a605da9Fd1F506ddEd449355f0564fe',
   [ChainId.ZILLIQA_TESTNET]: '0x144e7AEee22F388350E9EAEFBb626A021fcd0250',
+  [ChainId.ZQ2_TESTNET]: '0x7Cd8Dfa81e8940470dc1e9E44BD8a611EE9A13De',
 }
 
 export const STABLE_SWAP_INFO_ADDRESS: ChainMap<string> = {
@@ -103,6 +106,7 @@ export const STABLE_SWAP_INFO_ADDRESS: ChainMap<string> = {
   [ChainId.BASE_SEPOLIA]: '',
   [ChainId.ZILLIQA]: '',
   [ChainId.ZILLIQA_TESTNET]: '',
+  [ChainId.ZQ2_TESTNET]: '',
 }
 
 // used to construct intermediary pairs for trading
@@ -137,6 +141,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
   [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc],
   [ChainId.ZILLIQA]: [zilliqaTokens.wzil, zilliqaTokens.usdt],
+  [ChainId.ZQ2_TESTNET]: [zq2TestnetTokens.wzil, zq2TestnetTokens.usdc, zq2TestnetTokens.loot],
 }
 
 const czusd = new ERC20Token(ChainId.BSC, '0xE68b79e51bf826534Ff37AA9CeE71a3842ee9c70', 18, 'CZUSD', 'CZUSD')

@@ -45,6 +45,7 @@ export function getV3Subgraphs({ noderealApiKey }: SubgraphParams) {
     [ChainId.BASE_SEPOLIA]: null,
     [ChainId.ZILLIQA]: null,
     [ChainId.ZILLIQA_TESTNET]: null,
+    [ChainId.ZQ2_TESTNET]: null,
   } satisfies Record<ChainId, string | null>
 }
 

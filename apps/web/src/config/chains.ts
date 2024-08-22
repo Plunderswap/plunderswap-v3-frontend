@@ -31,6 +31,34 @@ export const zilliqaTestnet = defineChain({
   testnet: true,
 })
 
+export const zq2Testnet = defineChain({
+  id: 33103,
+  name: 'Zilliqa 2 Testnet',
+  network: 'zq2Testnet',
+  nativeCurrency: { name: 'Zilliqa', symbol: 'ZIL', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://api.zq2-prototestnet.zilliqa.com'],
+    },
+    public: {
+      http: ['https://api.zq2-prototestnet.zilliqa.com'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Otterscan',
+      url: 'https://explorer.zq2-prototestnet.zilliqa.com',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0x4CDFb85cf4Be496Eb8b4822c5666A74a720A7613',
+      blockCreated: 88772,
+    },
+  },
+  testnet: true,
+})
+
 export const zilliqa = defineChain({
   id: 32769,
   name: 'Zilliqa',
@@ -108,4 +136,4 @@ export const L2_CHAIN_IDS: ChainId[] = [
   // ChainId.BASE_SEPOLIA,
 ]
 
-export const CHAINS = [zilliqa, zilliqaTestnet]
+export const CHAINS = [zilliqa, zilliqaTestnet, zq2Testnet]

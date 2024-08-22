@@ -21,6 +21,7 @@ import { sepoliaTokens } from './constants/sepolia'
 import { zilliqaTestnetTokens } from './constants/zilliqaTestnet'
 import { zksyncTokens } from './constants/zkSync'
 import { zkSyncTestnetTokens } from './constants/zkSyncTestnet'
+import { zq2TestnetTokens } from './constants/zq2Testnet'
 
 export const allTokens = {
   [ChainId.GOERLI]: goerliTestnetTokens,
@@ -45,4 +46,5 @@ export const allTokens = {
   [ChainId.BASE_SEPOLIA]: baseSepoliaTokens,
   [ChainId.ZILLIQA]: [],
   [ChainId.ZILLIQA_TESTNET]: zilliqaTestnetTokens,
+  [ChainId.ZQ2_TESTNET]: zq2TestnetTokens,
 }

@@ -35,6 +35,7 @@ const PERMIT2_ADDRESSES: Record<ChainId, Address> = {
 
   [ChainId.ZILLIQA]: '0x31c2F6fcFf4F8759b3Bd5Bf0e1084A055615c768',
   [ChainId.ZILLIQA_TESTNET]: '0x31c2F6fcFf4F8759b3Bd5Bf0e1084A055615c768',
+  [ChainId.ZQ2_TESTNET]: '0x31c2F6fcFf4F8759b3Bd5Bf0e1084A055615c768',
 }
 
 export const getPermit2Address = (chainId: ChainId | undefined): Address => {

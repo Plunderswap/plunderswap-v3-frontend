@@ -33,6 +33,7 @@ export const FACTORY_ADDRESS_MAP = {
   [ChainId.BASE_SEPOLIA]: '0x02a84c1b3BBD7401a5f7fa98a384EBC70bB5749E',
   [ChainId.ZILLIQA]: '0xf42d1058f233329185A36B04B7f96105afa1adD2',
   [ChainId.ZILLIQA_TESTNET]: '0xd0156eFCA4D847E4c4aD3F9ECa7FA697bb105cC0',
+  [ChainId.ZQ2_TESTNET]: '0xF96FD6944a4E561F97f57A8a82f770DE65E3C43b',
 } as const satisfies Record<ChainId, Address>
 
 export const INIT_CODE_HASH = '0x00fb7f630766e6a796048ea87d01acd3068e8ff67d078148a3fa3f4a84f69bd5'
@@ -61,6 +62,7 @@ export const INIT_CODE_HASH_MAP = {
   [ChainId.BASE_SEPOLIA]: INIT_CODE_HASH_ETH,
   [ChainId.ZILLIQA]: '0xe430f659afa40ede00151df237b294363f96de0408658f7c62089d10d64178cd',
   [ChainId.ZILLIQA_TESTNET]: '0xe430f659afa40ede00151df237b294363f96de0408658f7c62089d10d64178cd',
+  [ChainId.ZQ2_TESTNET]: '0xe430f659afa40ede00151df237b294363f96de0408658f7c62089d10d64178cd',
 } as const satisfies Record<ChainId, Hash>
 
 export const WETH9 = {
@@ -302,6 +304,14 @@ export const WZIL = {
     'Wrapped ZIL',
     'https://www.zilliqa.com'
   ),
+  [ChainId.ZQ2_TESTNET]: new ERC20Token(
+    ChainId.ZQ2_TESTNET,
+    '0x78EEA00b588B94F21FDCbB0B88d2f923d2Ea77Fc',
+    18,
+    'WZIL',
+    'Wrapped ZIL',
+    'https://www.zilliqa.com'
+  ),
 }
 
 export const WNATIVE = {
@@ -327,6 +337,7 @@ export const WNATIVE = {
   [ChainId.BASE_SEPOLIA]: WETH9[ChainId.BASE_SEPOLIA],
   [ChainId.ZILLIQA]: WZIL[ChainId.ZILLIQA],
   [ChainId.ZILLIQA_TESTNET]: WZIL[ChainId.ZILLIQA_TESTNET],
+  [ChainId.ZQ2_TESTNET]: WZIL[ChainId.ZQ2_TESTNET],
 } satisfies Record<ChainId, ERC20Token>
 
 const ETHER = { name: 'Ether', symbol: 'ETH', decimals: 18 } as const
@@ -388,6 +399,11 @@ export const NATIVE = {
   },
   [ChainId.ZILLIQA_TESTNET]: {
     name: 'Zilliqa Testnet',
+    symbol: 'ZIL',
+    decimals: 18,
+  },
+  [ChainId.ZQ2_TESTNET]: {
+    name: 'Zilliqa 2 Testnet',
     symbol: 'ZIL',
     decimals: 18,
   },

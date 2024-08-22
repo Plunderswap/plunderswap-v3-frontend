@@ -46,6 +46,14 @@ export const USDC_ZIL_TESTNET = new ERC20Token(
   'https://www.centre.io/usdc',
 )
 
+export const USDC_ZQ2_TESTNET = new ERC20Token(
+  ChainId.ZQ2_TESTNET,
+  '0xB3adD2b12F012EdE60aCCEF078f262d2DaC3Ebf1',
+  18,
+  'USDC',
+  'Zilliqa-peg USD Coin',
+)
+
 export const USDC_ETH = new ERC20Token(
   ChainId.ETHEREUM,
   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
@@ -260,6 +268,7 @@ export const USDC = {
   [ChainId.BSC]: USDC_BSC,
   [ChainId.BSC_TESTNET]: USDC_TESTNET,
   [ChainId.ZILLIQA_TESTNET]: USDC_ZIL_TESTNET,
+  [ChainId.ZQ2_TESTNET]: USDC_ZQ2_TESTNET,
   [ChainId.ETHEREUM]: USDC_ETH,
   [ChainId.GOERLI]: USDC_GOERLI,
   [ChainId.ZKSYNC]: new ERC20Token(ChainId.ZKSYNC, '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4', 6, 'USDC', 'USD Coin'),
@@ -424,4 +433,5 @@ export const STABLE_COIN = {
   [ChainId.BASE_SEPOLIA]: USDC[ChainId.BASE_SEPOLIA],
   [ChainId.ZILLIQA]: USDT[ChainId.ZILLIQA],
   [ChainId.ZILLIQA_TESTNET]: USDC[ChainId.ZILLIQA_TESTNET],
+  [ChainId.ZQ2_TESTNET]: USDC[ChainId.ZQ2_TESTNET],
 } satisfies Record<ChainId, ERC20Token>
