@@ -23,6 +23,7 @@ import {
   zilliqaTestnetTokens,
   zkSyncTestnetTokens,
   zksyncTokens,
+  zq2TestnetTokens,
 } from '@pancakeswap/tokens'
 import { ChainTokenList } from './types'
 
@@ -56,6 +57,7 @@ export const CHAIN_REFRESH_TIME = {
   [ChainId.ARBITRUM_SEPOLIA]: 6_000,
   [ChainId.ZILLIQA]: 30_000,
   [ChainId.ZILLIQA_TESTNET]: 25_000,
+  [ChainId.ZQ2_TESTNET]: 2_000,
 } as const satisfies Record<ChainId, number>
 
 // used for display in the default list when adding liquidity
@@ -87,6 +89,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
   [ChainId.ZILLIQA]: [USDT[ChainId.ZILLIQA]],
   [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.usdc],
+  [ChainId.ZQ2_TESTNET]: [zq2TestnetTokens.usdc],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -113,6 +116,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
   [ChainId.ZILLIQA]: [WNATIVE[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA]],
   [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc],
+  [ChainId.ZQ2_TESTNET]: [zq2TestnetTokens.wzil, zq2TestnetTokens.usdc],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
@@ -143,6 +147,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.SCROLL_SEPOLIA]: [[scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth]],
   [ChainId.ZILLIQA]: [[WNATIVE[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA]]],
   [ChainId.ZILLIQA_TESTNET]: [[zilliqaTestnetTokens.usdc, zilliqaTestnetTokens.wzil]],
+  [ChainId.ZQ2_TESTNET]: [[zq2TestnetTokens.usdc, zq2TestnetTokens.wzil]],
 }
 
 export const BIG_INT_ZERO = 0n
