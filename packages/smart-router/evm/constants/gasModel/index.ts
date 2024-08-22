@@ -22,6 +22,7 @@ import {
   zilliqaTokens,
   zkSyncTestnetTokens,
   zksyncTokens,
+  zq2TestnetTokens,
 } from '@pancakeswap/tokens'
 
 export const usdGasTokensByChain = {
@@ -47,6 +48,7 @@ export const usdGasTokensByChain = {
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc],
   [ChainId.ZILLIQA]: [zilliqaTokens.usdt],
   [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.usdc],
+  [ChainId.ZQ2_TESTNET]: [zq2TestnetTokens.usdc],
 } satisfies Record<ChainId, Token[]>
 
 export * from './stableSwap'

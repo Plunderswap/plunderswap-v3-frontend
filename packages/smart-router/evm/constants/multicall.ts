@@ -73,4 +73,5 @@ export const BATCH_MULTICALL_CONFIGS: ChainMap<BatchMulticallConfigs> = {
   [ChainId.BASE_SEPOLIA]: DEFAULT,
   [ChainId.ZILLIQA]: DEFAULT,
   [ChainId.ZILLIQA_TESTNET]: DEFAULT,
+  [ChainId.ZQ2_TESTNET]: DEFAULT,
 }
