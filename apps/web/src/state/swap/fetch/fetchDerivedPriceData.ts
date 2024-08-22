@@ -69,6 +69,7 @@ const SWAP_INFO_BY_CHAIN = {
   [ChainId.BASE_SEPOLIA]: {},
   [ChainId.ZILLIQA]: {},
   [ChainId.ZILLIQA_TESTNET]: {},
+  [ChainId.ZQ2_TESTNET]: {},
 } satisfies Record<ChainId, Partial<ProtocolEndpoint>>
 
 export const getTokenBestTvlProtocol = async (tokenAddress: string, chainId: ChainId): Promise<Protocol | null> => {
