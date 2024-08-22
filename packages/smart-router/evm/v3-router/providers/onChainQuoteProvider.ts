@@ -47,6 +47,7 @@ const SUCCESS_RATE_CONFIG = {
   [ChainId.BASE_SEPOLIA]: 0.1,
   [ChainId.ZILLIQA]: 0.1,
   [ChainId.ZILLIQA_TESTNET]: 0.1,
+  [ChainId.ZQ2_TESTNET]: 0.1,
 } as const satisfies Record<ChainId, number>
 
 type V3Inputs = [string, string]
