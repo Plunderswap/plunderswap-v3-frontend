@@ -11,6 +11,7 @@ const PANCAKE_LINEA_DEFAULT = 'https://tokens.pancakeswap.finance/pancakeswap-li
 const PANCAKE_BASE_DEFAULT = 'https://tokens.pancakeswap.finance/pancakeswap-base-default.json'
 const PANCAKE_OPBNB_DEFAULT = 'https://tokens.pancakeswap.finance/pancakeswap-opbnb-default.json'
 const ZILLIQA_TESTNET = 'https://dev-v3.plunderswap.com/lists/default-testnet.json'
+const ZQ2_TESTNET = 'https://zq2-test.plunderswap.com/lists/default-testnet.json'
 const ZILLIQA = 'https://plunderswap.github.io/token-lists/default-mainnet.json'
 
 export const PANCAKE_ETH_MM = 'https://tokens.pancakeswap.finance/pancakeswap-eth-mm.json'
@@ -30,6 +31,7 @@ const OP_SUPER_CHAIN_URL =
 const BASE_URLS = [PANCAKE_BASE_DEFAULT, OP_SUPER_CHAIN_URL, 'https://tokens.coingecko.com/base/all.json']
 const OPBNB_URLS = [PANCAKE_OPBNB_DEFAULT]
 const ZILLIQA_TESTNET_URLS = [ZILLIQA_TESTNET]
+const ZQ2_URLS = [ZQ2_TESTNET]
 const ZILLIQA_URLS = [ZILLIQA]
 
 // List of official tokens list
@@ -42,6 +44,7 @@ export const WARNING_LIST_URLS: string[] = []
 export const DEFAULT_LIST_OF_LISTS: string[] = [
   ...ZILLIQA_URLS,
   ...ZILLIQA_TESTNET_URLS,
+  ...ZQ2_URLS,
   // ...BSC_URLS,
   // ...ETH_URLS,
   // ...ZKSYNC_URLS,
@@ -71,6 +74,7 @@ export const DEFAULT_ACTIVE_LIST_URLS: string[] = [
   // OP_SUPER_CHAIN_URL,
   ZILLIQA,
   ZILLIQA_TESTNET,
+  ZQ2_TESTNET,
 ]
 
 export const MULTI_CHAIN_LIST_URLS: { [chainId: number]: string[] } = {
@@ -83,5 +87,6 @@ export const MULTI_CHAIN_LIST_URLS: { [chainId: number]: string[] } = {
   [ChainId.BASE]: BASE_URLS,
   [ChainId.OPBNB]: OPBNB_URLS,
   [ChainId.ZILLIQA_TESTNET]: ZILLIQA_TESTNET_URLS,
+  [ChainId.ZQ2_TESTNET]: ZQ2_URLS,
   [ChainId.ZILLIQA]: ZILLIQA_URLS,
 }
