@@ -52,7 +52,7 @@ export const zq2Testnet = defineChain({
   },
   contracts: {
     multicall3: {
-      address: '0x4CDFb85cf4Be496Eb8b4822c5666A74a720A7613',
+      address: '0x66ECd063993c16F40CA71db754D5a8E1941345F1',
       blockCreated: 88772,
     },
   },
