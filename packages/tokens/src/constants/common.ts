@@ -48,7 +48,7 @@ export const USDC_ZIL_TESTNET = new ERC20Token(
 
 export const USDC_ZQ2_TESTNET = new ERC20Token(
   ChainId.ZQ2_TESTNET,
-  '0xB3adD2b12F012EdE60aCCEF078f262d2DaC3Ebf1',
+  '0x42D7485157F49c1b2357341df1cabE9dC5415835',
   18,
   'USDC',
   'Zilliqa-peg USD Coin',
