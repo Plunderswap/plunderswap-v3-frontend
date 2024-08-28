@@ -13,7 +13,7 @@ export const zq2TestnetTokens = {
   ),
   usdc: new ERC20Token(
     ChainId.ZILLIQA_TESTNET,
-    '0xB3adD2b12F012EdE60aCCEF078f262d2DaC3Ebf1',
+    '0x42D7485157F49c1b2357341df1cabE9dC5415835',
     18,
     'USDC',
     'USD Coin',
