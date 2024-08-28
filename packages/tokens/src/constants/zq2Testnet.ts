@@ -4,7 +4,7 @@ export const zq2TestnetTokens = {
   wzil: WZIL[ChainId.ZQ2_TESTNET],
   // zil here points to the wzil contract. Wherever the currency ZIL is required, conditional checks for the symbol 'ZIL' can be used
   zil: new ERC20Token(
-    ChainId.ZILLIQA_TESTNET,
+    ChainId.ZQ2_TESTNET,
     '0x78EEA00b588B94F21FDCbB0B88d2f923d2Ea77Fc',
     18,
     'ZIL',
@@ -12,7 +12,7 @@ export const zq2TestnetTokens = {
     'https://www.zilliqa.com/',
   ),
   usdc: new ERC20Token(
-    ChainId.ZILLIQA_TESTNET,
+    ChainId.ZQ2_TESTNET,
     '0x42D7485157F49c1b2357341df1cabE9dC5415835',
     18,
     'USDC',
@@ -20,7 +20,7 @@ export const zq2TestnetTokens = {
     'https://www.centre.io/usdc',
   ),
   loot: new ERC20Token(
-    ChainId.ZILLIQA_TESTNET,
+    ChainId.ZQ2_TESTNET,
     '0x380004E23AFD141b0aBf176D7C9d0e6D1A283F4e',
     18,
     'STREAM',
