@@ -13,18 +13,18 @@ export const zq2TestnetTokens = {
   ),
   usdc: new ERC20Token(
     ChainId.ZQ2_TESTNET,
-    '0x42D7485157F49c1b2357341df1cabE9dC5415835',
+    '0x7F13801C219B2EF353cEEf9b9dF56d9aa2DB3417',
     18,
     'USDC',
     'USD Coin',
     'https://www.centre.io/usdc',
   ),
-  loot: new ERC20Token(
+  seed: new ERC20Token(
     ChainId.ZQ2_TESTNET,
-    '0x380004E23AFD141b0aBf176D7C9d0e6D1A283F4e',
+    '0x68b9D6cAd4a3117151c284244e90F2F4A2D4F3c7',
     18,
-    'STREAM',
-    'TestSTREAM',
-    'https://zilstream.com',
+    'SEED',
+    'Kalijo',
+    'https://kalijo.io',
   ),
 }

@@ -11,7 +11,7 @@ const PANCAKE_LINEA_DEFAULT = 'https://tokens.pancakeswap.finance/pancakeswap-li
 const PANCAKE_BASE_DEFAULT = 'https://tokens.pancakeswap.finance/pancakeswap-base-default.json'
 const PANCAKE_OPBNB_DEFAULT = 'https://tokens.pancakeswap.finance/pancakeswap-opbnb-default.json'
 const ZILLIQA_TESTNET = 'https://dev-v3.plunderswap.com/lists/default-testnet.json'
-const ZQ2_TESTNET = 'https://zq2-test.plunderswap.com/lists/default-testnet.json'
+const ZQ2_TESTNET = 'https://zq2-test.plunderswap.com/lists/default-zq2-testnet.json'
 const ZILLIQA = 'https://plunderswap.github.io/token-lists/default-mainnet.json'
 
 export const PANCAKE_ETH_MM = 'https://tokens.pancakeswap.finance/pancakeswap-eth-mm.json'
