@@ -48,7 +48,7 @@ export const INFO_CLIENT_WITH_CHAIN = V2_SUBGRAPHS
 
 export const BLOCKS_CLIENT_WITH_CHAIN = BLOCKS_SUBGRAPHS
 
-export const ASSET_CDN = 'https://dev-v3.plunderswap.com'
+export const ASSET_CDN = 'https://zq2-test.plunderswap.com'
 
 export const V3_SUBGRAPH_URLS = V3_SUBGRAPHS
 
