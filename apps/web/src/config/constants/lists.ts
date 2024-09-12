@@ -35,7 +35,7 @@ const ZQ2_URLS = [ZQ2_TESTNET]
 const ZILLIQA_URLS = [ZILLIQA]
 
 // List of official tokens list
-export const OFFICIAL_LISTS = [ZILLIQA, ZILLIQA_TESTNET]
+export const OFFICIAL_LISTS = [ZILLIQA, ZILLIQA_TESTNET, ZQ2_TESTNET]
 
 export const UNSUPPORTED_LIST_URLS: string[] = []
 export const WARNING_LIST_URLS: string[] = []
