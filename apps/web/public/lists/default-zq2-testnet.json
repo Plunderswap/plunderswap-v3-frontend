@@ -14,7 +14,7 @@
       "symbol": "USDC",
       "address": "0x7F13801C219B2EF353cEEf9b9dF56d9aa2DB3417",
       "chainId": 33103,
-      "decimals": 18,
+      "decimals": 6,
       "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png"
     },
     {
