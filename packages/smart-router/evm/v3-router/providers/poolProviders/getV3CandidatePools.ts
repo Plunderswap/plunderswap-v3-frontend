@@ -59,6 +59,9 @@ export const v3PoolsOnChainProviderFactory = <P extends GetV3PoolsParams = GetV3
       tvlReferenceProvider(params),
     ])
 
+    console.log('fromOnChain', fromOnChain)
+    console.log('tvlReference', tvlReference)
+
     if (fromOnChain.status === 'fulfilled' && tvlReference.status === 'fulfilled') {
       const { value: poolsFromOnChain } = fromOnChain
       const { value: poolTvlReferences } = tvlReference
