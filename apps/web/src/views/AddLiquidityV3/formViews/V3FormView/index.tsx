@@ -56,6 +56,7 @@ import { useSendTransaction, useWalletClient } from 'wagmi'
 
 import { useGasPrice } from 'state/user/hooks'
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
+import { getViemClients } from 'utils/viem'
 import { useDensityChartData } from 'views/AddLiquidityV3/hooks/useDensityChartData'
 import LockedDeposit from './components/LockedDeposit'
 import { PositionPreview } from './components/PositionPreview'
@@ -279,48 +280,42 @@ export default function V3FormView({
         value: hexToBigInt(value),
         account,
       }
-      // getViemClients({ chainId })
-      //   ?.estimateGas(txn)
-      //   .then((gas) => {
-      //     sendTransactionAsync({
-      //       ...txn,
-      //       gas: calculateGasMargin(gas),
-      //     })
-      // disable above from getViem to 289 and line 324 reenable below to use hardcoded gas
-      sendTransactionAsync({
-        ...txn,
-        gas: calculateGasMargin(BigInt(2000000)),
-        gasPrice,
-      })
-        .then((response) => {
-          const baseAmount = formatRawAmount(
-            parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
-            baseCurrency.decimals,
-            4,
-          )
-          const quoteAmount = formatRawAmount(
-            parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
-            quoteCurrency.decimals,
-            4,
-          )
-
-          setAttemptingTxn(false)
-          addTransaction(response, {
-            type: 'add-liquidity-v3',
-            summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
+      getViemClients({ chainId })
+        ?.estimateGas(txn)
+        .then((gas) => {
+          sendTransactionAsync({
+            ...txn,
+            gas: calculateGasMargin(gas),
           })
-          setTxHash(response.hash)
-          onAddLiquidityCallback(response.hash)
+            .then((response) => {
+              const baseAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
+                baseCurrency.decimals,
+                4,
+              )
+              const quoteAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
+                quoteCurrency.decimals,
+                4,
+              )
+
+              setAttemptingTxn(false)
+              addTransaction(response, {
+                type: 'add-liquidity-v3',
+                summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
+              })
+              setTxHash(response.hash)
+              onAddLiquidityCallback(response.hash)
+            })
+            .catch((error) => {
+              console.error('Failed to send transaction', error)
+              // we only care if the error is something _other_ than the user rejected the tx
+              if (!isUserRejected(error)) {
+                setTxnErrorMessage(transactionErrorToUserReadableMessage(error, t))
+              }
+              setAttemptingTxn(false)
+            })
         })
-        .catch((error) => {
-          console.error('Failed to send transaction', error)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (!isUserRejected(error)) {
-            setTxnErrorMessage(transactionErrorToUserReadableMessage(error, t))
-          }
-          setAttemptingTxn(false)
-        })
-      // })
     }
   }, [
     account,
