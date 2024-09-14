@@ -33,7 +33,7 @@ export const zilliqaTestnet = defineChain({
 
 export const zq2Testnet = defineChain({
   id: 33103,
-  name: 'Zilliqa 2 Testnet',
+  name: 'Zilliqa 2.0 - Jasper proto-testnet',
   network: 'zq2Testnet',
   nativeCurrency: { name: 'Zilliqa', symbol: 'ZIL', decimals: 18 },
   rpcUrls: {
@@ -136,4 +136,4 @@ export const L2_CHAIN_IDS: ChainId[] = [
   // ChainId.BASE_SEPOLIA,
 ]
 
-export const CHAINS = [zilliqa, zilliqaTestnet, zq2Testnet]
+export const CHAINS = [zq2Testnet]
