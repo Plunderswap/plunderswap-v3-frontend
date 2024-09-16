@@ -78,10 +78,10 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
     },
   )
   const { chain } = useNetwork()
-  const localChainId = useLocalNetworkChain() || ChainId.ZILLIQA
+  const localChainId = useLocalNetworkChain() || ChainId.ZQ2_TESTNET
   const [, setSessionChainId] = useSessionChainId()
 
-  const localChainName = chains.find((c) => c.id === localChainId)?.name ?? 'Zilliqa'
+  const localChainName = chains.find((c) => c.id === localChainId)?.name ?? 'Zilliqa 2.0 - Jasper proto-testnet'
 
   const [ref1, isHover] = useHover<HTMLButtonElement>()
 
