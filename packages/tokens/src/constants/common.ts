@@ -89,6 +89,24 @@ export const USDT_ZIL = new ERC20Token(
   'https://tether.to/',
 )
 
+export const KUSD_ZIL = new ERC20Token(
+  ChainId.ZILLIQA,
+  '0xE9df5b4b1134A3aadf693Db999786699B016239e',
+  6,
+  'kUSD',
+  'Kaliljo USD',
+  'https://kalijo.io/',
+)
+
+export const KUSD_ZIL_TESTNET = new ERC20Token(
+  ChainId.ZILLIQA_TESTNET,
+  '0xaD581eC62eA08831c8FE2Cd7A1113473fE40A057',
+  6,
+  'kUSD',
+  'Kaliljo USD',
+  'https://kalijo.io/',
+)
+
 export const BUSD_BSC = new ERC20Token(
   ChainId.BSC,
   '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
