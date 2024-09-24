@@ -19,4 +19,12 @@ export const zilliqaTokens = {
     'Zilliqa-bridged USDT',
     'https://tether.to/',
   ),
+  kusd: new ERC20Token(
+    ChainId.ZILLIQA,
+    '0xE9df5b4b1134A3aadf693Db999786699B016239e',
+    18,
+    'kUSD',
+    'Kalijo USD',
+    'https://kalijo.io/',
+  ),
 }

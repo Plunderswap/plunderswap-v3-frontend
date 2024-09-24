@@ -21,6 +21,7 @@ import {
   polygonZkEvmTokens,
   scrollSepoliaTokens,
   zilliqaTestnetTokens,
+  zilliqaTokens,
   zkSyncTestnetTokens,
   zksyncTokens,
 } from '@pancakeswap/tokens'
@@ -85,8 +86,8 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.SEPOLIA]: [scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
-  [ChainId.ZILLIQA]: [USDT[ChainId.ZILLIQA]],
-  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.usdc],
+  [ChainId.ZILLIQA]: [USDT[ChainId.ZILLIQA], zilliqaTokens.kusd],
+  [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.usdc, zilliqaTestnetTokens.kusd],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend

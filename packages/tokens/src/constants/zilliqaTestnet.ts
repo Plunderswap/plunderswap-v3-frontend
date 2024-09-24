@@ -19,6 +19,14 @@ export const zilliqaTestnetTokens = {
     'USD Coin',
     'https://www.centre.io/usdc',
   ),
+  kusd: new ERC20Token(
+    ChainId.ZILLIQA_TESTNET,
+    '0xaD581eC62eA08831c8FE2Cd7A1113473fE40A057',
+    18,
+    'kUSD',
+    'Kalijo USD',
+    'https://kalijo.io/',
+  ),
   stream: new ERC20Token(
     ChainId.ZILLIQA_TESTNET,
     '0x51b9F3DDB948Bcc16b89B48d83b920bc01dbed55',
