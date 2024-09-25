@@ -22,7 +22,7 @@ export const zilliqaTestnetTokens = {
   kusd: new ERC20Token(
     ChainId.ZILLIQA_TESTNET,
     '0xaD581eC62eA08831c8FE2Cd7A1113473fE40A057',
-    18,
+    6,
     'kUSD',
     'Kalijo USD',
     'https://kalijo.io/',
