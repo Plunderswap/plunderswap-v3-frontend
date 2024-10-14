@@ -6,6 +6,7 @@ import {
   Button,
   DynamicSection,
   Flex,
+  InfoIcon,
   Message,
   MessageText,
   PreTitle,
@@ -702,50 +703,62 @@ export default function V3FormView({
                 </Box>
               </Message>
             ) : (
-              <Flex justifyContent="space-between" width="100%" style={{ gap: '8px' }}>
-                {feeAmount &&
-                  QUICK_ACTION_CONFIGS[feeAmount] &&
-                  Object.entries<ZoomLevels>(QUICK_ACTION_CONFIGS[feeAmount])
-                    ?.sort(([a], [b]) => +a - +b)
-                    .map(([quickAction, zoomLevel]) => {
-                      return (
-                        <Button
-                          width="100%"
-                          key={`quickActions${quickAction}`}
-                          onClick={() => {
-                            if (+quickAction === activeQuickAction) {
-                              handleRefresh(ZOOM_LEVELS[feeAmount])
-                              return
-                            }
-                            handleRefresh(zoomLevel)
+              <>
+                <Flex justifyContent="space-between" width="100%" style={{ gap: '8px' }}>
+                  {feeAmount &&
+                    QUICK_ACTION_CONFIGS[feeAmount] &&
+                    Object.entries<ZoomLevels>(QUICK_ACTION_CONFIGS[feeAmount])
+                      ?.sort(([a], [b]) => +a - +b)
+                      .map(([quickAction, zoomLevel]) => {
+                        return (
+                          <Button
+                            width="100%"
+                            key={`quickActions${quickAction}`}
+                            onClick={() => {
+                              if (+quickAction === activeQuickAction) {
+                                handleRefresh(ZOOM_LEVELS[feeAmount])
+                                return
+                              }
+                              handleRefresh(zoomLevel)
 
-                            setActiveQuickAction(+quickAction)
-                            isQuickButtonUsed.current = true
-                          }}
-                          variant={+quickAction === activeQuickAction ? 'primary' : 'secondary'}
-                          scale="sm"
-                        >
-                          {quickAction}%
-                        </Button>
-                      )
-                    })}
-                <Button
-                  width="200%"
-                  onClick={() => {
-                    if (activeQuickAction === 100) {
-                      handleRefresh()
-                      return
-                    }
-                    setShowCapitalEfficiencyWarning(true)
-                    setActiveQuickAction(100)
-                    isQuickButtonUsed.current = true
-                  }}
-                  variant={activeQuickAction === 100 ? 'primary' : 'secondary'}
-                  scale="sm"
-                >
-                  {t('Full Range')}
-                </Button>
-              </Flex>
+                              setActiveQuickAction(+quickAction)
+                              isQuickButtonUsed.current = true
+                            }}
+                            variant={+quickAction === activeQuickAction ? 'primary' : 'secondary'}
+                            scale="sm"
+                          >
+                            {quickAction}%
+                          </Button>
+                        )
+                      })}
+                  <Button
+                    width="200%"
+                    onClick={() => {
+                      if (activeQuickAction === 100) {
+                        handleRefresh()
+                        return
+                      }
+                      setShowCapitalEfficiencyWarning(true)
+                      setActiveQuickAction(100)
+                      isQuickButtonUsed.current = true
+                    }}
+                    variant={activeQuickAction === 100 ? 'primary' : 'secondary'}
+                    scale="sm"
+                  >
+                    {t('Full Range')}
+                  </Button>
+                </Flex>
+                <Message variant="warning" mt="16px">
+                  <Flex alignItems="center">
+                    <InfoIcon color="warning" width="20px" mr="8px" />
+                    <Text fontSize="14px">
+                      {t(
+                        'Please review the price range carefully and use the "view prices in" toggle to ensure the price is correct before adding liquidity.',
+                      )}
+                    </Text>
+                  </Flex>
+                </Message>
+              </>
             )}
 
             {outOfRange ? (
