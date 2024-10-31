@@ -50,7 +50,7 @@ async function getBestRoutes(
   const {
     maxHops = 3,
     maxSplits = 4,
-    distributionPercent = 5,
+    distributionPercent: configuredDistributionPercent = 5,
     poolProvider,
     quoteProvider,
     blockNumber,
@@ -64,6 +64,7 @@ async function getBestRoutes(
     ...routeConfig,
     ...(ROUTE_CONFIG_BY_CHAIN[chainId as ChainId] || {}),
   }
+
   const isExactIn = tradeType === TradeType.EXACT_INPUT
   const inputCurrency = isExactIn ? amount.currency : currency
   const outputCurrency = isExactIn ? currency : amount.currency
@@ -77,6 +78,20 @@ async function getBestRoutes(
   })
 
   let baseRoutes = computeAllRoutes(inputCurrency, outputCurrency, candidatePools, maxHops)
+
+  // Check if we have a direct route (single hop)
+  const hasDirectRoute = baseRoutes.some((route) => route.pools.length === 1)
+
+  // Use 100% distribution for direct routes, configured percent otherwise
+  const distributionPercent = hasDirectRoute ? 100 : configuredDistributionPercent
+
+  logger.log('Route distribution:', {
+    hasDirectRoute,
+    distributionPercent,
+    routeCount: baseRoutes.length,
+    directRoutes: baseRoutes.filter((r) => r.pools.length === 1).length,
+  })
+
   // Do not support mix route on exact output
   if (tradeType === TradeType.EXACT_OUTPUT) {
     baseRoutes = baseRoutes.filter(({ type }) => type !== RouteType.MIXED)
@@ -90,10 +105,11 @@ async function getBestRoutes(
     quoteCurrencyUsdPrice,
     nativeCurrencyUsdPrice,
   })
+
   const routesWithValidQuote = await getRoutesWithValidQuote({
     amount,
     baseRoutes,
-    distributionPercent,
+    distributionPercent, // Now using the adjusted distribution percent
     quoteProvider,
     tradeType,
     blockNumber,
@@ -101,5 +117,6 @@ async function getBestRoutes(
     quoterOptimization,
     signal,
   })
+
   return getBestRouteCombinationByQuotes(amount, currency, routesWithValidQuote, tradeType, { maxSplits })
 }
