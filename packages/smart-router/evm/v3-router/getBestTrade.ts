@@ -50,7 +50,7 @@ async function getBestRoutes(
   const {
     maxHops = 3,
     maxSplits = 4,
-    distributionPercent = 5,
+    distributionPercent: configuredDistributionPercent = 5,
     poolProvider,
     quoteProvider,
     blockNumber,
@@ -64,6 +64,7 @@ async function getBestRoutes(
     ...routeConfig,
     ...(ROUTE_CONFIG_BY_CHAIN[chainId as ChainId] || {}),
   }
+
   const isExactIn = tradeType === TradeType.EXACT_INPUT
   const inputCurrency = isExactIn ? amount.currency : currency
   const outputCurrency = isExactIn ? currency : amount.currency
@@ -77,6 +78,22 @@ async function getBestRoutes(
   })
 
   let baseRoutes = computeAllRoutes(inputCurrency, outputCurrency, candidatePools, maxHops)
+
+  // Check if we have a direct route (single hop)
+  const hasDirectRoute = baseRoutes.some((route) => route.pools.length === 1)
+
+  // Try both distribution strategies when we have direct routes
+  const distributions = hasDirectRoute
+    ? [100, configuredDistributionPercent] // Try both full and split distributions
+    : [configuredDistributionPercent] // Only try splits for multi-hop
+
+  logger.log('Route distributions to try:', {
+    hasDirectRoute,
+    distributions,
+    routeCount: baseRoutes.length,
+    directRoutes: baseRoutes.filter((r) => r.pools.length === 1).length,
+  })
+
   // Do not support mix route on exact output
   if (tradeType === TradeType.EXACT_OUTPUT) {
     baseRoutes = baseRoutes.filter(({ type }) => type !== RouteType.MIXED)
@@ -90,16 +107,34 @@ async function getBestRoutes(
     quoteCurrencyUsdPrice,
     nativeCurrencyUsdPrice,
   })
-  const routesWithValidQuote = await getRoutesWithValidQuote({
-    amount,
-    baseRoutes,
-    distributionPercent,
-    quoteProvider,
-    tradeType,
-    blockNumber,
-    gasModel,
-    quoterOptimization,
-    signal,
+
+  // Get quotes for all distribution strategies
+  const allQuotes = await Promise.all(
+    distributions.map((dist) =>
+      getRoutesWithValidQuote({
+        amount,
+        baseRoutes,
+        distributionPercent: dist,
+        quoteProvider,
+        tradeType,
+        blockNumber,
+        gasModel,
+        quoterOptimization,
+        signal,
+      }),
+    ),
+  )
+
+  // Combine all quotes
+  const routesWithValidQuote = allQuotes.flat()
+
+  logger.log('Got quotes for all distributions:', {
+    totalQuotes: routesWithValidQuote.length,
+    byDistribution: distributions.map((dist, i) => ({
+      distribution: dist,
+      quotes: allQuotes[i].length,
+    })),
   })
+
   return getBestRouteCombinationByQuotes(amount, currency, routesWithValidQuote, tradeType, { maxSplits })
 }
