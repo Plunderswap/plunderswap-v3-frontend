@@ -345,6 +345,9 @@ importers:
       '@snapshot-labs/snapshot.js':
         specifier: ^0.4.40
         version: 0.4.110(encoding@0.1.13)
+      '@stealthex-io/widget':
+        specifier: ^1.0.1
+        version: 1.0.1
       '@tanstack/react-query':
         specifier: ^5.18.0
         version: 5.18.0(react@18.2.0)
@@ -8897,6 +8900,10 @@ packages:
       '@stablelib/keyagreement': 1.0.1
       '@stablelib/random': 1.0.2
       '@stablelib/wipe': 1.0.1
+
+  /@stealthex-io/widget@1.0.1:
+    resolution: {integrity: sha512-DJ77AaODtrW7kFhbCX+5hMsI46+ZUF6wRBfgOzZzrAWUMT8Lvm0kyGoOLi94VST/+gG2e1lDvT22k3Pj3BCr7w==}
+    dev: false
 
   /@storybook/addon-a11y@7.5.3(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Fs6BA4P0xBfsevo8H5E2IhMLLR3Q+FBRWHWAxGzhlkpNeH7ZZd87L5GrrLUmhzbCQvlHdWCVujWkwb21KX7Vsw==}
