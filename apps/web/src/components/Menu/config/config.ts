@@ -76,7 +76,7 @@ const config: (
       items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
-      label: 'StealthEX',
+      label: 'Cross-Chain Swap',
       href: '/stealthex',
       icon: SwapVertIcon,
       fillIcon: SwapVertIcon,
