@@ -6,7 +6,6 @@ import {
   EarnFillIcon,
   EarnIcon,
   MenuItemsType,
-  PencilIcon,
   PoolIcon,
   SwapFillIcon,
   SwapIcon,
@@ -279,22 +278,24 @@ const config: (
       items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
-      label: 'Stake ZIL',
+      label: 'Staking',
       href: 'https://stake.plunderswap.com',
-      icon: PencilIcon,
-      type: DropdownMenuItemType.EXTERNAL_LINK,
-      hideSubNav: true,
-      showItemsOnMobile: false,
-      items: [].map((item) => addMenuItemSupported(item, chainId)),
-    },
-    {
-      label: 'Stake SEED',
-      href: 'https://stake.kalijo.io',
       icon: CurrencyIcon,
       type: DropdownMenuItemType.EXTERNAL_LINK,
-      hideSubNav: true,
-      showItemsOnMobile: false,
-      items: [].map((item) => addMenuItemSupported(item, chainId)),
+      hideSubNav: false,
+      showItemsOnMobile: true,
+      items: [
+        {
+          label: t('Stake ZIL'),
+          href: 'https://stake.plunderswap.com',
+          type: DropdownMenuItemType.EXTERNAL_LINK,
+        },
+        {
+          label: t('Stake SEED'),
+          href: 'https://stake.kalijo.io',
+          type: DropdownMenuItemType.EXTERNAL_LINK,
+        },
+      ].map((item) => addMenuItemSupported(item, chainId)),
     },
   ].map((item) => addMenuItemSupported(item, chainId))
 
