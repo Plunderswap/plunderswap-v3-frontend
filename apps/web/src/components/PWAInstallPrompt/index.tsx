@@ -7,10 +7,17 @@ export function PWAInstallPrompt() {
   const [showPrompt, setShowPrompt] = useState(false)
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const [isIOS, setIsIOS] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // Check if device is mobile
+    const checkIsMobile = () => {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    }
+
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
     setIsIOS(isIOSDevice)
+    setIsMobile(checkIsMobile())
 
     const dismissedTimestamp = localStorage.getItem('pwaPromptDismissed')
     const isDismissed = dismissedTimestamp && Number(dismissedTimestamp) > Date.now()
@@ -22,7 +29,8 @@ export function PWAInstallPrompt() {
       setShowPrompt(true)
     }
 
-    if (!isDismissed) {
+    // Only show prompt if it's a mobile device and not dismissed
+    if (!isDismissed && checkIsMobile()) {
       console.log('PWA Debug - Device:', isIOSDevice ? 'iOS' : 'Non-iOS')
 
       const isStandalone =
@@ -36,10 +44,9 @@ export function PWAInstallPrompt() {
 
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
     } else {
-      console.log('PWA Debug - Prompt was dismissed and still within 30-day period')
+      console.log('PWA Debug - Not showing prompt: Device is desktop or prompt was dismissed')
     }
 
-    // Cleanup function
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
     }
@@ -72,7 +79,8 @@ export function PWAInstallPrompt() {
     }
   }
 
-  if (!showPrompt) return null
+  // Don't show anything if not mobile
+  if (!isMobile || !showPrompt) return null
 
   return (
     <ModalV2 isOpen onDismiss={handleDismiss}>
