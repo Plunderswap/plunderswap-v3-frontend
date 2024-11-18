@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components'
 import { PancakeTheme } from '@pancakeswap/uikit'
+import { createGlobalStyle } from 'styled-components'
 
 declare module 'styled-components' {
   /* eslint-disable @typescript-eslint/no-empty-interface */
@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${({ theme }) => theme.colors.background};
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 
     img {
       height: auto;
@@ -32,6 +33,10 @@ const GlobalStyle = createGlobalStyle`
   #portal-root {
     position: relative;
     z-index: 2;
+  }
+
+  .fixed-top {
+    padding-top: env(safe-area-inset-top);
   }
 `
 
