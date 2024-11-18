@@ -7,6 +7,7 @@ import {
   EarnIcon,
   MenuItemsType,
   PencilIcon,
+  PoolIcon,
   SwapFillIcon,
   SwapIcon,
 } from '@pancakeswap/uikit'
@@ -272,7 +273,7 @@ const config: (
     {
       label: 'Launchpad',
       href: 'https://launchpad.kalijo.io',
-      icon: PencilIcon,
+      icon: PoolIcon,
       type: DropdownMenuItemType.EXTERNAL_LINK,
       showItemsOnMobile: false,
       items: [].map((item) => addMenuItemSupported(item, chainId)),
@@ -281,6 +282,15 @@ const config: (
       label: 'Stake ZIL',
       href: 'https://stake.plunderswap.com',
       icon: PencilIcon,
+      type: DropdownMenuItemType.EXTERNAL_LINK,
+      hideSubNav: true,
+      showItemsOnMobile: false,
+      items: [].map((item) => addMenuItemSupported(item, chainId)),
+    },
+    {
+      label: 'Stake SEED',
+      href: 'https://stake.kalijo.io',
+      icon: CurrencyIcon,
       type: DropdownMenuItemType.EXTERNAL_LINK,
       hideSubNav: true,
       showItemsOnMobile: false,
