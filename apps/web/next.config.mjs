@@ -113,6 +113,11 @@ const config = {
   async redirects() {
     return [
       {
+        source: '/stealthex',
+        destination: '/crosschain',
+        permanent: true,
+      },
+      {
         source: '/send',
         destination: '/swap',
         permanent: true,
