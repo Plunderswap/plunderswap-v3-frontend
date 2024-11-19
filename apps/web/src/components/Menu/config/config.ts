@@ -69,7 +69,7 @@ const config: (
     },
     {
       label: 'Cross-Chain',
-      href: '/stealthex',
+      href: '/crosschain',
       icon: SwapVertIcon,
       fillIcon: SwapVertIcon,
       hideSubNav: true,
