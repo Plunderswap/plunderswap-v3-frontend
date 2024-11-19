@@ -15,10 +15,12 @@ import { DefaultSeo } from 'next-seo'
 import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import Script from 'next/script'
 import { Fragment } from 'react'
 import { PersistGate } from 'redux-persist/integration/react'
+import styled from 'styled-components'
 
+import { PWAInstallPrompt } from 'components/PWAInstallPrompt'
+import { UpdatePrompt } from 'components/UpdatePrompt'
 import { useInitGlobalWorker } from 'hooks/useWorker'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
@@ -35,6 +37,19 @@ BigNumber.config({
   EXPONENTIAL_AT: 1000,
   DECIMAL_PLACES: 80,
 })
+
+// Update the styled wrapper to target the nav specifically
+const StyledMenuWrapper = styled.div`
+  nav {
+    padding-top: env(safe-area-inset-top);
+    min-height: calc(48px + env(safe-area-inset-top)); /* Adjust 48px to match your nav height */
+  }
+
+  /* Target the main content to prevent it from going under the nav */
+  main {
+    margin-top: calc(-1 * env(safe-area-inset-top));
+  }
+`
 
 function GlobalHooks() {
   useInitGlobalWorker()
@@ -81,6 +96,20 @@ function MyApp(props: AppProps<{ initialReduxState: any; dehydratedState: any }>
           // eslint-disable-next-line @next/next/no-sync-scripts
           <script src="https://public.bnbstatic.com/static/js/mp-webview-sdk/webview-v1.0.0.min.js" id="mp-webview" />
         )}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="PlunderSwap" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/ios/apple-touch-icon-180x180.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/icons/ios/apple-touch-icon-167x167.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icons/ios/apple-touch-icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/icons/ios/apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/icons/ios/apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="/icons/ios/apple-touch-icon-60x60.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="build-id" content={process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || Date.now().toString()} />
       </Head>
       <DefaultSeo {...SEO} />
       <Providers store={store} dehydratedState={pageProps.dehydratedState}>
@@ -97,20 +126,9 @@ function MyApp(props: AppProps<{ initialReduxState: any; dehydratedState: any }>
           <Updaters />
           <App {...props} />
         </PersistGate>
+        <PWAInstallPrompt />
+        <UpdatePrompt />
       </Providers>
-      <Script
-        strategy="afterInteractive"
-        id="google-tag"
-        dangerouslySetInnerHTML={{
-          __html: `
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_NEW_GTAG}');
-        `,
-        }}
-      />
     </>
   )
 }
@@ -146,7 +164,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     return <Component {...pageProps} />
   }
 
-  // Use the layout defined at the page level, if available
   const Layout = Component.Layout || Fragment
   const ShowMenu = Component.mp ? Fragment : Menu
   const isShowScrollToTopButton = Component.isShowScrollToTopButton || true
@@ -155,19 +172,19 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <ProductionErrorBoundary>
-      <ShowMenu>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ShowMenu>
+      <StyledMenuWrapper>
+        <ShowMenu>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ShowMenu>
+      </StyledMenuWrapper>
       <EasterEgg iterations={2} />
       <ToastListener />
-      {/* <FixedSubgraphHealthIndicator /> */}
       <NetworkModal pageSupportedChains={Component.chains} />
       <TransactionsDetailModal />
       {isShowScrollToTopButton && <ScrollToTopButtonV2 />}
       {shouldScreenWallet && <Blocklist />}
-      {/* {isShowV4IconButton && <V4CakeIcon />} */}
     </ProductionErrorBoundary>
   )
 }

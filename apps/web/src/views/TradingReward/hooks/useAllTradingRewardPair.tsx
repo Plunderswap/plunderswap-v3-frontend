@@ -155,29 +155,31 @@ const useAllTradingRewardPair = ({ status, type }: UseAllTradingRewardPairProps)
     queryKey: ['tradingReward', 'all-activated-trading-reward-pair', status, type],
 
     queryFn: async () => {
-      try {
-        const campaignsResponse = await fetch(`${TRADING_REWARD_API}/campaign/status/${status}/type/${type}`)
-        const campaignsResult = await campaignsResponse.json()
-        const campaignIds: Array<string> = campaignsResult.data
+      // Simply return initial state instead of making API calls
+      return initialAllTradingRewardState
+      // try {
+      //   const campaignsResponse = await fetch(`${TRADING_REWARD_API}/campaign/status/${status}/type/${type}`)
+      //   const campaignsResult = await campaignsResponse.json()
+      //   const campaignIds: Array<string> = campaignsResult.data
 
-        const [campaignPairs, campaignIdsIncentive, qualification, rewardInfo] = await Promise.all([
-          fetchCampaignPairs(campaignIds, type),
-          fetchCampaignIdsIncentive(contract, campaignIds),
-          fetUserQualification(contract),
-          fetchRewardInfo(campaignIds, type),
-        ])
+      //   const [campaignPairs, campaignIdsIncentive, qualification, rewardInfo] = await Promise.all([
+      //     fetchCampaignPairs(campaignIds, type),
+      //     fetchCampaignIdsIncentive(contract, campaignIds),
+      //     fetUserQualification(contract),
+      //     fetchRewardInfo(campaignIds, type),
+      //   ])
 
-        return {
-          campaignIds,
-          campaignPairs,
-          campaignIdsIncentive,
-          qualification,
-          rewardInfo,
-        }
-      } catch (error) {
-        console.info(`Fetch All trading Reward Pair Error: ${error}`)
-        return initialAllTradingRewardState
-      }
+      //   return {
+      //     campaignIds,
+      //     campaignPairs,
+      //     campaignIdsIncentive,
+      //     qualification,
+      //     rewardInfo,
+      //   }
+      // } catch (error) {
+      //   console.info(`Fetch All trading Reward Pair Error: ${error}`)
+      //   return initialAllTradingRewardState
+      // }
     },
 
     refetchOnWindowFocus: false,

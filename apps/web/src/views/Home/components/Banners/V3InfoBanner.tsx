@@ -1,63 +1,73 @@
 import { useTranslation } from '@pancakeswap/localization'
-import { useMatchBreakpoints } from '@pancakeswap/uikit'
-import {
-  BannerActionContainer,
-  BannerContainer,
-  BannerGraphics,
-  BannerMain,
-  BannerTitle,
-  ButtonLinkAction,
-  FloatingGraphic,
-  PancakeSwapBadge,
-} from '@pancakeswap/widgets-internal'
+import { Button, useMatchBreakpoints } from '@pancakeswap/uikit'
+import { BannerContainer, BannerMain, BannerTitle, PancakeSwapBadge } from '@pancakeswap/widgets-internal'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-const floatingAsset = `/images/home/V3_Treasure_Chest_trans.png`
+const floatingAsset = `/images/home/cross-chain-exchange.png`
 
-const StyledButtonLinkAction = styled(ButtonLinkAction)`
-  height: 33px;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.secondary};
-  margin-top: 10px;
-
-  ${({ theme }) => theme.mediaQueries.sm} {
-    height: 48px;
-    border-radius: 16px;
-  }
+const StyledImage = styled.img`
+  cursor: pointer;
+  width: 388px;
+  height: 100px;
+  margin-left: 120px;
+  margin-right: 40px;
 `
 
-const whitepaperLink = 'https://docs.plunderswap.com'
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+  padding: 8px 0;
+`
+
+const StyledBannerContainer = styled(BannerContainer)`
+  padding: 12px;
+  min-height: auto;
+  height: fit-content;
+`
+
+const TextWrapper = styled.div`
+  margin-left: 8px;
+  max-width: 240px;
+`
+
+const StyledButton = styled(Button)`
+  margin-left: 20px;
+  height: 40px;
+  margin-right: 20px;
+`
 
 export const V3InfoBanner = () => {
   const { t } = useTranslation()
   const { isMobile, isTablet } = useMatchBreakpoints()
+  const router = useRouter()
 
-  const readWhitepaperAction = (
-    <StyledButtonLinkAction color="white" href={whitepaperLink} padding={['8px 12px']}>
-      {t('Read documentation')}
-    </StyledButtonLinkAction>
-  )
+  const handleClick = () => {
+    router.push('/stealthex')
+  }
 
   return (
-    <BannerContainer background="radial-gradient(112.67% 197.53% at 30.75% 3.72%, #9AEDFF 0%, #CCC2FE 76.19%, #C6A3FF 100%), linear-gradient(180deg, rgba(231, 253, 255, 0.2) 0%, rgba(242, 241, 255, 0.2) 100%)">
+    <StyledBannerContainer background="linear-gradient(111.68deg, #e5dce5 0%, #d8e6ed 100%)">
       <BannerMain
         badges={<PancakeSwapBadge />}
         title={
-          <BannerTitle variant="purple">
-            {isMobile || isTablet
-              ? t('PlunderSwap V3 is here.')
-              : t('PlunderSwap V3 is here. Concentrated liquidity, ahoy!')}
-          </BannerTitle>
+          <ContentWrapper>
+            <TextWrapper>
+              <BannerTitle variant="purple">{t('PlunderSwap now supports Cross Chain Swaps!')}</BannerTitle>
+            </TextWrapper>
+            {isMobile || isTablet ? (
+              <StyledButton onClick={handleClick} scale="sm">
+                {t('Exchange Now!')}
+              </StyledButton>
+            ) : (
+              <StyledImage src={floatingAsset} alt="Cross-chain exchange" onClick={handleClick} />
+            )}
+          </ContentWrapper>
         }
-        actions={<BannerActionContainer>{readWhitepaperAction}</BannerActionContainer>}
       />
-      <BannerGraphics>
-        <FloatingGraphic
-          src={floatingAsset}
-          width={isMobile || isTablet ? 230 : 280}
-          height={isMobile || isTablet ? 230 : 280}
-        />
-      </BannerGraphics>
-    </BannerContainer>
+    </StyledBannerContainer>
   )
 }
