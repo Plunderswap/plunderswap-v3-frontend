@@ -57,7 +57,7 @@ export function UpdatePrompt() {
         })
       })
     }
-    window.location.reload(true)
+    window.location.reload() // Removed true argument since reload() doesn't accept arguments
   }
 
   // Don't render anything in development/localhost
