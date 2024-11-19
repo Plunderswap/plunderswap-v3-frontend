@@ -35,13 +35,19 @@ export function UpdatePrompt() {
   }
 
   useEffect(() => {
-    router.events.on('routeChangeComplete', checkForUpdates)
-    checkForUpdates()
+    const checkAndUpdate = () => {
+      console.log('Route changed, checking for updates...') // Debug log
+      checkForUpdates()
+    }
+
+    router.events.on('routeChangeComplete', checkAndUpdate)
+    checkAndUpdate() // Initial check
 
     return () => {
-      router.events.off('routeChangeComplete', checkForUpdates)
+      router.events.off('routeChangeComplete', checkAndUpdate)
     }
-  }, [router.events])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleUpdate = () => {
     const metaTag = document.querySelector('meta[name="build-id"]')
