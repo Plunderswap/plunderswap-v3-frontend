@@ -68,14 +68,6 @@ const config: (
       items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
-      label: 'Launchpad',
-      href: 'https://launchpad.kalijo.io',
-      icon: PoolIcon,
-      type: DropdownMenuItemType.EXTERNAL_LINK,
-      showItemsOnMobile: false,
-      items: [].map((item) => addMenuItemSupported(item, chainId)),
-    },
-    {
       label: 'Cross-Chain',
       href: '/stealthex',
       icon: SwapVertIcon,
@@ -103,6 +95,14 @@ const config: (
           type: DropdownMenuItemType.EXTERNAL_LINK,
         },
       ].map((item) => addMenuItemSupported(item, chainId)),
+    },
+    {
+      label: 'Launchpad',
+      href: 'https://launchpad.kalijo.io',
+      icon: PoolIcon,
+      type: DropdownMenuItemType.EXTERNAL_LINK,
+      showItemsOnMobile: false,
+      items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
   ].map((item) => addMenuItemSupported(item, chainId))
 

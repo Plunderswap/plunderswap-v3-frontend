@@ -20,6 +20,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import styled from 'styled-components'
 
 import { PWAInstallPrompt } from 'components/PWAInstallPrompt'
+import { UpdatePrompt } from 'components/UpdatePrompt'
 import { useInitGlobalWorker } from 'hooks/useWorker'
 import { persistor, useStore } from 'state'
 import { usePollBlockNumber } from 'state/block/hooks'
@@ -108,6 +109,7 @@ function MyApp(props: AppProps<{ initialReduxState: any; dehydratedState: any }>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="build-id" content={process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || Date.now().toString()} />
       </Head>
       <DefaultSeo {...SEO} />
       <Providers store={store} dehydratedState={pageProps.dehydratedState}>
@@ -125,6 +127,7 @@ function MyApp(props: AppProps<{ initialReduxState: any; dehydratedState: any }>
           <App {...props} />
         </PersistGate>
         <PWAInstallPrompt />
+        <UpdatePrompt />
       </Providers>
     </>
   )
