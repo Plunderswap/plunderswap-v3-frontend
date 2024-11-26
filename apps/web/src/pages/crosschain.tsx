@@ -1,3 +1,4 @@
+import { getAddress } from '@ethersproject/address'
 import { Box, Card, ChevronDownIcon, ChevronUpIcon, CopyAddress, Flex, Text } from '@pancakeswap/uikit'
 import widget from '@stealthex-io/widget'
 import { fromBech32Address, toBech32Address } from '@zilliqa-js/crypto'
@@ -131,7 +132,8 @@ const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
     try {
       setError('')
       if (address.startsWith('zil1')) {
-        setConvertedAddress(fromBech32Address(address))
+        const hexAddress = fromBech32Address(address)
+        setConvertedAddress(getAddress(hexAddress))
       } else if (address.startsWith('0x')) {
         setConvertedAddress(toBech32Address(address))
       } else {
