@@ -1,8 +1,8 @@
 import { Box, Card, ChevronDownIcon, ChevronUpIcon, CopyAddress, Flex, Text } from '@pancakeswap/uikit'
 import widget from '@stealthex-io/widget'
 import { fromBech32Address, toBech32Address } from '@zilliqa-js/crypto'
+import { getAddress } from 'ethers/lib/utils'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import createKeccakHash from 'keccak'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -119,21 +119,6 @@ const ConverterContent = styled(Box)<{ isExpanded: boolean }>`
   padding: 0 24px 24px;
   display: ${({ isExpanded }) => (isExpanded ? 'block' : 'none')};
 `
-const toChecksumAddress = (address: string): string => {
-  const lowercaseAddress = address.toLowerCase().replace('0x', '')
-  const hash = createKeccakHash('keccak256').update(lowercaseAddress).digest('hex')
-  let ret = '0x'
-
-  for (let i = 0; i < lowercaseAddress.length; i++) {
-    if (parseInt(hash[i], 16) >= 8) {
-      ret += address[i].toUpperCase()
-    } else {
-      ret += address[i]
-    }
-  }
-
-  return ret
-}
 
 const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
   const { account } = useActiveWeb3React()
@@ -147,8 +132,18 @@ const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
     try {
       setError('')
       if (address.startsWith('zil1')) {
-        const hexAddress = fromBech32Address(address)
-        setConvertedAddress(toChecksumAddress(hexAddress))
+        // Get hex address and normalize it
+        let hexAddress = fromBech32Address(address).toLowerCase()
+
+        // Ensure proper 0x prefix
+        if (hexAddress.startsWith('0x0x')) {
+          hexAddress = `0x${hexAddress.slice(4)}`
+        } else if (!hexAddress.startsWith('0x')) {
+          hexAddress = `0x${hexAddress}`
+        }
+
+        // Apply proper checksum
+        setConvertedAddress(getAddress(hexAddress))
       } else if (address.startsWith('0x')) {
         setConvertedAddress(toBech32Address(address))
       } else {
@@ -159,7 +154,6 @@ const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
       setConvertedAddress('')
     }
   }
-
   useEffect(() => {
     // Initialize widget with the Zil1 address if available
     widget.init('2208eef9-f341-490c-9d00-31cccb95970a', {

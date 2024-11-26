@@ -423,9 +423,6 @@ importers:
       js-cookie:
         specifier: ^3.0.1
         version: 3.0.5
-      keccak:
-        specifier: ^3.0.3
-        version: 3.0.4
       lightweight-charts:
         specifier: ^4.0.1
         version: 4.1.1
