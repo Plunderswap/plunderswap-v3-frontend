@@ -1,8 +1,8 @@
-import { getAddress } from '@ethersproject/address'
 import { Box, Card, ChevronDownIcon, ChevronUpIcon, CopyAddress, Flex, Text } from '@pancakeswap/uikit'
 import widget from '@stealthex-io/widget'
 import { fromBech32Address, toBech32Address } from '@zilliqa-js/crypto'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import createKeccakHash from 'keccak'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -119,6 +119,21 @@ const ConverterContent = styled(Box)<{ isExpanded: boolean }>`
   padding: 0 24px 24px;
   display: ${({ isExpanded }) => (isExpanded ? 'block' : 'none')};
 `
+const toChecksumAddress = (address: string): string => {
+  const lowercaseAddress = address.toLowerCase().replace('0x', '')
+  const hash = createKeccakHash('keccak256').update(lowercaseAddress).digest('hex')
+  let ret = '0x'
+
+  for (let i = 0; i < lowercaseAddress.length; i++) {
+    if (parseInt(hash[i], 16) >= 8) {
+      ret += address[i].toUpperCase()
+    } else {
+      ret += address[i]
+    }
+  }
+
+  return ret
+}
 
 const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
   const { account } = useActiveWeb3React()
@@ -133,7 +148,7 @@ const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
       setError('')
       if (address.startsWith('zil1')) {
         const hexAddress = fromBech32Address(address)
-        setConvertedAddress(getAddress(hexAddress))
+        setConvertedAddress(toChecksumAddress(hexAddress))
       } else if (address.startsWith('0x')) {
         setConvertedAddress(toBech32Address(address))
       } else {

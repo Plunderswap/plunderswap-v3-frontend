@@ -38,7 +38,7 @@
     "@binance/w3w-utils": "1.1.4",
     "@binance/w3w-wagmi-connector": "1.1.4",
     "@cyberlab/cyber-app-sdk": "2.4.4",
-    "@ethersproject/address": "^5.7.0",
+    "keccak": "^3.0.3",
     "@gelatonetwork/limit-orders-lib": "^4.1.0",
     "@gnosis.pm/safe-apps-wagmi": "^1.2.0",
     "@next/bundle-analyzer": "13.0.7",
