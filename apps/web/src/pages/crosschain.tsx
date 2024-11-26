@@ -1,6 +1,7 @@
 import { Box, Card, ChevronDownIcon, ChevronUpIcon, CopyAddress, Flex, Text } from '@pancakeswap/uikit'
 import widget from '@stealthex-io/widget'
 import { fromBech32Address, toBech32Address } from '@zilliqa-js/crypto'
+import { getAddress } from 'ethers/lib/utils'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
@@ -131,7 +132,18 @@ const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
     try {
       setError('')
       if (address.startsWith('zil1')) {
-        setConvertedAddress(fromBech32Address(address))
+        // Get hex address and normalize it
+        let hexAddress = fromBech32Address(address).toLowerCase()
+
+        // Ensure proper 0x prefix
+        if (hexAddress.startsWith('0x0x')) {
+          hexAddress = `0x${hexAddress.slice(4)}`
+        } else if (!hexAddress.startsWith('0x')) {
+          hexAddress = `0x${hexAddress}`
+        }
+
+        // Apply proper checksum
+        setConvertedAddress(getAddress(hexAddress))
       } else if (address.startsWith('0x')) {
         setConvertedAddress(toBech32Address(address))
       } else {
@@ -142,7 +154,6 @@ const StealthExPage: NextPage<unknown> & { chains?: number[] } = () => {
       setConvertedAddress('')
     }
   }
-
   useEffect(() => {
     // Initialize widget with the Zil1 address if available
     widget.init('2208eef9-f341-490c-9d00-31cccb95970a', {
