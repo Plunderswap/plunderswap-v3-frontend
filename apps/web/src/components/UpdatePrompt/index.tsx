@@ -20,12 +20,19 @@ export function UpdatePrompt() {
       return
     }
 
+    // Skip for desktop
+    if (window.innerWidth >= 768) {
+      console.log('Update check skipped - desktop view')
+      return
+    }
+
     try {
       const metaTag = document.querySelector('meta[name="build-id"]')
       const currentBuildId = metaTag?.getAttribute('content')
       const storedBuildId = localStorage.getItem('buildId')
 
-      if (!storedBuildId || storedBuildId !== currentBuildId) {
+      // Only show prompt if we have a stored build ID and it differs from current
+      if (storedBuildId && storedBuildId !== currentBuildId) {
         console.log('New version detected', { stored: storedBuildId, current: currentBuildId })
         setShowPrompt(true)
       }
