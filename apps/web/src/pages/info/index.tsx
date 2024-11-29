@@ -1,11 +1,9 @@
-import { InfoPageLayout } from 'views/Info'
-import Overview from 'views/Info/Overview'
+import { PlunderswapInfo } from '../../views/PlunderswapInfo'
 
-const InfoPage = () => {
-  return <Overview />
+const PlunderswapInfoPage = () => {
+  return <PlunderswapInfo />
 }
 
-InfoPage.Layout = InfoPageLayout
-InfoPage.chains = [] // set all
+PlunderswapInfoPage.chains = []
 
-export default InfoPage
+export default PlunderswapInfoPage

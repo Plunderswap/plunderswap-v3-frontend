@@ -106,7 +106,7 @@ const config: (
     // },
     {
       label: 'Info',
-      href: '/plunderswap-info',
+      href: '/info',
       icon: InfoIcon,
       hideSubNav: true,
       showItemsOnMobile: false,

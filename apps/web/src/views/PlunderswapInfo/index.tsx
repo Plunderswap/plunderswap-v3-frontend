@@ -8,6 +8,7 @@ import LoadingState from './components/LoadingState'
 import PairRow from './components/PairRow'
 import TotalStats from './components/TotalStats'
 import { PairData, PoolData } from './types'
+import { orderPairData } from './utils'
 
 const Container = styled.div`
   width: 100%;
@@ -91,26 +92,18 @@ export const PlunderswapInfo = () => {
         return
       }
 
-      // Filter and sort pairs by TVL
+      // Filter, order, and sort pairs
       const nonZeroPairs = pairData
         .filter((pair) => Number(pair.tvlUSD) >= MINIMUM_TVL_FILTER)
+        .map(orderPairData) // Apply ordering logic
         .sort((a, b) => {
           const tvlA = Number(a.tvlUSD)
           const tvlB = Number(b.tvlUSD)
-          return tvlB - tvlA // Sort in descending order (highest TVL first)
-        })
-
-      // Filter and sort pools by TVL
-      const nonZeroPools = poolData
-        .filter((pool) => Number(pool.tvlUSD) >= MINIMUM_TVL_FILTER)
-        .sort((a, b) => {
-          const tvlA = Number(a.tvlUSD)
-          const tvlB = Number(b.tvlUSD)
-          return tvlB - tvlA // Sort in descending order (highest TVL first)
+          return tvlB - tvlA
         })
 
       setPairs(nonZeroPairs)
-      setPools(nonZeroPools)
+      setPools(poolData)
     } catch (err) {
       console.error('Error fetching data:', err)
       setError(true)

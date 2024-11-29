@@ -1,5 +1,6 @@
 import { getAddress } from 'ethers/lib/utils'
 import { getBlockExploreLink as getExplorerLink } from 'utils'
+import { PairData } from './types'
 
 export const formatNumber = (value: string | number, decimals = 2): string => {
   const num = Number(value)
@@ -114,4 +115,42 @@ export const formatNumberWithDynamicDecimals = (value: number, isPrice = false):
 
 export const formatTokenSymbol = (symbol: string): string => {
   return symbol === 'WZIL' ? 'ZIL' : symbol
+}
+
+const STABLECOINS = ['zUSDT', 'kUSD']
+const PREFERRED_SECOND_TOKEN = ['ZIL', 'WZIL']
+
+export const getOrderedPairSymbols = (symbol0: string, symbol1: string): [string, string] => {
+  const upperSymbol0 = symbol0.toUpperCase()
+  const upperSymbol1 = symbol1.toUpperCase()
+
+  // If either token is a stablecoin, make it the second token
+  if (STABLECOINS.includes(symbol1)) return [symbol0, symbol1]
+  if (STABLECOINS.includes(symbol0)) return [symbol1, symbol0]
+
+  // If no stablecoins, and one token is ZIL/WZIL, make it the second token
+  if (PREFERRED_SECOND_TOKEN.includes(upperSymbol1)) return [symbol0, symbol1]
+  if (PREFERRED_SECOND_TOKEN.includes(upperSymbol0)) return [symbol1, symbol0]
+
+  // Otherwise keep original order
+  return [symbol0, symbol1]
+}
+
+export const orderPairData = (pair: PairData): PairData => {
+  const [orderedSymbol0, orderedSymbol1] = getOrderedPairSymbols(pair.symbol0, pair.symbol1)
+
+  // If order hasn't changed, return original pair
+  if (orderedSymbol0 === pair.symbol0) return pair
+
+  // If order has changed, swap the pair data
+  return {
+    ...pair,
+    symbol0: orderedSymbol0,
+    symbol1: orderedSymbol1,
+    // Swap price data too
+    prices: {
+      price01: (1 / Number(pair.prices.price01)).toString(),
+      price10: (1 / Number(pair.prices.price10)).toString(),
+    },
+  }
 }
