@@ -5,10 +5,9 @@ import { PoolData } from '../types'
 import { formatNumber } from '../utils'
 
 const PoolContainer = styled(Flex)`
-  padding: 8px 16px;
+  padding: 8px 40px;
   background: ${({ theme }) => theme.colors.backgroundAlt};
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  margin-left: 24px;
 `
 
 const VersionBadge = styled(Text)<{ version: 'v2' | 'v3' }>`
@@ -16,13 +15,22 @@ const VersionBadge = styled(Text)<{ version: 'v2' | 'v3' }>`
   border-radius: 8px;
   font-size: 12px;
   font-weight: bold;
-  background: ${
-    ({ theme, version }) =>
-      version === 'v2'
-        ? theme.colors.warning // orange/yellow for v2
-        : theme.colors.success // green for v3
-  };
+  background: ${({ theme, version }) => (version === 'v2' ? theme.colors.warning : theme.colors.success)};
   color: white;
+`
+
+const PairContainer = styled(Flex)`
+  flex: 1.5;
+  @media screen and (max-width: 852px) {
+    flex: 2;
+  }
+`
+
+const TVLContainer = styled(Flex)`
+  flex: 1;
+  @media screen and (max-width: 852px) {
+    flex: 1.2;
+  }
 `
 
 interface PoolRowProps {
@@ -35,29 +43,25 @@ const PoolRow: React.FC<PoolRowProps> = ({ pool, isMobile }) => {
 
   return (
     <PoolContainer>
-      <Flex flex={2} alignItems="center">
+      <PairContainer alignItems="center">
         <VersionBadge version={pool.version.toLowerCase() as 'v2' | 'v3'}>{pool.version.toUpperCase()}</VersionBadge>
         <Text ml="8px" fontSize="14px">
           <Link href={getBlockExploreLink(pool.address, 'address')} external>
             Fee {fee}%
           </Link>
         </Text>
-      </Flex>
+      </PairContainer>
 
       {!isMobile && (
         <>
-          <Flex flex={1} justifyContent="flex-end">
+          <TVLContainer justifyContent="flex-end">
             <Text fontSize="14px">${formatNumber(Number(pool.tvlUSD))}</Text>
-          </Flex>
-          <Flex flex={1} justifyContent="flex-end">
+          </TVLContainer>
+          <TVLContainer justifyContent="flex-end">
             <Text fontSize="14px">{formatNumber(Number(pool.tvlZIL))} ZIL</Text>
-          </Flex>
+          </TVLContainer>
         </>
       )}
-
-      <Flex flex={1} justifyContent="flex-end">
-        <Text fontSize="14px">${formatNumber(Number(pool.tvlUSD))}</Text>
-      </Flex>
     </PoolContainer>
   )
 }
