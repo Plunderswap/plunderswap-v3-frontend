@@ -147,10 +147,17 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
           </>
         )}
 
-        <TVLContainer justifyContent="flex-end" alignItems="center">
-          <Text mr="8px">${formatNumber(Number(pair.tvlUSD))}</Text>
-          {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
-        </TVLContainer>
+        {isMobile && (
+          <TVLContainer justifyContent="flex-end" alignItems="center">
+            <Text mr="8px">${formatNumber(Number(pair.tvlUSD))}</Text>
+            {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          </TVLContainer>
+        )}
+        {!isMobile && (
+          <Flex width="24px" justifyContent="flex-end">
+            {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          </Flex>
+        )}
       </Flex>
 
       {isExpanded && (

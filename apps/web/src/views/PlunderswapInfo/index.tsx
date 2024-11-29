@@ -66,10 +66,6 @@ const HeaderTVLContainer = styled(Flex)`
   }
 `
 
-const HeaderTVLText = styled(Text)`
-  padding-right: 28px; // Adjust this value to account for the chevron icon space
-`
-
 export const PlunderswapInfo = () => {
   const [pairs, setPairs] = useState<PairData[]>([])
   const [pools, setPools] = useState<PoolData[]>([])
@@ -182,9 +178,6 @@ export const PlunderswapInfo = () => {
                 </HeaderTVLContainer>
               </>
             )}
-            <HeaderTVLContainer justifyContent="flex-end">
-              <HeaderTVLText>TVL</HeaderTVLText>
-            </HeaderTVLContainer>
           </TableHeader>
 
           {filteredPairs.map((pair) => (
