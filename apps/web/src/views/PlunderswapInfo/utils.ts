@@ -117,8 +117,8 @@ export const formatTokenSymbol = (symbol: string): string => {
   return symbol === 'WZIL' ? 'ZIL' : symbol
 }
 
-const STABLECOINS = ['zUSDT', 'kUSD']
-const PREFERRED_SECOND_TOKEN = ['ZIL', 'WZIL']
+export const STABLECOINS = ['zUSDT', 'kUSD']
+export const PREFERRED_SECOND_TOKEN = ['ZIL', 'WZIL']
 
 export const getOrderedPairSymbols = (symbol0: string, symbol1: string): [string, string] => {
   const upperSymbol0 = symbol0.toUpperCase()
@@ -142,15 +142,20 @@ export const orderPairData = (pair: PairData): PairData => {
   // If order hasn't changed, return original pair
   if (orderedSymbol0 === pair.symbol0) return pair
 
-  // If order has changed, swap the pair data
+  // If order has changed, swap everything
   return {
     ...pair,
     symbol0: orderedSymbol0,
     symbol1: orderedSymbol1,
-    // Swap price data too - we need to swap AND invert the prices
+    token0Address: pair.token1Address,
+    token1Address: pair.token0Address,
+    decimal0: pair.decimal1,
+    decimal1: pair.decimal0,
+    token0: pair.token1,
+    token1: pair.token0,
     prices: {
-      price01: pair.prices.price10, // Use the original price10 for new price01
-      price10: pair.prices.price01, // Use the original price01 for new price10
+      price01: pair.prices.price10,
+      price10: pair.prices.price01,
     },
   }
 }

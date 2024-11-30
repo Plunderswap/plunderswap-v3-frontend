@@ -1,4 +1,4 @@
-import { buildTokenAddressMap } from './utils'
+import { PREFERRED_SECOND_TOKEN, STABLECOINS, buildTokenAddressMap } from './utils'
 
 const PAIR_URL = 'https://static.plunderswap.com/PlunderswapPairPrices.json'
 const POOL_URL = 'https://static.plunderswap.com/PlunderswapPoolPrices.json'
@@ -36,7 +36,32 @@ const fetchWithRetry = async (url: string, retries = 3): Promise<any> => {
 }
 
 export const fetchPairData = async () => {
-  return fetchWithRetry(PAIR_URL)
+  const data = await fetchWithRetry(PAIR_URL)
+  // Pre-process the data to ensure consistent price ordering
+  return data.map((pair: any) => {
+    const shouldReverse =
+      STABLECOINS.includes(pair.symbol0) ||
+      (!STABLECOINS.includes(pair.symbol1) && PREFERRED_SECOND_TOKEN.includes(pair.symbol0.toUpperCase()))
+
+    if (shouldReverse) {
+      return {
+        ...pair,
+        symbol0: pair.symbol1,
+        symbol1: pair.symbol0,
+        token0Address: pair.token1Address,
+        token1Address: pair.token0Address,
+        decimal0: pair.decimal1,
+        decimal1: pair.decimal0,
+        token0: pair.token1,
+        token1: pair.token0,
+        prices: {
+          price01: pair.prices.price10,
+          price10: pair.prices.price01,
+        },
+      }
+    }
+    return pair
+  })
 }
 
 export const fetchPoolData = async () => {
