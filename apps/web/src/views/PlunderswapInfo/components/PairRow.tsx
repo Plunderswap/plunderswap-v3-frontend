@@ -3,7 +3,7 @@ import { formatNumber } from '@pancakeswap/utils/formatBalance'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { PairData, PoolData } from '../types'
-import { formatTokenSymbol, getTokenAddress, getTokenImagePath } from '../utils'
+import { formatNumberWithDynamicDecimals, formatTokenSymbol, getTokenAddress, getTokenImagePath } from '../utils'
 import PoolRow from './PoolRow'
 
 const RowContainer = styled.div<{ isExpanded: boolean }>`
@@ -98,11 +98,15 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [imageError0, setImageError0] = useState(false)
   const [imageError1, setImageError1] = useState(false)
+  const [showInversePrice, setShowInversePrice] = useState(false)
 
   const token0Address = getTokenAddress(pair.symbol0)
   const token1Address = getTokenAddress(pair.symbol1)
   const formattedSymbol0 = formatTokenSymbol(pair.symbol0)
   const formattedSymbol1 = formatTokenSymbol(pair.symbol1)
+
+  // Get the appropriate price based on the toggle
+  const price = showInversePrice ? pair.prices.price10 : pair.prices.price01
 
   // Filter pools with TVL >= $1 and sort by TVL in descending order
   const sortedPools = [...pools]
@@ -138,9 +142,23 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
             )}
             {(imageError1 || !token1Address) && <TokenImageFallback>{pair.symbol1.slice(0, 3)}</TokenImageFallback>}
           </Flex>
-          <Text ml="8px">
-            {formattedSymbol0}/{formattedSymbol1}
-          </Text>
+          <Flex flexDirection="column">
+            <Text ml="8px">
+              {formattedSymbol0}/{formattedSymbol1}
+            </Text>
+            <PriceText
+              ml="8px"
+              onClick={(e) => {
+                e.stopPropagation()
+                setShowInversePrice(!showInversePrice)
+              }}
+            >
+              1 {showInversePrice ? formattedSymbol1 : formattedSymbol0} ={' '}
+              {formatNumberWithDynamicDecimals(Number(price), true)}{' '}
+              {showInversePrice ? formattedSymbol0 : formattedSymbol1}
+              <RotateIcon width="14px" height="14px" $isRotated={showInversePrice} />
+            </PriceText>
+          </Flex>
         </PairContainer>
 
         {!isMobile && (

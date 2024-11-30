@@ -147,10 +147,10 @@ export const orderPairData = (pair: PairData): PairData => {
     ...pair,
     symbol0: orderedSymbol0,
     symbol1: orderedSymbol1,
-    // Swap price data too
+    // Swap price data too - we need to swap AND invert the prices
     prices: {
-      price01: (1 / Number(pair.prices.price01)).toString(),
-      price10: (1 / Number(pair.prices.price10)).toString(),
+      price01: pair.prices.price10, // Use the original price10 for new price01
+      price10: pair.prices.price01, // Use the original price01 for new price10
     },
   }
 }

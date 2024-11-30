@@ -159,7 +159,7 @@ export const PlunderswapInfo = () => {
         <>
           <TableHeader>
             <HeaderPairContainer>
-              <Text>Pair</Text>
+              <Text>Pair/Price</Text>
             </HeaderPairContainer>
             <HeaderTVLContainer justifyContent="flex-end">
               <Text>Liquidity (USD)</Text>
