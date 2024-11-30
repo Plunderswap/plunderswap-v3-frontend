@@ -86,6 +86,21 @@ const RotateIcon = styled(SwapVertIcon)<{ $isRotated: boolean }>`
   transform: ${({ $isRotated }) => ($isRotated ? 'rotate(180deg)' : 'rotate(0)')};
 `
 
+const MobileTokenInfo = styled(Flex)`
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+`
+
+const TokenSymbolsRow = styled(Flex)`
+  align-items: center;
+  width: 100%;
+`
+
+const TokenIconsContainer = styled(Flex)`
+  margin-right: 8px;
+`
+
 interface PairRowProps {
   pair: PairData
   pools: PoolData[]
@@ -117,48 +132,100 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
     <RowContainer isExpanded={isExpanded}>
       <Flex padding="16px" onClick={() => setIsExpanded(!isExpanded)}>
         <PairContainer alignItems="center">
-          <Flex>
-            {!imageError0 && token0Address && (
-              <TokenImage
-                src={`https://plunderswap.github.io/token-lists/images/${getTokenImagePath(
-                  pair.symbol0,
-                  token0Address,
-                )}`}
-                alt={pair.symbol0}
-                onError={() => setImageError0(true)}
-              />
-            )}
-            {(imageError0 || !token0Address) && <TokenImageFallback>{pair.symbol0.slice(0, 3)}</TokenImageFallback>}
+          {isMobile ? (
+            <MobileTokenInfo>
+              <TokenSymbolsRow>
+                <TokenIconsContainer>
+                  {!imageError0 && token0Address && (
+                    <TokenImage
+                      src={`https://plunderswap.github.io/token-lists/images/${getTokenImagePath(
+                        pair.symbol0,
+                        token0Address,
+                      )}`}
+                      alt={pair.symbol0}
+                      onError={() => setImageError0(true)}
+                    />
+                  )}
+                  {(imageError0 || !token0Address) && (
+                    <TokenImageFallback>{pair.symbol0.slice(0, 3)}</TokenImageFallback>
+                  )}
 
-            {!imageError1 && token1Address && (
-              <TokenImage
-                src={`https://plunderswap.github.io/token-lists/images/${getTokenImagePath(
-                  pair.symbol1,
-                  token1Address,
-                )}`}
-                alt={pair.symbol1}
-                onError={() => setImageError1(true)}
-              />
-            )}
-            {(imageError1 || !token1Address) && <TokenImageFallback>{pair.symbol1.slice(0, 3)}</TokenImageFallback>}
-          </Flex>
-          <Flex flexDirection="column">
-            <Text ml="8px">
-              {formattedSymbol0}/{formattedSymbol1}
-            </Text>
-            <PriceText
-              ml="8px"
-              onClick={(e) => {
-                e.stopPropagation()
-                setShowInversePrice(!showInversePrice)
-              }}
-            >
-              1 {showInversePrice ? formattedSymbol1 : formattedSymbol0} ={' '}
-              {formatNumberWithDynamicDecimals(Number(price), true)}{' '}
-              {showInversePrice ? formattedSymbol0 : formattedSymbol1}
-              <RotateIcon width="14px" height="14px" $isRotated={showInversePrice} />
-            </PriceText>
-          </Flex>
+                  {!imageError1 && token1Address && (
+                    <TokenImage
+                      src={`https://plunderswap.github.io/token-lists/images/${getTokenImagePath(
+                        pair.symbol1,
+                        token1Address,
+                      )}`}
+                      alt={pair.symbol1}
+                      onError={() => setImageError1(true)}
+                    />
+                  )}
+                  {(imageError1 || !token1Address) && (
+                    <TokenImageFallback>{pair.symbol1.slice(0, 3)}</TokenImageFallback>
+                  )}
+                </TokenIconsContainer>
+                <Text>
+                  {formattedSymbol0}/{formattedSymbol1}
+                </Text>
+              </TokenSymbolsRow>
+              <PriceText
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowInversePrice(!showInversePrice)
+                }}
+              >
+                1 {showInversePrice ? formattedSymbol1 : formattedSymbol0} ={' '}
+                {formatNumberWithDynamicDecimals(Number(price), true)}{' '}
+                {showInversePrice ? formattedSymbol0 : formattedSymbol1}
+                <RotateIcon width="14px" height="14px" $isRotated={showInversePrice} />
+              </PriceText>
+            </MobileTokenInfo>
+          ) : (
+            <>
+              <Flex>
+                {!imageError0 && token0Address && (
+                  <TokenImage
+                    src={`https://plunderswap.github.io/token-lists/images/${getTokenImagePath(
+                      pair.symbol0,
+                      token0Address,
+                    )}`}
+                    alt={pair.symbol0}
+                    onError={() => setImageError0(true)}
+                  />
+                )}
+                {(imageError0 || !token0Address) && <TokenImageFallback>{pair.symbol0.slice(0, 3)}</TokenImageFallback>}
+
+                {!imageError1 && token1Address && (
+                  <TokenImage
+                    src={`https://plunderswap.github.io/token-lists/images/${getTokenImagePath(
+                      pair.symbol1,
+                      token1Address,
+                    )}`}
+                    alt={pair.symbol1}
+                    onError={() => setImageError1(true)}
+                  />
+                )}
+                {(imageError1 || !token1Address) && <TokenImageFallback>{pair.symbol1.slice(0, 3)}</TokenImageFallback>}
+              </Flex>
+              <Flex flexDirection="column">
+                <Text ml="8px">
+                  {formattedSymbol0}/{formattedSymbol1}
+                </Text>
+                <PriceText
+                  ml="8px"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowInversePrice(!showInversePrice)
+                  }}
+                >
+                  1 {showInversePrice ? formattedSymbol1 : formattedSymbol0} ={' '}
+                  {formatNumberWithDynamicDecimals(Number(price), true)}{' '}
+                  {showInversePrice ? formattedSymbol0 : formattedSymbol1}
+                  <RotateIcon width="14px" height="14px" $isRotated={showInversePrice} />
+                </PriceText>
+              </Flex>
+            </>
+          )}
         </PairContainer>
 
         {!isMobile && (
