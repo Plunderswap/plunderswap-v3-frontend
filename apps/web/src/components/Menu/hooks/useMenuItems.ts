@@ -20,10 +20,8 @@ export const useMenuItems = (onUsCitizenModalPresent?: () => void): ConfigMenuIt
   const { isMobile } = useMatchBreakpoints()
 
   const menuItems = useMemo(() => {
-    const mobileConfig = [...config(t, isDark, languageCode, chainId)]
-    mobileConfig.push(mobileConfig.splice(3, 1)[0])
-    return isMobile ? mobileConfig : config(t, isDark, languageCode, chainId)
-  }, [t, isDark, languageCode, chainId, isMobile])
+    return config(t, isDark, languageCode, chainId)
+  }, [t, isDark, languageCode, chainId])
   const [userNotUsCitizenAcknowledgement] = useUserNotUsCitizenAcknowledgement(IdType.PERPETUALS)
 
   return useMemo(() => {

@@ -5,6 +5,7 @@ import {
   DropdownMenuItems,
   EarnFillIcon,
   EarnIcon,
+  FarmIcon,
   InfoIcon,
   MenuItemsType,
   SwapFillIcon,
@@ -48,8 +49,8 @@ const config: (
     },
     {
       label: t('Liquidity'),
-      icon: EarnIcon,
-      fillIcon: EarnFillIcon,
+      icon: FarmIcon,
+      fillIcon: FarmIcon,
       image: '/images/decorations/pe2.png',
       href: '/liquidity',
       hideSubNav: true,
@@ -77,6 +78,15 @@ const config: (
       items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
+      label: 'Onramp',
+      href: '/onramp',
+      icon: EarnIcon,
+      fillIcon: EarnFillIcon,
+      hideSubNav: true,
+      showItemsOnMobile: false,
+      items: [].map((item) => addMenuItemSupported(item, chainId)),
+    },
+    {
       label: 'Staking',
       href: 'https://stake.plunderswap.com',
       icon: CurrencyIcon,
@@ -96,14 +106,6 @@ const config: (
         },
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
-    // {
-    //   label: 'Launchpad',
-    //   href: 'https://launchpad.kalijo.io',
-    //   icon: PoolIcon,
-    //   type: DropdownMenuItemType.EXTERNAL_LINK,
-    //   showItemsOnMobile: false,
-    //   items: [].map((item) => addMenuItemSupported(item, chainId)),
-    // },
     {
       label: 'Info',
       href: '/info',
@@ -112,6 +114,14 @@ const config: (
       showItemsOnMobile: false,
       items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
+    // {
+    //   label: 'Launchpad',
+    //   href: 'https://launchpad.kalijo.io',
+    //   icon: PoolIcon,
+    //   type: DropdownMenuItemType.EXTERNAL_LINK,
+    //   showItemsOnMobile: false,
+    //   items: [].map((item) => addMenuItemSupported(item, chainId)),
+    // },
   ].map((item) => addMenuItemSupported(item, chainId))
 
 export default config
