@@ -52,15 +52,14 @@ const PoolRow: React.FC<PoolRowProps> = ({ pool, isMobile }) => {
         </Text>
       </PairContainer>
 
+      <TVLContainer justifyContent="flex-end">
+        <Text fontSize="14px">${formatNumber(Number(pool.tvlUSD))}</Text>
+      </TVLContainer>
+
       {!isMobile && (
-        <>
-          <TVLContainer justifyContent="flex-end">
-            <Text fontSize="14px">${formatNumber(Number(pool.tvlUSD))}</Text>
-          </TVLContainer>
-          <TVLContainer justifyContent="flex-end">
-            <Text fontSize="14px">{formatNumber(Number(pool.tvlZIL))} ZIL</Text>
-          </TVLContainer>
-        </>
+        <TVLContainer justifyContent="flex-end">
+          <Text fontSize="14px">{formatNumber(Number(pool.tvlZIL))} ZIL</Text>
+        </TVLContainer>
       )}
     </PoolContainer>
   )

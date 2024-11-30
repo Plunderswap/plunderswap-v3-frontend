@@ -161,15 +161,13 @@ export const PlunderswapInfo = () => {
             <HeaderPairContainer>
               <Text>Pair</Text>
             </HeaderPairContainer>
+            <HeaderTVLContainer justifyContent="flex-end">
+              <Text>Liquidity (USD)</Text>
+            </HeaderTVLContainer>
             {!isMobile && (
-              <>
-                <HeaderTVLContainer justifyContent="flex-end">
-                  <Text>Liquidity (USD)</Text>
-                </HeaderTVLContainer>
-                <HeaderTVLContainer justifyContent="flex-end">
-                  <Text>Liquidity (ZIL)</Text>
-                </HeaderTVLContainer>
-              </>
+              <HeaderTVLContainer justifyContent="flex-end">
+                <Text>Liquidity (ZIL)</Text>
+              </HeaderTVLContainer>
             )}
           </TableHeader>
 

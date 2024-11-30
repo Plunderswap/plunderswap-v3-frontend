@@ -8,12 +8,24 @@ const StatsContainer = styled(Flex)`
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
+  width: 100%;
+
+  @media screen and (max-width: 852px) {
+    padding: 12px;
+    flex-direction: column;
+    gap: 8px;
+  }
 `
 
 const StatBox = styled(Flex)`
   flex-direction: column;
   padding: 8px 16px;
   min-width: 200px;
+
+  @media screen and (max-width: 852px) {
+    padding: 4px 8px;
+    min-width: unset;
+  }
 `
 
 interface TotalStatsProps {

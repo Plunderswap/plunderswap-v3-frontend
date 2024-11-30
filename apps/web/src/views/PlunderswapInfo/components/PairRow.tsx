@@ -92,6 +92,8 @@ interface PairRowProps {
   isMobile: boolean
 }
 
+const MINIMUM_POOL_TVL = 1 // $1 USD minimum threshold
+
 const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [imageError0, setImageError0] = useState(false)
@@ -101,6 +103,11 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
   const token1Address = getTokenAddress(pair.symbol1)
   const formattedSymbol0 = formatTokenSymbol(pair.symbol0)
   const formattedSymbol1 = formatTokenSymbol(pair.symbol1)
+
+  // Filter pools with TVL >= $1 and sort by TVL in descending order
+  const sortedPools = [...pools]
+    .filter((pool) => Number(pool.tvlUSD) >= MINIMUM_POOL_TVL)
+    .sort((a, b) => Number(b.tvlUSD) - Number(a.tvlUSD))
 
   return (
     <RowContainer isExpanded={isExpanded}>
@@ -162,7 +169,7 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
 
       {isExpanded && (
         <div>
-          {pools.map((pool) => (
+          {sortedPools.map((pool) => (
             <PoolRow key={pool.address} pool={pool} isMobile={isMobile} />
           ))}
         </div>
