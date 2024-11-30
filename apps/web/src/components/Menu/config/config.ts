@@ -78,7 +78,7 @@ const config: (
       items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
-      label: 'Onramp',
+      label: 'Buy ZIL',
       href: '/onramp',
       icon: EarnIcon,
       fillIcon: EarnFillIcon,
