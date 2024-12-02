@@ -1,6 +1,6 @@
 import { useTheme } from '@pancakeswap/hooks'
 import { Box, CopyAddress, Flex, Heading, Link, Text } from '@pancakeswap/uikit'
-import { Transak, TransakConfig } from '@transak/transak-sdk'
+import type { TransakConfig } from '@transak/transak-sdk'
 import { toBech32Address } from '@zilliqa-js/crypto'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -85,44 +85,68 @@ const OnRampPage = () => {
     let transak: any
 
     if (address) {
-      try {
-        const transakConfig: TransakConfig = {
-          apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY ?? '',
-          environment:
-            process.env.NEXT_PUBLIC_TRANSAK_ENVIRONMENT === 'PRODUCTION'
-              ? Transak.ENVIRONMENTS.PRODUCTION
-              : Transak.ENVIRONMENTS.STAGING,
-          defaultCryptoCurrency: 'ZIL',
-          walletAddress: zilAddress,
-          themeColor: '00D2FF',
-          widgetHeight: '100%',
-          widgetWidth: '100%',
-          defaultNetwork: 'zilliqa',
-          defaultFiatCurrency: 'USD',
-          // cryptoCurrencyList: 'ZIL,WZIL',
-          // isDisableCrypto: true,
-          hideMenu: false,
-          exchangeScreenTitle: 'Buy Crypto',
-          isFeeCalculationHidden: false,
-          hideExchangeScreen: false,
-          disableWalletAddressForm: true,
-          isAutoFillUserData: true,
-          containerId: 'transakMount',
-          colorMode: isDark ? 'DARK' : 'LIGHT',
+      const initTransak = async () => {
+        try {
+          const { Transak } = await import('@transak/transak-sdk')
+
+          const transakConfig: TransakConfig = {
+            apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY ?? '',
+            environment:
+              process.env.NEXT_PUBLIC_TRANSAK_ENVIRONMENT === 'PRODUCTION'
+                ? Transak.ENVIRONMENTS.PRODUCTION
+                : Transak.ENVIRONMENTS.STAGING,
+            defaultCryptoCurrency: 'ZIL',
+            walletAddressesData: {
+              networks: {
+                zil: { address: zilAddress },
+                ethereum: { address },
+                optimism: { address },
+                arbitrum: { address },
+                base: { address },
+                bsc: { address },
+                unichain: { address },
+                polygon: { address },
+              },
+            },
+            themeColor: '00D2FF',
+            widgetHeight: '100%',
+            widgetWidth: '100%',
+            defaultNetwork: 'zilliqa',
+            defaultFiatCurrency: 'USD',
+            // cryptoCurrencyList: 'ZIL,WZIL',
+            // isDisableCrypto: true,
+            hideMenu: false,
+            exchangeScreenTitle: 'Buy Crypto',
+            isFeeCalculationHidden: false,
+            hideExchangeScreen: false,
+            disableWalletAddressForm: true,
+            isAutoFillUserData: true,
+            containerId: 'transakMount',
+            colorMode: isDark ? 'DARK' : 'LIGHT',
+          }
+
+          transak = new Transak(transakConfig)
+          transak.init()
+
+          // Order successful event
+          Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
+            // eslint-disable-next-line no-console
+            console.log('Order Successful:', orderData)
+          })
+        } catch (error) {
+          console.error('Failed to initialize Transak:', error)
+          setIsLoading(false)
         }
+      }
 
-        transak = new Transak(transakConfig)
-        transak.init()
+      initTransak()
+      setIsLoading(false)
+    }
 
-        // Order successful event
-        Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
-          // eslint-disable-next-line no-console
-          console.log('Order Successful:', orderData)
-          transak.cleanup()
-        })
-      } catch (error) {
-        console.error('Failed to initialize Transak:', error)
-        setIsLoading(false)
+    // Cleanup function
+    return () => {
+      if (transak) {
+        transak.cleanup()
       }
     }
   }, [address, isDark, zilAddress])
