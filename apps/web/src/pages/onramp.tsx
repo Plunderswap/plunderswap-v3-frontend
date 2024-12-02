@@ -13,7 +13,11 @@ const Container = styled(Flex)`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  position: relative;
+
+  // Desktop styles
+  @media (min-width: 852px) {
+    position: relative;
+  }
 `
 
 const AddressBox = styled(Box)`
@@ -24,11 +28,15 @@ const AddressBox = styled(Box)`
   width: 100%;
   max-width: 960px;
   margin-bottom: 8px;
-  position: absolute;
-  top: 24px;
-  z-index: 10;
-  left: 50%;
-  transform: translateX(-50%);
+
+  // Desktop styles
+  @media (min-width: 852px) {
+    position: absolute;
+    top: 24px;
+    z-index: 10;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `
 
 const AddressLabel = styled(Text)`
@@ -47,9 +55,14 @@ const StyledCopyAddress = styled(CopyAddress)`
 
 const WidgetContainer = styled.div`
   width: 100%;
-  height: 1000px;
-  margin-bottom: 24px;
-  margin-top: 12px;
+  height: 570px; // Mobile height
+
+  // Desktop styles
+  @media (min-width: 852px) {
+    height: 1000px; // Desktop height
+    margin-bottom: 48px;
+    margin-top: 12px;
+  }
 
   & > div {
     height: 100%;
