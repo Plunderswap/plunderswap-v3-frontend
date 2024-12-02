@@ -13,6 +13,7 @@ const Container = styled(Flex)`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
 `
 
 const AddressBox = styled(Box)`
@@ -23,6 +24,11 @@ const AddressBox = styled(Box)`
   width: 100%;
   max-width: 960px;
   margin-bottom: 8px;
+  position: absolute;
+  top: 24px;
+  z-index: 10;
+  left: 50%;
+  transform: translateX(-50%);
 `
 
 const AddressLabel = styled(Text)`
@@ -39,13 +45,15 @@ const StyledCopyAddress = styled(CopyAddress)`
   }
 `
 
-const TransakWidget = styled.div`
+const WidgetContainer = styled.div`
   width: 100%;
-  max-width: 1200px;
-  height: 700px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0px 2px 12px -8px rgba(25, 19, 38, 0.1), 0px 1px 1px rgba(25, 19, 38, 0.05);
+  height: 1000px;
+  margin-bottom: 24px;
+  margin-top: 12px;
+
+  & > div {
+    height: 100%;
+  }
 `
 
 const InfoSection = styled(Flex)`
@@ -113,8 +121,6 @@ const OnRampPage = () => {
             widgetWidth: '100%',
             defaultNetwork: 'zilliqa',
             defaultFiatCurrency: 'USD',
-            // cryptoCurrencyList: 'ZIL,WZIL',
-            // isDisableCrypto: true,
             hideMenu: false,
             exchangeScreenTitle: 'Buy Crypto',
             isFeeCalculationHidden: false,
@@ -186,7 +192,7 @@ const OnRampPage = () => {
           <StyledCopyAddress account={zilAddress} tooltipMessage="Copied" />
         </div>
       </AddressBox>
-      <TransakWidget id="transakMount" />
+      <WidgetContainer id="transakMount" />
 
       <InfoSection>
         <InfoCard>
