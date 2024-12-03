@@ -138,8 +138,8 @@ const config = {
         permanent: true,
       },
       {
-        source: '/pool',
-        destination: '/liquidity',
+        source: '/liquidity',
+        destination: '/pool',
         permanent: true,
       },
       {
