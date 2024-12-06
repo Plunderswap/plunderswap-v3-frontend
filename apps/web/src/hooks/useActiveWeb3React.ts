@@ -22,7 +22,7 @@ export function useNetworkConnectorUpdater() {
     if (loading || !router.isReady) return setPrevChainId()
     const parsedQueryChainId = getChainId(router.query.chain as string)
 
-    if (!parsedQueryChainId && chainId === ChainId.BSC) return setPrevChainId()
+    if (!parsedQueryChainId && chainId === ChainId.ZILLIQA) return setPrevChainId()
     if (parsedQueryChainId !== chainId && chainId && isChainSupported(chainId)) {
       const removeQueriesFromPath =
         previousChainIdRef.current !== chainId &&
@@ -30,21 +30,39 @@ export function useNetworkConnectorUpdater() {
           return router.pathname.startsWith(item)
         })
       const uriHash = getHashFromRouter(router)?.[0]
-      const { chainId: _chainId, ...omittedQuery } = router.query
-      router.replace(
-        {
-          query: {
-            ...(!removeQueriesFromPath && omittedQuery),
-            chain: CHAIN_QUERY_NAME[chainId],
+
+      if (chainId === ChainId.ZILLIQA) {
+        const { chainId: _chainId, ...omittedQuery } = router.query
+        router.replace(
+          {
+            query: {
+              ...(!removeQueriesFromPath && omittedQuery),
+            },
+            ...(uriHash && { hash: uriHash }),
           },
-          ...(uriHash && { hash: uriHash }),
-        },
-        undefined,
-        {
-          shallow: true,
-          scroll: false,
-        },
-      )
+          undefined,
+          {
+            shallow: true,
+            scroll: false,
+          },
+        )
+      } else {
+        const { chainId: _chainId, ...omittedQuery } = router.query
+        router.replace(
+          {
+            query: {
+              ...(!removeQueriesFromPath && omittedQuery),
+              chain: CHAIN_QUERY_NAME[chainId],
+            },
+            ...(uriHash && { hash: uriHash }),
+          },
+          undefined,
+          {
+            shallow: true,
+            scroll: false,
+          },
+        )
+      }
     }
     return setPrevChainId()
   }, [chainId, loading, router])
