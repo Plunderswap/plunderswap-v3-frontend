@@ -10,6 +10,9 @@ import TotalStats from './components/TotalStats'
 import { PairData, PoolData } from './types'
 import { orderPairData } from './utils'
 
+type SortField = 'tvl' | 'volume' | 'apr' | 'pair' | null
+type SortDirection = 'asc' | 'desc'
+
 const Container = styled.div`
   width: 100%;
   max-width: 1200px;
@@ -81,18 +84,27 @@ const MobileHeaderContainer = styled(Flex)`
 
 const VolumeAPRText = styled(Text)`
   text-align: right;
-  width: 80px; // Increased to match content
-  margin: 0 16px;
+  width: 80px;
+  margin: 0 4px;
   justify-content: flex-end;
   display: flex;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `
 
 const TVLText = styled(Text)`
   text-align: right;
   width: 50px;
-  margin: 0 -8px;
   justify-content: flex-end;
   display: flex;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `
 
 const HeaderContainer = styled(Flex)`
@@ -115,11 +127,16 @@ const PairContainer = styled(Flex)`
 const HeaderText = styled(Text)`
   width: 100px;
   text-align: right;
-  white-space: nowrap; // Prevent text wrapping
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   @media screen and (max-width: 852px) {
     width: auto;
-    font-size: 14px; // Slightly smaller text for iPad
+    font-size: 14px;
   }
 `
 
@@ -131,6 +148,8 @@ export const PlunderswapInfo = () => {
   const [error, setError] = useState<boolean>(false)
   const { isMobile, isXs } = useMatchBreakpoints()
   const theme = useTheme()
+  const [sortField, setSortField] = useState<SortField>(null)
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
 
   const fetchData = async () => {
     try {
@@ -174,9 +193,48 @@ export const PlunderswapInfo = () => {
     return () => clearInterval(interval)
   }, [])
 
-  const filteredPairs = useMemo(() => {
-    return hideSmallPools ? pairs.filter((pair) => Number(pair.tvlUSD) >= MIN_TVL) : pairs
-  }, [pairs, hideSmallPools])
+  const sortedPairs = useMemo(() => {
+    const filtered = hideSmallPools ? pairs.filter((pair) => Number(pair.tvlUSD) >= MIN_TVL) : pairs
+
+    if (!sortField) return filtered
+
+    return [...filtered].sort((a, b) => {
+      let aValue: number | string
+      let bValue: number | string
+
+      switch (sortField) {
+        case 'pair':
+          aValue = `${a.symbol0}/${a.symbol1}`
+          bValue = `${b.symbol0}/${b.symbol1}`
+          return sortDirection === 'desc' ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue)
+        case 'tvl':
+          aValue = Number(a.tvlUSD)
+          bValue = Number(b.tvlUSD)
+          break
+        case 'volume':
+          aValue = Number(a.volume_usd_7d)
+          bValue = Number(b.volume_usd_7d)
+          break
+        case 'apr':
+          aValue = Number(a.apr_7d_max)
+          bValue = Number(b.apr_7d_max)
+          break
+        default:
+          return 0
+      }
+
+      return sortDirection === 'desc' ? bValue - aValue : aValue - bValue
+    })
+  }, [pairs, hideSmallPools, sortField, sortDirection])
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'desc' ? 'asc' : 'desc')
+    } else {
+      setSortField(field)
+      setSortDirection('desc')
+    }
+  }
 
   if (error) {
     return <ErrorState onRetry={fetchData} />
@@ -215,22 +273,34 @@ export const PlunderswapInfo = () => {
         <>
           <TableHeader>
             <PairContainer>
-              <Text>Pair/Price</Text>
+              <Text onClick={() => handleSort('pair')} style={{ cursor: 'pointer' }}>
+                Pair/Price {sortField === 'pair' && (sortDirection === 'desc' ? '↓' : '↑')}
+              </Text>
             </PairContainer>
             {isMobile ? (
               <MobileHeaderContainer>
-                <VolumeAPRText>Vol/APR</VolumeAPRText>
-                <TVLText>TVL</TVLText>
+                <VolumeAPRText onClick={() => handleSort('apr')}>
+                  Vol/APR {sortField === 'apr' && (sortDirection === 'desc' ? '↓' : '↑')}
+                </VolumeAPRText>
+                <TVLText onClick={() => handleSort('tvl')}>
+                  TVL {sortField === 'tvl' && (sortDirection === 'desc' ? '↓' : '↑')}
+                </TVLText>
               </MobileHeaderContainer>
             ) : (
               <HeaderContainer>
-                <HeaderText>TVL</HeaderText>
-                <HeaderText>Volume (7d)</HeaderText>
-                <HeaderText>APR (7d)</HeaderText>
+                <HeaderText onClick={() => handleSort('tvl')}>
+                  TVL {sortField === 'tvl' && (sortDirection === 'desc' ? '↓' : '↑')}
+                </HeaderText>
+                <HeaderText onClick={() => handleSort('volume')}>
+                  Volume (7d) {sortField === 'volume' && (sortDirection === 'desc' ? '↓' : '↑')}
+                </HeaderText>
+                <HeaderText onClick={() => handleSort('apr')}>
+                  APR (7d) {sortField === 'apr' && (sortDirection === 'desc' ? '↓' : '↑')}
+                </HeaderText>
               </HeaderContainer>
             )}
           </TableHeader>
-          {filteredPairs.map((pair) => (
+          {sortedPairs.map((pair) => (
             <PairRow
               key={`${pair.symbol0}-${pair.symbol1}`}
               pair={pair}
