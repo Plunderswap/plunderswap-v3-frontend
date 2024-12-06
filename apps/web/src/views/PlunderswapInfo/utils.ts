@@ -156,6 +156,9 @@ export const orderPairData = (pair: PairData): PairData => {
     prices: {
       price01: pair.prices.price10,
       price10: pair.prices.price01,
+      token0USD: pair.prices.token1USD,
+      token1USD: pair.prices.token0USD,
+      priceSource: pair.prices.priceSource,
     },
   }
 }
