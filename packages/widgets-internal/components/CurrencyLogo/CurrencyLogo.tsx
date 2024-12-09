@@ -53,7 +53,7 @@ export function CurrencyLogo({
     return (
       <StyledLogo
         size={size}
-        srcs={[`https://plunderswap.com/images/chains/${currency.chainId}.png`]}
+        srcs={[`https://zq2-test.plunderswap.com/images/chains/${currency.chainId}.png`]}
         width={size}
         style={style}
         {...props}

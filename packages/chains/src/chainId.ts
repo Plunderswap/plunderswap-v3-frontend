@@ -19,8 +19,8 @@ export enum ChainId {
   BASE_TESTNET = 84531,
   BASE_SEPOLIA = 84532,
   SEPOLIA = 11155111,
-  ZILLIQA = 32769,
-  ZILLIQA_TESTNET = 33101,
+  ZILLIQA = 32770,
+  ZILLIQA_TESTNET = 33103,
 }
 
 export const testnetChainIds = [

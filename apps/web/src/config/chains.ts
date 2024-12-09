@@ -4,22 +4,22 @@ import { defineChain } from 'viem'
 import { Chain, bsc as bsc_ } from 'wagmi/chains'
 
 export const zilliqaTestnet = defineChain({
-  id: 33101,
-  name: 'Zilliqa Testnet',
-  network: 'zilliqaTestnet',
+  id: 33103,
+  name: 'ZQ2 proto-testnet',
+  network: 'ZQ2 proto-testnet',
   nativeCurrency: { name: 'Zilliqa', symbol: 'ZIL', decimals: 18 },
   rpcUrls: {
     default: {
-      http: ['https://api.testnet.zilliqa.com'],
+      http: ['https://api.zq2-prototestnet.zilliqa.com'],
     },
     public: {
-      http: ['https://api.testnet.zilliqa.com'],
+      http: ['https://api.zq2-prototestnet.zilliqa.com'],
     },
   },
   blockExplorers: {
     default: {
       name: 'Otterscan',
-      url: 'https://otterscan.testnet.zilliqa.com',
+      url: 'https://explorer.zq2-prototestnet.zilliqa.com',
     },
   },
   contracts: {
@@ -32,22 +32,22 @@ export const zilliqaTestnet = defineChain({
 })
 
 export const zilliqa = defineChain({
-  id: 32769,
-  name: 'Zilliqa',
-  network: 'Zilliqa',
+  id: 32770,
+  name: 'ZQ2 proto-mainnet',
+  network: 'ZQ2 proto-mainnet',
   nativeCurrency: { name: 'Zilliqa', symbol: 'ZIL', decimals: 18 },
   rpcUrls: {
     default: {
-      http: ['https://api.zilliqa.com'],
+      http: ['https://api.zq2-protomainnet.zilliqa.com'],
     },
     public: {
-      http: ['https://api.zilliqa.com'],
+      http: ['https://api.zq2-protomainnet.zilliqa.com'],
     },
   },
   blockExplorers: {
     default: {
       name: 'Otterscan',
-      url: 'https://otterscan.zilliqa.com',
+      url: 'https://explorer.zq2-protomainnet.zilliqa.com',
     },
   },
   contracts: {

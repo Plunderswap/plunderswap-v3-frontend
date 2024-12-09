@@ -55,8 +55,8 @@ export const CHAIN_REFRESH_TIME = {
   [ChainId.SEPOLIA]: 12_000,
   [ChainId.BASE_SEPOLIA]: 6_000,
   [ChainId.ARBITRUM_SEPOLIA]: 6_000,
-  [ChainId.ZILLIQA]: 30_000,
-  [ChainId.ZILLIQA_TESTNET]: 25_000,
+  [ChainId.ZILLIQA]: 1_000,
+  [ChainId.ZILLIQA_TESTNET]: 1_000,
 } as const satisfies Record<ChainId, number>
 
 // used for display in the default list when adding liquidity

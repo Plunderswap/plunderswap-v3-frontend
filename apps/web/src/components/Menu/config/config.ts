@@ -1,17 +1,5 @@
 import { ContextApi } from '@pancakeswap/localization'
-import {
-  CurrencyIcon,
-  DropdownMenuItemType,
-  DropdownMenuItems,
-  EarnFillIcon,
-  EarnIcon,
-  FarmIcon,
-  InfoIcon,
-  MenuItemsType,
-  SwapFillIcon,
-  SwapIcon,
-  SwapVertIcon,
-} from '@pancakeswap/uikit'
+import { DropdownMenuItems, FarmIcon, MenuItemsType, SwapFillIcon, SwapIcon } from '@pancakeswap/uikit'
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
 export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean; image?: string } & {
@@ -52,12 +40,12 @@ const config: (
           icon: SwapIcon,
           fillIcon: SwapFillIcon,
         },
-        {
-          label: 'Buy ZIL',
-          href: '/onramp',
-          icon: EarnIcon,
-          fillIcon: EarnFillIcon,
-        },
+        // {
+        //   label: 'Buy ZIL',
+        //   href: '/onramp',
+        //   icon: EarnIcon,
+        //   fillIcon: EarnFillIcon,
+        // },
       ].map((item) => addMenuItemSupported(item, chainId)),
     },
     {
@@ -70,54 +58,54 @@ const config: (
       showItemsOnMobile: false,
       items: [].map((item) => addMenuItemSupported(item, chainId)),
     },
-    {
-      label: 'Bridge',
-      href: '/crosschain',
-      icon: SwapVertIcon,
-      fillIcon: SwapVertIcon,
-      hideSubNav: true,
-      showItemsOnMobile: true,
-      items: [
-        {
-          label: 'Cross-Chain',
-          href: '/crosschain',
-          icon: SwapVertIcon,
-          fillIcon: SwapVertIcon,
-        },
-      ].map((item) => addMenuItemSupported(item, chainId)),
-    },
-    {
-      label: 'Info',
-      href: '/stats',
-      icon: InfoIcon,
-      hideSubNav: true,
-      showItemsOnMobile: true,
-      items: [
-        {
-          label: 'Stats',
-          href: '/stats',
-          icon: SwapVertIcon,
-          fillIcon: SwapVertIcon,
-        },
-        {
-          label: t('Legacy Transfer'),
-          href: '/transfer',
-          icon: CurrencyIcon,
-          fillIcon: CurrencyIcon,
-          image: '/images/decorations/pe2.png',
-        },
-        {
-          label: t('Stake ZIL'),
-          href: 'https://stake.plunderswap.com',
-          type: DropdownMenuItemType.EXTERNAL_LINK,
-        },
-        {
-          label: t('Stake SEED'),
-          href: 'https://stake.kalijo.io',
-          type: DropdownMenuItemType.EXTERNAL_LINK,
-        },
-      ].map((item) => addMenuItemSupported(item, chainId)),
-    },
+    // {
+    //   label: 'Bridge',
+    //   href: '/crosschain',
+    //   icon: SwapVertIcon,
+    //   fillIcon: SwapVertIcon,
+    //   hideSubNav: true,
+    //   showItemsOnMobile: true,
+    //   items: [
+    //     {
+    //       label: 'Cross-Chain',
+    //       href: '/crosschain',
+    //       icon: SwapVertIcon,
+    //       fillIcon: SwapVertIcon,
+    //     },
+    //   ].map((item) => addMenuItemSupported(item, chainId)),
+    // },
+    // {
+    //   label: 'Info',
+    //   href: '/stats',
+    //   icon: InfoIcon,
+    //   hideSubNav: true,
+    //   showItemsOnMobile: true,
+    //   items: [
+    //     {
+    //       label: 'Stats',
+    //       href: '/stats',
+    //       icon: SwapVertIcon,
+    //       fillIcon: SwapVertIcon,
+    //     },
+    //     {
+    //       label: t('Legacy Transfer'),
+    //       href: '/transfer',
+    //       icon: CurrencyIcon,
+    //       fillIcon: CurrencyIcon,
+    //       image: '/images/decorations/pe2.png',
+    //     },
+    //     {
+    //       label: t('Stake ZIL'),
+    //       href: 'https://stake.plunderswap.com',
+    //       type: DropdownMenuItemType.EXTERNAL_LINK,
+    //     },
+    //     {
+    //       label: t('Stake SEED'),
+    //       href: 'https://stake.kalijo.io',
+    //       type: DropdownMenuItemType.EXTERNAL_LINK,
+    //     },
+    //   ].map((item) => addMenuItemSupported(item, chainId)),
+    // },
     // {
     //   label: 'Launchpad',
     //   href: 'https://launchpad.kalijo.io',
