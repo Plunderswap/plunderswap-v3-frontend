@@ -197,6 +197,10 @@ export const ADDITIONAL_BASES: {
     [arbitrumTokens.mpendle.address]: [arbitrumTokens.pendle],
     [arbitrumTokens.pendle.address]: [arbitrumTokens.mpendle],
   },
+  [ChainId.ZILLIQA]: {
+    [zilliqaTokens.tacocat.address]: [zilliqaTokens.guacamole],
+    [zilliqaTokens.guacamole.address]: [zilliqaTokens.tacocat],
+  },
 }
 
 /**
