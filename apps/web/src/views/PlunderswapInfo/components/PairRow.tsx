@@ -123,11 +123,12 @@ interface PairRowProps {
   pair: PairData
   pools: PoolData[]
   isMobile: boolean
+  show24hData: boolean
 }
 
 const MINIMUM_POOL_TVL = 1 // $1 USD minimum threshold
 
-const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
+const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile, show24hData }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [imageError0, setImageError0] = useState(false)
   const [imageError1, setImageError1] = useState(false)
@@ -145,6 +146,11 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
   const sortedPools = [...pools]
     .filter((pool) => Number(pool.tvlUSD) >= MINIMUM_POOL_TVL)
     .sort((a, b) => Number(b.tvlUSD) - Number(a.tvlUSD))
+
+  // Update the desktop view stats
+  const volume = show24hData ? pair.volume_usd_24h : pair.volume_usd_7d
+  const apr = show24hData ? pair.apr_24h_max : pair.apr_7d_max
+  const aprMin = show24hData ? pair.apr_24h_min : pair.apr_7d_min
 
   return (
     <RowContainer isExpanded={isExpanded}>
@@ -187,11 +193,7 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
               </PriceText>
             </MobilePairInfo>
             <Flex alignItems="center">
-              <MobileAPR>
-                {Math.abs(Number(pair.apr_7d_max) - Number(pair.apr_7d_min)) > 1
-                  ? `${pair.apr_7d_max}%`
-                  : `${pair.apr_7d_max}%`}
-              </MobileAPR>
+              <MobileAPR>{Math.abs(Number(apr) - Number(aprMin)) > 1 ? `${apr}%` : `${apr}%`}</MobileAPR>
               <MobileTVL bold>${formatNumber(Number(pair.tvlUSD))}</MobileTVL>
             </Flex>
           </MobileRow>
@@ -244,12 +246,8 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
 
             <StatsContainer>
               <StatValue>${formatNumber(Number(pair.tvlUSD))}</StatValue>
-              <StatValue>${formatNumber(Number(pair.volume_usd_7d))}</StatValue>
-              <StatValue>
-                {Math.abs(Number(pair.apr_7d_max) - Number(pair.apr_7d_min)) > 1
-                  ? `${pair.apr_7d_min}-${pair.apr_7d_max}%`
-                  : `${pair.apr_7d_max}%`}
-              </StatValue>
+              <StatValue>${formatNumber(Number(volume))}</StatValue>
+              <StatValue>{Math.abs(Number(apr) - Number(aprMin)) > 1 ? `${aprMin}-${apr}%` : `${apr}%`}</StatValue>
             </StatsContainer>
 
             <Flex width="24px" justifyContent="center">
@@ -262,7 +260,7 @@ const PairRow: React.FC<PairRowProps> = ({ pair, pools, isMobile }) => {
       {isExpanded && (
         <div>
           {sortedPools.map((pool) => (
-            <PoolRow key={pool.address} pool={pool} isMobile={isMobile} />
+            <PoolRow key={pool.address} pool={pool} isMobile={isMobile} show24hData={show24hData} />
           ))}
         </div>
       )}

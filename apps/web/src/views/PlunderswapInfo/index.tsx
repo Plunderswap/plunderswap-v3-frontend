@@ -8,7 +8,13 @@ import LoadingState from './components/LoadingState'
 import PairRow from './components/PairRow'
 import TotalStats from './components/TotalStats'
 import { PairData, PoolData } from './types'
-import { orderPairData } from './utils'
+import {
+  getStoredHideSmallPools,
+  getStoredShow24hData,
+  orderPairData,
+  setStoredHideSmallPools,
+  setStoredShow24hData,
+} from './utils'
 
 type SortField = 'tvl' | 'volume' | 'apr' | 'pair' | null
 type SortDirection = 'asc' | 'desc'
@@ -30,9 +36,19 @@ const ToggleWrapper = styled(Flex)`
   align-items: center;
   position: relative;
 
+  &:first-child {
+    margin-right: 64px;
+  }
+
   &:hover > div:last-child {
     visibility: visible;
     opacity: 1;
+  }
+
+  ${Text} {
+    @media screen and (max-width: 852px) {
+      font-size: 12px;
+    }
   }
 `
 
@@ -84,11 +100,17 @@ const MobileHeaderContainer = styled(Flex)`
 
 const VolumeAPRText = styled(Text)`
   text-align: right;
-  width: 80px;
+  width: 120px;
   margin: 0 4px;
   justify-content: flex-end;
   display: flex;
   cursor: pointer;
+  font-size: 13px;
+
+  @media screen and (max-width: 852px) {
+    font-size: 16px;
+    width: 130px;
+  }
 
   &:hover {
     opacity: 0.8;
@@ -143,7 +165,8 @@ const HeaderText = styled(Text)`
 export const PlunderswapInfo = () => {
   const [pairs, setPairs] = useState<PairData[]>([])
   const [pools, setPools] = useState<PoolData[]>([])
-  const [hideSmallPools, setHideSmallPools] = useState(true)
+  const [hideSmallPools, setHideSmallPools] = useState(getStoredHideSmallPools())
+  const [show24hData, setShow24hData] = useState(getStoredShow24hData())
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<boolean>(false)
   const { isMobile, isXs } = useMatchBreakpoints()
@@ -193,6 +216,16 @@ export const PlunderswapInfo = () => {
     return () => clearInterval(interval)
   }, [])
 
+  const handleHideSmallPoolsChange = (newValue: boolean) => {
+    setHideSmallPools(newValue)
+    setStoredHideSmallPools(newValue)
+  }
+
+  const handleShow24hDataChange = (newValue: boolean) => {
+    setShow24hData(newValue)
+    setStoredShow24hData(newValue)
+  }
+
   const sortedPairs = useMemo(() => {
     const filtered = hideSmallPools ? pairs.filter((pair) => Number(pair.tvlUSD) >= MIN_TVL) : pairs
 
@@ -212,12 +245,12 @@ export const PlunderswapInfo = () => {
           bValue = Number(b.tvlUSD)
           break
         case 'volume':
-          aValue = Number(a.volume_usd_7d)
-          bValue = Number(b.volume_usd_7d)
+          aValue = show24hData ? Number(a.volume_usd_24h) : Number(a.volume_usd_7d)
+          bValue = show24hData ? Number(b.volume_usd_24h) : Number(b.volume_usd_7d)
           break
         case 'apr':
-          aValue = Number(a.apr_7d_max)
-          bValue = Number(b.apr_7d_max)
+          aValue = show24hData ? Number(a.apr_24h_max) : Number(a.apr_7d_max)
+          bValue = show24hData ? Number(b.apr_24h_max) : Number(b.apr_7d_max)
           break
         default:
           return 0
@@ -225,7 +258,7 @@ export const PlunderswapInfo = () => {
 
       return sortDirection === 'desc' ? bValue - aValue : aValue - bValue
     })
-  }, [pairs, hideSmallPools, sortField, sortDirection])
+  }, [pairs, hideSmallPools, sortField, sortDirection, show24hData])
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -259,8 +292,12 @@ export const PlunderswapInfo = () => {
 
       <Flex justifyContent="flex-end" mb="16px">
         <ToggleWrapper>
+          <Text mr="8px">Show 24h Data</Text>
+          <Toggle checked={show24hData} onChange={() => handleShow24hDataChange(!show24hData)} scale="sm" />
+        </ToggleWrapper>
+        <ToggleWrapper>
           <Text mr="8px">Hide Small Pools</Text>
-          <Toggle checked={hideSmallPools} onChange={() => setHideSmallPools(!hideSmallPools)} scale="sm" />
+          <Toggle checked={hideSmallPools} onChange={() => handleHideSmallPoolsChange(!hideSmallPools)} scale="sm" />
           <Tooltip>Hiding pools that are less than $50 USD TVL</Tooltip>
         </ToggleWrapper>
       </Flex>
@@ -280,7 +317,7 @@ export const PlunderswapInfo = () => {
             {isMobile ? (
               <MobileHeaderContainer>
                 <VolumeAPRText onClick={() => handleSort('apr')}>
-                  Vol/APR {sortField === 'apr' && (sortDirection === 'desc' ? '↓' : '↑')}
+                  Vol/APR ({show24hData ? '24h' : '7d'}) {sortField === 'apr' && (sortDirection === 'desc' ? '↓' : '↑')}
                 </VolumeAPRText>
                 <TVLText onClick={() => handleSort('tvl')}>
                   TVL {sortField === 'tvl' && (sortDirection === 'desc' ? '↓' : '↑')}
@@ -292,10 +329,11 @@ export const PlunderswapInfo = () => {
                   TVL {sortField === 'tvl' && (sortDirection === 'desc' ? '↓' : '↑')}
                 </HeaderText>
                 <HeaderText onClick={() => handleSort('volume')}>
-                  Volume (7d) {sortField === 'volume' && (sortDirection === 'desc' ? '↓' : '↑')}
+                  Volume ({show24hData ? '24h' : '7d'}){' '}
+                  {sortField === 'volume' && (sortDirection === 'desc' ? '↓' : '↑')}
                 </HeaderText>
                 <HeaderText onClick={() => handleSort('apr')}>
-                  APR (7d) {sortField === 'apr' && (sortDirection === 'desc' ? '↓' : '↑')}
+                  APR ({show24hData ? '24h' : '7d'}) {sortField === 'apr' && (sortDirection === 'desc' ? '↓' : '↑')}
                 </HeaderText>
               </HeaderContainer>
             )}
@@ -306,6 +344,7 @@ export const PlunderswapInfo = () => {
               pair={pair}
               pools={pools.filter((pool) => pair.pools.includes(pool.address))}
               isMobile={isMobile}
+              show24hData={show24hData}
             />
           ))}
         </>
