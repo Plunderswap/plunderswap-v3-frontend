@@ -146,11 +146,15 @@ const MobilePoolVolume = styled(Text)`
 interface PoolRowProps {
   pool: PoolData
   isMobile: boolean
+  show24hData: boolean
 }
 
-const PoolRow: React.FC<PoolRowProps> = ({ pool, isMobile }) => {
+const PoolRow: React.FC<PoolRowProps> = ({ pool, isMobile, show24hData }) => {
   const fee = pool.version.toLowerCase() === 'v2' ? '0.35' : (pool.fee / 10000).toString()
   const isV3 = pool.version.toLowerCase() === 'v3'
+
+  const volume = show24hData ? pool.volume_usd_24h : pool.volume_usd_7d
+  const apr = show24hData ? pool.apr_24h : pool.apr_7d
 
   return isMobile ? (
     <MobilePoolRow>
@@ -160,17 +164,17 @@ const PoolRow: React.FC<PoolRowProps> = ({ pool, isMobile }) => {
       </MobilePoolInfo>
       <MobilePoolStats>
         <StatsColumn>
-          <MobilePoolVolume>${formatNumber(Number(pool.volume_usd_7d))}</MobilePoolVolume>
+          <MobilePoolVolume>${formatNumber(Number(volume))}</MobilePoolVolume>
           <MobilePoolAPR>
             {pool.version.toLowerCase() === 'v3' ? (
               <Flex alignItems="center">
-                {pool.apr_7d}%
+                {apr}%
                 <Text as="sup" fontSize="8px" ml="1px">
                   *
                 </Text>
               </Flex>
             ) : (
-              `${pool.apr_7d}%`
+              `${apr}%`
             )}
           </MobilePoolAPR>
         </StatsColumn>
@@ -189,9 +193,9 @@ const PoolRow: React.FC<PoolRowProps> = ({ pool, isMobile }) => {
       {!isMobile && (
         <StatsContainer>
           <StatValue>${formatNumber(Number(pool.tvlUSD))}</StatValue>
-          <StatValue>${formatNumber(Number(pool.volume_usd_7d))}</StatValue>
+          <StatValue>${formatNumber(Number(volume))}</StatValue>
           <StatValue>
-            {pool.apr_7d}%{pool.version.toLowerCase() === 'v3' && '*'}
+            {apr}%{pool.version.toLowerCase() === 'v3' && '*'}
           </StatValue>
         </StatsContainer>
       )}

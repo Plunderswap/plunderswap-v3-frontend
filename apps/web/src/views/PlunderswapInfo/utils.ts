@@ -1,4 +1,5 @@
 import { getAddress } from 'ethers/lib/utils'
+import Cookies from 'js-cookie'
 import { getBlockExploreLink as getExplorerLink } from 'utils'
 import { PairData } from './types'
 
@@ -161,4 +162,25 @@ export const orderPairData = (pair: PairData): PairData => {
       priceSource: pair.prices.priceSource,
     },
   }
+}
+
+const HIDE_SMALL_POOLS_COOKIE = 'plunderswap_hide_small_pools'
+const SHOW_24H_DATA_COOKIE = 'plunderswap_show_24h_data'
+
+export const getStoredHideSmallPools = (): boolean => {
+  const stored = Cookies.get(HIDE_SMALL_POOLS_COOKIE)
+  return stored ? stored === 'true' : true // default to true
+}
+
+export const setStoredHideSmallPools = (value: boolean) => {
+  Cookies.set(HIDE_SMALL_POOLS_COOKIE, value.toString(), { expires: 365 })
+}
+
+export const getStoredShow24hData = (): boolean => {
+  const stored = Cookies.get(SHOW_24H_DATA_COOKIE)
+  return stored ? stored === 'true' : false // default to false (7d)
+}
+
+export const setStoredShow24hData = (value: boolean) => {
+  Cookies.set(SHOW_24H_DATA_COOKIE, value.toString(), { expires: 365 })
 }
