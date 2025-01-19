@@ -46,18 +46,18 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useV3NFTPositionManagerContract } from 'hooks/useContract'
 import { useRouter } from 'next/router'
 import { useTransactionAdder } from 'state/transactions/hooks'
+import { useGasPrice } from 'state/user/hooks'
 import { styled } from 'styled-components'
 import { calculateGasMargin } from 'utils'
 import { formatCurrencyAmount, formatRawAmount } from 'utils/formatCurrencyAmount'
 import { isUserRejected } from 'utils/sentry'
+import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
+import { getViemClients } from 'utils/viem'
 import { hexToBigInt } from 'viem'
 import { V3SubmitButton } from 'views/AddLiquidityV3/components/V3SubmitButton'
+import { useDensityChartData } from 'views/AddLiquidityV3/hooks/useDensityChartData'
 import { QUICK_ACTION_CONFIGS } from 'views/AddLiquidityV3/types'
 import { useSendTransaction, useWalletClient } from 'wagmi'
-
-import { useGasPrice } from 'state/user/hooks'
-import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
-import { useDensityChartData } from 'views/AddLiquidityV3/hooks/useDensityChartData'
 import LockedDeposit from './components/LockedDeposit'
 import { PositionPreview } from './components/PositionPreview'
 import RangeSelector from './components/RangeSelector'
@@ -280,48 +280,42 @@ export default function V3FormView({
         value: hexToBigInt(value),
         account,
       }
-      // getViemClients({ chainId })
-      //   ?.estimateGas(txn)
-      //   .then((gas) => {
-      //     sendTransactionAsync({
-      //       ...txn,
-      //       gas: calculateGasMargin(gas),
-      //     })
-      // disable above from getViem to 289 and line 324 reenable below to use hardcoded gas
-      sendTransactionAsync({
-        ...txn,
-        gas: calculateGasMargin(BigInt(2000000)),
-        gasPrice,
-      })
-        .then((response) => {
-          const baseAmount = formatRawAmount(
-            parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
-            baseCurrency.decimals,
-            4,
-          )
-          const quoteAmount = formatRawAmount(
-            parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
-            quoteCurrency.decimals,
-            4,
-          )
-
-          setAttemptingTxn(false)
-          addTransaction(response, {
-            type: 'add-liquidity-v3',
-            summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
+      getViemClients({ chainId })
+        ?.estimateGas(txn)
+        .then((gas) => {
+          sendTransactionAsync({
+            ...txn,
+            gas: calculateGasMargin(gas),
           })
-          setTxHash(response.hash)
-          onAddLiquidityCallback(response.hash)
+            .then((response) => {
+              const baseAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
+                baseCurrency.decimals,
+                4,
+              )
+              const quoteAmount = formatRawAmount(
+                parsedAmounts[Field.CURRENCY_B]?.quotient?.toString() ?? '0',
+                quoteCurrency.decimals,
+                4,
+              )
+
+              setAttemptingTxn(false)
+              addTransaction(response, {
+                type: 'add-liquidity-v3',
+                summary: `Add ${baseAmount} ${baseCurrency?.symbol} and ${quoteAmount} ${quoteCurrency?.symbol}`,
+              })
+              setTxHash(response.hash)
+              onAddLiquidityCallback(response.hash)
+            })
+            .catch((error) => {
+              console.error('Failed to send transaction', error)
+              // we only care if the error is something _other_ than the user rejected the tx
+              if (!isUserRejected(error)) {
+                setTxnErrorMessage(transactionErrorToUserReadableMessage(error, t))
+              }
+              setAttemptingTxn(false)
+            })
         })
-        .catch((error) => {
-          console.error('Failed to send transaction', error)
-          // we only care if the error is something _other_ than the user rejected the tx
-          if (!isUserRejected(error)) {
-            setTxnErrorMessage(transactionErrorToUserReadableMessage(error, t))
-          }
-          setAttemptingTxn(false)
-        })
-      // })
     }
   }, [
     account,
