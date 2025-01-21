@@ -58,6 +58,14 @@
       "logoURI": "https://meta.viewblock.io/ZIL.zil1lgj5uykg9lmzjecctjc5fkehdrghd7a9enmwg9/logo"
     },
     {
+      "name": "The Winners Circle",
+      "symbol": "HRSE",
+      "address": "0x60E6b5b1B8D3E373E1C04dC0b4f5624776bcBB60",
+      "chainId": 33101,
+      "decimals": 18,
+      "logoURI": "https://meta.viewblock.io/zilliqa.zil17602zlur3yfsc7zl9tmuug85w2tf9je6n8sh28/logo?t=dark"
+    },
+    {
       "name": "TestZRC (ZRC Proxy)",
       "symbol": "ZRC",
       "address": "0x453b11386FBd54bC532892c0217BBc316fc7b918",
