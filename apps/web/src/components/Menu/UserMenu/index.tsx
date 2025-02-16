@@ -4,6 +4,7 @@ import {
   Flex,
   LogoutIcon,
   RefreshIcon,
+  Text,
   UserMenu as UIKitUserMenu,
   UserMenuDivider,
   UserMenuItem,
@@ -19,9 +20,38 @@ import { useDomainNameForAddress } from 'hooks/useDomain'
 import { useCallback, useEffect, useState } from 'react'
 import { useProfile } from 'state/profile/hooks'
 import { usePendingTransactions } from 'state/transactions/hooks'
+import styled from 'styled-components'
+import { PointsData } from 'views/PlunderPoints'
 import { useAccount } from 'wagmi'
 import WalletModal, { WalletView } from './WalletModal'
 import WalletUserMenuItem from './WalletUserMenuItem'
+
+const PointsBreakdown = styled(Box)`
+  padding: 8px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.backgroundAlt};
+  font-size: 12px;
+  display: none;
+  position: absolute;
+  right: 100%;
+  top: 0;
+  margin-right: 8px;
+  width: 200px;
+  z-index: 1000;
+`
+
+const PointsMenuItem = styled(UserMenuItem)`
+  position: relative;
+
+  &:hover ${PointsBreakdown} {
+    display: block;
+  }
+`
+
+const BreakdownItem = styled(Flex)`
+  justify-content: space-between;
+  padding: 4px 0;
+`
 
 const UserMenuItems = () => {
   const { t } = useTranslation()
@@ -31,6 +61,7 @@ const UserMenuItems = () => {
   const { hasPendingTransactions } = usePendingTransactions()
   const { isInitialized, isLoading, profile } = useProfile()
   const { shouldShowModal } = useAirdropModalStatus()
+  const [points, setPoints] = useState<PointsData | null>(null)
 
   const [onPresentWalletModal] = useModal(<WalletModal initialView={WalletView.WALLET_INFO} />)
   const [onPresentTransactionModal] = useModal(<WalletModal initialView={WalletView.TRANSACTIONS} />)
@@ -45,9 +76,65 @@ const UserMenuItems = () => {
     }
   }, [isWrongNetwork, onPresentWalletModal, onPresentWrongNetworkModal])
 
+  useEffect(() => {
+    const fetchPoints = async () => {
+      if (!account) return
+      try {
+        const response = await fetch('https://static.plunderswap.com/PlunderPoints.json')
+        const data = await response.json()
+        const userPoints = data.find((p: PointsData) => p.wallet_address.toLowerCase() === account.toLowerCase())
+        setPoints(userPoints || null)
+      } catch (error) {
+        console.error('Error fetching points:', error)
+      }
+    }
+
+    fetchPoints()
+  }, [account])
+
   return (
     <>
       <WalletUserMenuItem isWrongNetwork={isWrongNetwork} onPresentWalletModal={onClickWalletMenu} />
+      {points && (
+        <PointsMenuItem>
+          <Flex alignItems="center" justifyContent="space-between" width="100%">
+            <Text>{t('PlunderPoints')}</Text>
+            <Text bold>{points.total_points.toLocaleString()}</Text>
+          </Flex>
+          <PointsBreakdown>
+            {points.zilnames_points > 0 && (
+              <BreakdownItem>
+                <Text>{t('Zilnames')}</Text>
+                <Text>{points.zilnames_points.toLocaleString()}</Text>
+              </BreakdownItem>
+            )}
+            {points.early_bird_swap_points > 0 && (
+              <BreakdownItem>
+                <Text>{t('Early Bird Swap')}</Text>
+                <Text>{points.early_bird_swap_points.toLocaleString()}</Text>
+              </BreakdownItem>
+            )}
+            {points.early_bird_lp_points > 0 && (
+              <BreakdownItem>
+                <Text>{t('Early Bird LP')}</Text>
+                <Text>{points.early_bird_lp_points.toLocaleString()}</Text>
+              </BreakdownItem>
+            )}
+            {points.swap_points > 0 && (
+              <BreakdownItem>
+                <Text>{t('Swap')}</Text>
+                <Text>{points.swap_points.toLocaleString()}</Text>
+              </BreakdownItem>
+            )}
+            {points.lp_points > 0 && (
+              <BreakdownItem>
+                <Text>{t('LP')}</Text>
+                <Text>{points.lp_points.toLocaleString()}</Text>
+              </BreakdownItem>
+            )}
+          </PointsBreakdown>
+        </PointsMenuItem>
+      )}
       <UserMenuItem as="button" disabled={isWrongNetwork} onClick={onPresentTransactionModal}>
         {t('Recent Transactions')}
         {hasPendingTransactions && <RefreshIcon spin />}

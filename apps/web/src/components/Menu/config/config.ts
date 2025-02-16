@@ -100,6 +100,12 @@ const config: (
           fillIcon: SwapVertIcon,
         },
         {
+          label: 'PlunderPoints',
+          href: '/plunder-points',
+          icon: 'Trophy',
+          fillIcon: 'Trophy',
+        },
+        {
           label: t('Legacy Transfer'),
           href: '/transfer',
           icon: CurrencyIcon,
