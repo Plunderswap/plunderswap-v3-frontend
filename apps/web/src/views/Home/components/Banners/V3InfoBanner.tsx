@@ -4,13 +4,17 @@ import { BannerContainer, BannerMain, PancakeSwapBadge } from '@pancakeswap/widg
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-const StyledBannerContainer = styled(BannerContainer)`
+interface StyledProps {
+  isMobile?: boolean
+}
+
+const StyledBannerContainer = styled(BannerContainer)<StyledProps>`
   padding: ${({ isMobile }) => (isMobile ? '16px' : '12px 16px')};
   min-height: auto;
   height: fit-content;
 `
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.div<StyledProps>`
   display: flex;
   flex-direction: column;
   gap: ${({ isMobile }) => (isMobile ? '8px' : '4px')};
@@ -18,7 +22,7 @@ const ContentWrapper = styled.div`
   padding: 0;
 `
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button)<StyledProps>`
   height: 36px;
   padding: 0 24px;
   width: ${({ isMobile }) => (isMobile ? '100%' : 'auto')};
@@ -28,21 +32,21 @@ const StyledButton = styled(Button)`
   }
 `
 
-const StyledTrophyIcon = styled(TrophyIcon)`
+const StyledTrophyIcon = styled(TrophyIcon)<StyledProps>`
   width: 28px;
   height: 28px;
   color: ${({ theme }) => theme.colors.secondary};
   margin-bottom: ${({ isMobile }) => (isMobile ? '4px' : '0')};
 `
 
-const TitleWrapper = styled.div`
+const TitleWrapper = styled.div<StyledProps>`
   display: flex;
   flex-direction: ${({ isMobile }) => (isMobile ? 'column' : 'row')};
   align-items: flex-start;
   gap: 8px;
 `
 
-const HeadingWrapper = styled.div<{ isMobile: boolean }>`
+const HeadingWrapper = styled.div<StyledProps>`
   display: flex;
   flex-direction: ${({ isMobile }) => (isMobile ? 'column' : 'row')};
   align-items: ${({ isMobile }) => (isMobile ? 'flex-start' : 'center')};
@@ -51,12 +55,12 @@ const HeadingWrapper = styled.div<{ isMobile: boolean }>`
   width: 100%;
 `
 
-const StyledText = styled(Text)`
+const StyledText = styled(Text)<StyledProps>`
   margin-top: ${({ isMobile }) => (isMobile ? '4px' : '2px')};
   font-size: ${({ isMobile }) => (isMobile ? '12px' : '14px')};
 `
 
-const StyledHeading = styled(Heading)`
+const StyledHeading = styled(Heading)<StyledProps>`
   color: ${({ theme }) => theme.colors.secondary};
   font-size: ${({ isMobile }) => (isMobile ? '20px' : '24px')};
   line-height: 1.2;
