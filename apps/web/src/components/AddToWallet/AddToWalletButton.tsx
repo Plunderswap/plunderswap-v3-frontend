@@ -114,7 +114,7 @@ const AddToWalletButton: React.FC<AddToWalletButtonProps & ButtonProps> = ({
               decimals: tokenDecimals,
               image,
             },
-          },
+          } as any,
         })
       } else {
         console.error('No method available to add token to wallet')
