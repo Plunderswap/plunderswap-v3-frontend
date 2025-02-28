@@ -10,7 +10,6 @@ import {
   TrustWalletIcon,
 } from '@pancakeswap/uikit'
 import { useAccount } from 'wagmi'
-import { canRegisterToken } from '../../utils/wallet'
 import { BAD_SRCS } from '../Logo/constants'
 
 export enum AddToWalletTextOptions {
@@ -82,27 +81,51 @@ const AddToWalletButton: React.FC<AddToWalletButtonProps & ButtonProps> = ({
 }) => {
   const { t } = useTranslation()
   const { connector, isConnected } = useAccount()
-  const isCanRegisterToken = canRegisterToken()
 
   if (connector && connector.name === 'Binance') return null
   if (!(connector && connector.watchAsset && isConnected)) return null
-  if (!isCanRegisterToken) return null
+  if (!isConnected) return null
 
-  return (
-    <Button
-      {...props}
-      onClick={() => {
-        const image = tokenLogo ? (BAD_SRCS[tokenLogo] ? undefined : tokenLogo) : undefined
-        if (!tokenAddress || !tokenSymbol) return
-        connector.watchAsset?.({
+  const handleAddToken = async () => {
+    const image = tokenLogo ? (BAD_SRCS[tokenLogo] ? undefined : tokenLogo) : undefined
+
+    if (!tokenAddress || !tokenSymbol) return
+
+    try {
+      // Try using the connector's watchAsset method if available
+      if (connector?.watchAsset) {
+        await connector.watchAsset?.({
           address: tokenAddress,
           symbol: tokenSymbol,
           image,
           // @ts-ignore
           decimals: tokenDecimals,
         })
-      }}
-    >
+      }
+      // Fallback to window.ethereum if connector doesn't support watchAsset
+      else if (window?.ethereum?.request) {
+        await window.ethereum.request({
+          method: 'wallet_watchAsset',
+          params: {
+            type: 'ERC20',
+            options: {
+              address: tokenAddress,
+              symbol: tokenSymbol,
+              decimals: tokenDecimals,
+              image,
+            },
+          },
+        })
+      } else {
+        console.error('No method available to add token to wallet')
+      }
+    } catch (error) {
+      console.error('Error adding token to wallet:', error)
+    }
+  }
+
+  return (
+    <Button {...props} onClick={handleAddToken}>
       {getWalletText(textOptions, tokenSymbol, t)}
       {getWalletIcon(marginTextBetweenLogo, connector?.name)}
     </Button>
