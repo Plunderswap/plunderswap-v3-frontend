@@ -102,10 +102,22 @@ const walletsConfig = ({
     //   },
     // },
     {
-      id: 'coinbase',
-      title: 'Coinbase Wallet',
-      icon: `${ASSET_CDN}/images/wallets/coinbase.png`,
-      connectorId: ConnectorNames.WalletLink,
+      id: 'zilpay',
+      title: 'ZilPay',
+      icon: `${ASSET_CDN}/images/wallets/zilpay.png`,
+      // get installed() {
+      //   return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isZilPay)
+      // },
+      connectorId: ConnectorNames.Injected,
+    },
+    {
+      id: 'torch',
+      title: 'Torch',
+      icon: `${ASSET_CDN}/images/wallets/torch.png`,
+      get installed() {
+        return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isTorch)
+      },
+      connectorId: ConnectorNames.Injected,
     },
     // {
     //   id: 'trust',
@@ -128,6 +140,12 @@ const walletsConfig = ({
       title: 'WalletConnect',
       icon: `${ASSET_CDN}/images/wallets/walletconnect.png`,
       connectorId: ConnectorNames.WalletConnect,
+    },
+    {
+      id: 'coinbase',
+      title: 'Coinbase Wallet',
+      icon: `${ASSET_CDN}/images/wallets/coinbase.png`,
+      connectorId: ConnectorNames.WalletLink,
     },
     {
       id: 'opera',
