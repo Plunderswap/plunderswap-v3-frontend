@@ -105,9 +105,9 @@ const walletsConfig = ({
       id: 'zilpay',
       title: 'ZilPay',
       icon: `${ASSET_CDN}/images/wallets/zilpay.png`,
-      // get installed() {
-      //   return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isZilPay)
-      // },
+      get installed() {
+        return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isZilPay)
+      },
       connectorId: ConnectorNames.Injected,
     },
     {
@@ -147,16 +147,16 @@ const walletsConfig = ({
       icon: `${ASSET_CDN}/images/wallets/coinbase.png`,
       connectorId: ConnectorNames.WalletLink,
     },
-    {
-      id: 'opera',
-      title: 'Opera Wallet',
-      icon: `${ASSET_CDN}/images/wallets/opera.png`,
-      connectorId: ConnectorNames.Injected,
-      get installed() {
-        return typeof window !== 'undefined' && Boolean(window.ethereum?.isOpera)
-      },
-      downloadLink: 'https://www.opera.com/crypto/next',
-    },
+    // {
+    //   id: 'opera',
+    //   title: 'Opera Wallet',
+    //   icon: `${ASSET_CDN}/images/wallets/opera.png`,
+    //   connectorId: ConnectorNames.Injected,
+    //   get installed() {
+    //     return typeof window !== 'undefined' && Boolean(window.ethereum?.isOpera)
+    //   },
+    //   downloadLink: 'https://www.opera.com/crypto/next',
+    // },
     {
       id: 'brave',
       title: 'Brave Wallet',
@@ -214,19 +214,19 @@ const walletsConfig = ({
     //     'https://chrome.google.com/webstore/detail/safepal-extension-wallet/lgmpcpglpngdoalbgeoldeajfclnhafa',
     //   qrCode,
     // },
-    {
-      id: 'coin98',
-      title: 'Coin98',
-      icon: `${ASSET_CDN}/images/wallets/coin98.png`,
-      connectorId: ConnectorNames.Injected,
-      get installed() {
-        return (
-          typeof window !== 'undefined' &&
-          (Boolean((window.ethereum as ExtendEthereum)?.isCoin98) || Boolean(window.coin98))
-        )
-      },
-      qrCode,
-    },
+    // {
+    //   id: 'coin98',
+    //   title: 'Coin98',
+    //   icon: `${ASSET_CDN}/images/wallets/coin98.png`,
+    //   connectorId: ConnectorNames.Injected,
+    //   get installed() {
+    //     return (
+    //       typeof window !== 'undefined' &&
+    //       (Boolean((window.ethereum as ExtendEthereum)?.isCoin98) || Boolean(window.coin98))
+    //     )
+    //   },
+    //   qrCode,
+    // },
     // {
     //   id: 'blocto',
     //   title: 'Blocto',
