@@ -118,6 +118,10 @@ const walletsConfig = ({
         return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isTorch)
       },
       connectorId: ConnectorNames.Injected,
+      guide: {
+        desktop: 'https://torchwallet.io/',
+      },
+      downloadLink: 'https://chromewebstore.google.com/detail/torch/bcpcfajkbagnicoppbogbgemdodphjne',
     },
     // {
     //   id: 'trust',
