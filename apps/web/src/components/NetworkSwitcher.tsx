@@ -21,7 +21,7 @@ import { useHover } from 'hooks/useHover'
 import { useSessionChainId } from 'hooks/useSessionChainId'
 import { useSwitchNetwork } from 'hooks/useSwitchNetwork'
 import { useRouter } from 'next/router'
-import { useMemo, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useUserShowTestnet } from 'state/user/hooks/useUserShowTestnet'
 import { chainNameConverter } from 'utils/chainNameConverter'
 import { chains } from 'utils/wagmi'
@@ -133,11 +133,11 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t(
-      'The URL you are accessing (Chain id: %chainId%) belongs to %network%; mismatching your wallet's network. Please switch the network to continue.',
+      'The URL you are accessing (Chain id: %chainId%) belongs to %network%; mismatching your wallet\'s network. Please switch the network to continue.',
       {
         chainId,
-        network: chains.find((c) => c.id === chainId)?.name ?? 'Unknown network',
-      },
+        network: chains.find((c) => c.id === chainId)?.name ?? 'Unknown network'
+      }
     ),
     {
       placement: 'auto-start',
