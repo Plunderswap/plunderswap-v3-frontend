@@ -28,6 +28,19 @@ import { chains } from 'utils/wagmi'
 import { useNetwork } from 'wagmi'
 import { ChainLogo } from './Logo/ChainLogo'
 
+interface ExtendedWindowProvider {
+  chainId?: string;
+  on: (event: string, callback: any) => void;
+  removeListener: (event: string, callback: any) => void;
+  isMetaMask?: boolean;
+  isTrust?: boolean;
+  isTokenPocket?: boolean;
+  isCoinbaseWallet?: boolean;
+  isZilPay?: boolean;
+  isTorch?: boolean;
+  providers?: ExtendedWindowProvider[];
+}
+
 const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
   const [showTestnet] = useUserShowTestnet()
@@ -48,7 +61,7 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
   useEffect(() => {
     if (!lastSelectedChainId) return
     
-    const provider = window.ethereum
+    const provider = window.ethereum as ExtendedWindowProvider | undefined
     
     if (provider) {
       const handleChainChanged = (hexChainId: string) => {
@@ -61,8 +74,9 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
       provider.on('chainChanged', handleChainChanged)
       
       const checkForNetworkChange = setInterval(() => {
-        if (window.ethereum?.chainId) {
-          const currentChainId = parseInt(window.ethereum.chainId, 16)
+        const currentProvider = window.ethereum as ExtendedWindowProvider | undefined
+        if (currentProvider?.chainId) {
+          const currentChainId = parseInt(currentProvider.chainId, 16)
           if (currentChainId === lastSelectedChainId) {
             setLastSelectedChainId(null)
             window.location.reload()
@@ -151,7 +165,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
   useEffect(() => {
     if (!lastSelectedChainId) return
     
-    const provider = window.ethereum
+    const provider = window.ethereum as ExtendedWindowProvider | undefined
     
     if (provider) {
       const handleChainChanged = (hexChainId: string) => {
@@ -164,8 +178,9 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
       provider.on('chainChanged', handleChainChanged)
       
       const checkForNetworkChange = setInterval(() => {
-        if (window.ethereum?.chainId) {
-          const currentChainId = parseInt(window.ethereum.chainId, 16)
+        const currentProvider = window.ethereum as ExtendedWindowProvider | undefined
+        if (currentProvider?.chainId) {
+          const currentChainId = parseInt(currentProvider.chainId, 16)
           if (currentChainId === lastSelectedChainId) {
             setLastSelectedChainId(null)
             window.location.reload()
