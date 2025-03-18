@@ -17,7 +17,7 @@ import {
   WarningIcon,
 } from '@pancakeswap/uikit'
 import { atom, useAtom } from 'jotai'
-import { PropsWithChildren, Suspense, lazy, useMemo, useState } from 'react'
+import { PropsWithChildren, Suspense, lazy, useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import {
   desktopWalletSelectionClass,
@@ -84,7 +84,7 @@ const TabContainer = ({ children, docLink, docText }: PropsWithChildren<{ docLin
       <AtomBox position="absolute" style={{ top: '-50px' }}>
         <TabMenu activeIndex={index} onItemClick={setIndex} gap="0px" isColorInverse isShowBorderBottom={false}>
           <Tab>{t('Connect Wallet')}</Tab>
-          <Tab>{t('What’s a Web3 Wallet?')}</Tab>
+          <Tab>{t('What\'s a Web3 Wallet?')}</Tab>
         </TabMenu>
       </AtomBox>
       <AtomBox
@@ -171,7 +171,7 @@ function MobileModal<T>({
       <AtomBox p="24px" borderTop="1">
         <AtomBox>
           <Text textAlign="center" color="textSubtle" as="p" mb="24px">
-            {t('Haven’t got a crypto wallet yet?')}
+            {t('Haven\'t got a crypto wallet yet?')}
           </Text>
         </AtomBox>
         <Button as="a" href={docLink} variant="subtle" width="100%" external>
@@ -412,11 +412,20 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
   const connectWallet = (wallet: WalletConfigV2<T>) => {
     setSelected(wallet)
     setError('')
+    
+    // Create a flag to track connection attempt
+    const [isConnecting, setIsConnecting] = useState(false)
+    const [connectionAttemptTimestamp, setConnectionAttemptTimestamp] = useState<number | null>(null)
+    
     if (wallet.installed !== false) {
+      setIsConnecting(true)
+      setConnectionAttemptTimestamp(Date.now())
+      
       login(wallet.connectorId)
         .then((v) => {
           if (v) {
             localStorage.setItem(walletLocalStorageKey, wallet.title)
+            setIsConnecting(false)
             try {
               onWalletConnectCallBack?.(wallet.title)
             } catch (e) {
@@ -425,6 +434,7 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
           }
         })
         .catch((err) => {
+          setIsConnecting(false)
           if (err instanceof WalletConnectorNotFoundError) {
             setError(t('no provider found'))
           } else if (err instanceof WalletSwitchChainError) {
@@ -434,6 +444,56 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
           }
         })
     }
+    
+    // Add an effect to handle mobile connection checks
+    useEffect(() => {
+      if (!isConnecting || !connectionAttemptTimestamp || !isMobile) return undefined
+      
+      // For mobile connections, check if the user has returned from the wallet app
+      const checkForConnection = setInterval(() => {
+        // If we've been waiting for more than 5 seconds, check if window.ethereum is available
+        if (Date.now() - connectionAttemptTimestamp > 5000) {
+          const provider = window.ethereum as ExtendedWindowProvider | undefined
+          
+          // If provider exists and we're still in the connecting state, retry the login
+          if (provider && isConnecting && wallet) {
+            // Retry the connection
+            login(wallet.connectorId)
+              .then((v) => {
+                if (v) {
+                  localStorage.setItem(walletLocalStorageKey, wallet.title)
+                  setIsConnecting(false)
+                  clearInterval(checkForConnection)
+                  try {
+                    onWalletConnectCallBack?.(wallet.title)
+                  } catch (e) {
+                    console.error(wallet.title, e)
+                  }
+                }
+              })
+              .catch(() => {
+                // Still failed, might need to refresh
+                if (Date.now() - connectionAttemptTimestamp > 15000) {
+                  // If it's been more than 15 seconds total, refresh the page
+                  window.location.reload()
+                }
+              })
+          }
+        }
+      }, 1000)
+      
+      // If connection attempt has been going on for too long, auto refresh
+      const refreshTimeout = setTimeout(() => {
+        if (isConnecting) {
+          window.location.reload()
+        }
+      }, 20000) // 20 seconds max wait time
+      
+      return () => {
+        clearInterval(checkForConnection)
+        clearTimeout(refreshTimeout)
+      }
+    }, [isConnecting, connectionAttemptTimestamp, wallet, login])
   }
 
   return (
@@ -458,7 +518,7 @@ const Intro = ({ docLink, docText }: { docLink: string; docText: string }) => {
   return (
     <>
       <Heading as="h1" fontSize="20px" color="secondary">
-        {t('Haven’t got a wallet yet?')}
+        {t('Haven\'t got a wallet yet?')}
       </Heading>
       <Image src="https://dev.plunderswap.com/images/wallets/pirate_plug.png" width={198} height={178} />
       <Button as={LinkExternal} color="backgroundAlt" variant="subtle" href={docLink}>
@@ -534,3 +594,16 @@ const getDesktopText = (linkDevice: LinkOfDevice, fallback: string) =>
     : typeof linkDevice.desktop === 'string'
     ? fallback
     : linkDevice.desktop?.text ?? fallback
+
+// Add the ExtendedWindowProvider interface
+interface ExtendedWindowProvider {
+  on: (event: string, callback: any) => void;
+  removeListener: (event: string, callback: any) => void;
+  isMetaMask?: boolean;
+  isTrust?: boolean;
+  isTokenPocket?: boolean;
+  isCoinbaseWallet?: boolean;
+  isZilPay?: boolean;
+  isTorch?: boolean;
+  providers?: ExtendedWindowProvider[];
+}
