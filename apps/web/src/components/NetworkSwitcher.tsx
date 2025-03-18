@@ -45,7 +45,6 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
   const { t } = useTranslation()
   const [showTestnet] = useUserShowTestnet()
   const [lastSelectedChainId, setLastSelectedChainId] = useState<number | null>(null)
-  const router = useRouter()
 
   const handleNetworkSwitch = useCallback(async (targetChainId: number) => {
     if (targetChainId === chainId) return
@@ -59,8 +58,8 @@ const NetworkSelect = ({ switchNetwork, chainId }) => {
   }, [chainId, switchNetwork])
 
   useEffect(() => {
-    if (!lastSelectedChainId) return
-    
+    if (!lastSelectedChainId) return undefined
+
     const provider = window.ethereum as ExtendedWindowProvider | undefined
     
     if (provider) {
@@ -163,7 +162,7 @@ const WrongNetworkSelect = ({ switchNetwork, chainId }) => {
   }, [switchNetwork])
 
   useEffect(() => {
-    if (!lastSelectedChainId) return
+    if (!lastSelectedChainId) return undefined
     
     const provider = window.ethereum as ExtendedWindowProvider | undefined
     
