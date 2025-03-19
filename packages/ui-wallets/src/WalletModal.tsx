@@ -17,7 +17,7 @@ import {
   WarningIcon,
 } from '@pancakeswap/uikit'
 import { atom, useAtom } from 'jotai'
-import { PropsWithChildren, Suspense, lazy, useMemo, useState } from 'react'
+import { PropsWithChildren, Suspense, lazy, useEffect, useMemo, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import {
   desktopWalletSelectionClass,
@@ -54,6 +54,19 @@ export type WalletConfigV2<T = unknown> = {
   isNotExtension?: boolean
 }
 
+interface ExtendedWindowProvider {
+  chainId?: string;
+  on: (event: string, callback: any) => void;
+  removeListener: (event: string, callback: any) => void;
+  isMetaMask?: boolean;
+  isTrust?: boolean;
+  isTokenPocket?: boolean;
+  isCoinbaseWallet?: boolean;
+  isZilPay?: boolean;
+  isTorch?: boolean;
+  providers?: ExtendedWindowProvider[];
+}
+
 interface WalletModalV2Props<T = unknown> extends ModalV2Props {
   wallets: WalletConfigV2<T>[]
   login: (connectorId: T) => Promise<any>
@@ -84,7 +97,7 @@ const TabContainer = ({ children, docLink, docText }: PropsWithChildren<{ docLin
       <AtomBox position="absolute" style={{ top: '-50px' }}>
         <TabMenu activeIndex={index} onItemClick={setIndex} gap="0px" isColorInverse isShowBorderBottom={false}>
           <Tab>{t('Connect Wallet')}</Tab>
-          <Tab>{t('What’s a Web3 Wallet?')}</Tab>
+          <Tab>{t('What\'s a Web3 Wallet?')}</Tab>
         </TabMenu>
       </AtomBox>
       <AtomBox
@@ -171,7 +184,7 @@ function MobileModal<T>({
       <AtomBox p="24px" borderTop="1">
         <AtomBox>
           <Text textAlign="center" color="textSubtle" as="p" mb="24px">
-            {t('Haven’t got a crypto wallet yet?')}
+            {t('Haven\'t got a crypto wallet yet?')}
           </Text>
         </AtomBox>
         <Button as="a" href={docLink} variant="subtle" width="100%" external>
@@ -397,6 +410,9 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
   const [, setSelected] = useSelectedWallet<T>()
   const [, setError] = useAtom(errorAtom)
   const { t } = useTranslation()
+  const [isConnecting, setIsConnecting] = useState(false)
+  const [connectionWallet, setConnectionWallet] = useState<WalletConfigV2<T> | null>(null)
+  const [connectionTimestamp, setConnectionTimestamp] = useState<number | null>(null)
 
   const imageSources = useMemo(
     () =>
@@ -409,14 +425,71 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
 
   usePreloadImages(imageSources.slice(0, MOBILE_DEFAULT_DISPLAY_COUNT))
 
+  useEffect(() => {
+    if (!isConnecting || !connectionWallet || !connectionTimestamp) return
+
+    if (!isMobile) {
+      return
+    }
+
+    const checkConnectionInterval = setInterval(() => {
+      const currentTime = Date.now()
+      const elapsedTime = currentTime - connectionTimestamp
+      
+      if (elapsedTime > 3000) {
+        const provider = window.ethereum as ExtendedWindowProvider | undefined
+        
+        if (provider) {
+          login(connectionWallet.connectorId)
+            .then((v) => {
+              if (v) {
+                localStorage.setItem(walletLocalStorageKey, connectionWallet.title)
+                setIsConnecting(false)
+                setConnectionWallet(null)
+                setConnectionTimestamp(null)
+                try {
+                  onWalletConnectCallBack?.(connectionWallet.title)
+                } catch (e) {
+                  console.error(connectionWallet.title, e)
+                }
+              }
+            })
+            .catch(() => {
+              // Continue waiting
+            })
+        }
+      }
+      
+      if (elapsedTime > 15000) {
+        window.location.reload()
+      }
+    }, 1000)
+    
+    return () => {
+      clearInterval(checkConnectionInterval)
+    }
+  }, [isConnecting, connectionWallet, connectionTimestamp, login, onWalletConnectCallBack])
+
   const connectWallet = (wallet: WalletConfigV2<T>) => {
     setSelected(wallet)
     setError('')
+    
     if (wallet.installed !== false) {
+      if (isMobile) {
+        setIsConnecting(true)
+        setConnectionWallet(wallet)
+        setConnectionTimestamp(Date.now())
+      }
+      
       login(wallet.connectorId)
         .then((v) => {
           if (v) {
             localStorage.setItem(walletLocalStorageKey, wallet.title)
+            
+            setIsConnecting(false)
+            setConnectionWallet(null)
+            setConnectionTimestamp(null)
+            
             try {
               onWalletConnectCallBack?.(wallet.title)
             } catch (e) {
@@ -425,12 +498,18 @@ export function WalletModalV2<T = unknown>(props: WalletModalV2Props<T>) {
           }
         })
         .catch((err) => {
-          if (err instanceof WalletConnectorNotFoundError) {
-            setError(t('no provider found'))
-          } else if (err instanceof WalletSwitchChainError) {
-            setError(err.message)
-          } else {
-            setError(t('Error connecting, please authorize wallet to access.'))
+          if (!isMobile) {
+            if (err instanceof WalletConnectorNotFoundError) {
+              setError(t('no provider found'))
+            } else if (err instanceof WalletSwitchChainError) {
+              setError(err.message)
+            } else {
+              setError(t('Error connecting, please authorize wallet to access.'))
+            }
+            
+            setIsConnecting(false)
+            setConnectionWallet(null)
+            setConnectionTimestamp(null)
           }
         })
     }
@@ -458,7 +537,7 @@ const Intro = ({ docLink, docText }: { docLink: string; docText: string }) => {
   return (
     <>
       <Heading as="h1" fontSize="20px" color="secondary">
-        {t('Haven’t got a wallet yet?')}
+        {t('Haven\'t got a wallet yet?')}
       </Heading>
       <Image src="https://dev.plunderswap.com/images/wallets/pirate_plug.png" width={198} height={178} />
       <Button as={LinkExternal} color="backgroundAlt" variant="subtle" href={docLink}>
