@@ -165,7 +165,7 @@ const DeBridgeWidget = () => {
           v: "1",
           mode: "deswap",
           title: "deBridgeSwap",
-          affiliateFeePercent: "1",
+          affiliateFeePercent: "0.3",
           affiliateFeeRecipient: "0xd21E70dD2678Ee2AAAbE3E5c54b6A52D252E7400",
           width: window.innerWidth < 640 ? "100%" : "600",
           height: window.innerWidth < 640 ? "800" : "800",
