@@ -450,6 +450,6 @@ export const STABLE_COIN = {
   [ChainId.SEPOLIA]: USDC[ChainId.SEPOLIA],
   [ChainId.ARBITRUM_SEPOLIA]: USDC[ChainId.ARBITRUM_SEPOLIA],
   [ChainId.BASE_SEPOLIA]: USDC[ChainId.BASE_SEPOLIA],
-  [ChainId.ZILLIQA]: USDT[ChainId.ZILLIQA],
+  [ChainId.ZILLIQA]: USDC[ChainId.ZILLIQA],
   [ChainId.ZILLIQA_TESTNET]: USDC[ChainId.ZILLIQA_TESTNET],
 } satisfies Record<ChainId, ERC20Token>
