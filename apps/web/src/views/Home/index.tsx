@@ -2,7 +2,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { Box, Container, PageSection, useMatchBreakpoints } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
 import { styled } from 'styled-components'
-import { V3InfoBanner } from './components/Banners/V3InfoBanner'
+import { DeBridgeBanner } from './components/Banners/DeBridgeBanner'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
 import SalesSection from './components/SalesSection'
@@ -83,7 +83,7 @@ const Home: React.FC<React.PropsWithChildren> = () => {
         index={2}
         hasCurvedDivider={false}
       >
-        <V3InfoBanner />
+        <DeBridgeBanner />
         <Hero />
       </StyledHeroSection>
       {/* <PageSection

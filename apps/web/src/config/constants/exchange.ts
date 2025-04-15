@@ -31,7 +31,7 @@ export {
   ADDITIONAL_BASES,
   BASES_TO_CHECK_TRADES_AGAINST,
   CUSTOM_BASES,
-  V2_ROUTER_ADDRESS,
+  V2_ROUTER_ADDRESS
 } from '@pancakeswap/smart-router'
 
 export const CHAIN_REFRESH_TIME = {
@@ -86,7 +86,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.SEPOLIA]: [scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
-  [ChainId.ZILLIQA]: [USDT[ChainId.ZILLIQA], zilliqaTokens.kusd],
+  [ChainId.ZILLIQA]: [USDC[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA], zilliqaTokens.kusd],
   [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.usdc, zilliqaTestnetTokens.kusd],
 }
 
@@ -112,7 +112,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.SEPOLIA]: [scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
-  [ChainId.ZILLIQA]: [WNATIVE[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA], zilliqaTokens.kusd],
+  [ChainId.ZILLIQA]: [WNATIVE[ChainId.ZILLIQA], USDC[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA], zilliqaTokens.kusd],
   [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.wzil, zilliqaTestnetTokens.usdc, zilliqaTestnetTokens.kusd],
 }
 
@@ -143,6 +143,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.BASE_TESTNET]: [[baseTestnetTokens.usdc, baseTestnetTokens.weth]],
   [ChainId.SCROLL_SEPOLIA]: [[scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth]],
   [ChainId.ZILLIQA]: [
+    [WNATIVE[ChainId.ZILLIQA], USDC[ChainId.ZILLIQA]],
     [WNATIVE[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA]],
     [WNATIVE[ChainId.ZILLIQA], zilliqaTokens.kusd],
   ],
@@ -180,7 +181,7 @@ export const INPUT_FRACTION_AFTER_FEE = ONE_HUNDRED_PERCENT.subtract(BASE_FEE)
 // BNB
 export const DEFAULT_INPUT_CURRENCY = 'ZIL'
 // CAKE
-export const DEFAULT_OUTPUT_CURRENCY = '0x2274005778063684fbB1BfA96a2b725dC37D75f9'
+export const DEFAULT_OUTPUT_CURRENCY = '0xD8b73cEd1B16C047048f2c5EA42233DA33168198'
 
 // Handler string is passed to Gelato to use PCS router
 export const GELATO_HANDLER = 'pancakeswap'
