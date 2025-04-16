@@ -1,4 +1,4 @@
-import { ContextApi } from '@pancakeswap/localization'
+import { ContextApi } from '@pancakeswap/localization';
 import {
   CurrencyIcon,
   DropdownMenuItemType,
@@ -11,7 +11,7 @@ import {
   SwapFillIcon,
   SwapIcon,
   SwapVertIcon,
-} from '@pancakeswap/uikit'
+} from '@pancakeswap/uikit';
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
 export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean; image?: string } & {
@@ -72,15 +72,28 @@ const config: (
     },
     {
       label: 'Bridge',
-      href: '/crosschain',
+      href: '/bridge',
       icon: SwapVertIcon,
       fillIcon: SwapVertIcon,
       hideSubNav: true,
       showItemsOnMobile: true,
       items: [
         {
-          label: 'Cross-Chain',
+          label: 'deBridge',
+          href: '/bridge',
+          icon: SwapVertIcon,
+          fillIcon: SwapVertIcon,
+        },
+        {
+          label: 'StealthEX Cross-Chain',
           href: '/crosschain',
+          icon: SwapVertIcon,
+          fillIcon: SwapVertIcon,
+        },
+        {
+          label: 'xBridge',
+          href: 'https://xbridge.zilliqa.com/',
+          type: DropdownMenuItemType.EXTERNAL_LINK,
           icon: SwapVertIcon,
           fillIcon: SwapVertIcon,
         },

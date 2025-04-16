@@ -11,6 +11,14 @@
   "keywords": ["plunderswap", "default"],
   "tokens": [
     {
+      "name": "USDC",
+      "symbol": "USDC",
+      "address": "0xD8b73cEd1B16C047048f2c5EA42233DA33168198",
+      "chainId": 32769,
+      "decimals": 6,
+      "logoURI": "https://plunderswap.github.io/token-lists/images/0xD8b73cEd1B16C047048f2c5EA42233DA33168198.png"
+    },
+    {
       "name": "Zilliqa-bridged USDT token",
       "symbol": "zUSDT",
       "address": "0x2274005778063684fbB1BfA96a2b725dC37D75f9",

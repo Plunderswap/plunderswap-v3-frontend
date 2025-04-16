@@ -118,7 +118,7 @@ export const formatTokenSymbol = (symbol: string): string => {
   return symbol === 'WZIL' ? 'ZIL' : symbol
 }
 
-export const STABLECOINS = ['zUSDT', 'kUSD']
+export const STABLECOINS = ['USDC', 'zUSDT', 'kUSD']
 export const PREFERRED_SECOND_TOKEN = ['ZIL', 'WZIL']
 
 export const getOrderedPairSymbols = (symbol0: string, symbol1: string): [string, string] => {
