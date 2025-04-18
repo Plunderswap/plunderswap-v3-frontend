@@ -569,12 +569,12 @@ const NotInstalled = ({ wallet, qrCode }: { wallet: WalletConfigV2; qrCode?: str
             })}
           </Text>
           <Text maxWidth="246px" m="auto">
-            {t('If you have %wallet% Wallet installed, make sure to temporarily disable MetaMask or other wallets in the settings to connect with %wallet%.', {
+            {t('If %wallet% Wallet isn’t recognized, temporarily disable MetaMask by going to MetaMask → Manage Extension → Off.', {
             wallet: wallet.title,
             })}
           </Text>
           <Text maxWidth="246px" m="auto">
-            {t('To do this, go to MetaMask → Manage Extension and click "Off", and refresh the page.', {
+            {t('Then either select “Injected” or come back here to click on the icon.', {
             wallet: wallet.title,
           })}
           </Text>

@@ -34,10 +34,7 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BSC }: { pageS
   const [dismissWrongNetwork, setDismissWrongNetwork] = useAtom(hideWrongNetworkModalAtom)
   const { pathname } = useRouter()
 
-  // Skip network modal for cross-chain pages to support working with any network
-  const isCrossChainPage = CROSS_CHAIN_PAGES.includes(pathname) || isInfo2Page(pathname)
-  if (isCrossChainPage) return null
-
+  // Move all hooks to the top level before any conditionals
   const isBNBOnlyPage = useMemo(() => {
     return pageSupportedChains?.length === 1 && pageSupportedChains[0] === ChainId.BSC
   }, [pageSupportedChains])
@@ -46,6 +43,11 @@ export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BSC }: { pageS
     () => Boolean(pageSupportedChains.length) && chainId && !pageSupportedChains.includes(chainId),
     [chainId, pageSupportedChains],
   )
+
+  // Skip network modal for cross-chain pages to support working with any network
+  const isCrossChainPage = CROSS_CHAIN_PAGES.includes(pathname) || isInfo2Page(pathname)
+  if (isCrossChainPage) return null
+
   if (pageSupportedChains?.length === 0) return null // open to all chains
 
   if (isPageNotSupported && isBNBOnlyPage) {
