@@ -1,4 +1,4 @@
-import { Box, Card, Flex, Text } from '@pancakeswap/uikit'
+import { Box, Card, CopyAddress, Flex, Message, Text } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
@@ -101,6 +101,27 @@ const IconWrapper = styled(Flex)`
   margin: 0 auto 16px;
   align-items: center;
   justify-content: center;
+`
+
+const WidgetNotice = styled(Message)`
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+`
+
+const AddressCard = styled(InfoCard)`
+  padding: 16px;
+  margin-top: 16px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const ContractAddressBox = styled(Flex)`
+  align-items: center;
+  margin-top: 8px;
 `
 
 // Add TypeScript definition for the deBridge global object
@@ -243,7 +264,18 @@ const DeBridgeWidget = () => {
   
   return (
     <StyledContainer>
+      <WidgetNotice variant="warning">
+        <Text>Please use the Connect Wallet button within the deBridge widget to connect for cross-chain swaps</Text>
+      </WidgetNotice>
+      
       <WidgetContainer id="debridgeWidget" ref={containerRef} />
+
+      <AddressCard>
+        <Text bold>Zilliqa USDC Contract Address</Text>
+        <ContractAddressBox>
+          <CopyAddress account="0xD8b73cEd1B16C047048f2c5EA42233DA33168198" />
+        </ContractAddressBox>
+      </AddressCard>
 
       <InfoSection>
         <InfoCard>

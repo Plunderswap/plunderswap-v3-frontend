@@ -4,6 +4,7 @@ import { SUPPORT_ONLY_BSC } from 'config/constants/supportChains'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { atom, useAtom } from 'jotai'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { viemClients } from 'utils/viem'
 import { CHAIN_IDS } from 'utils/wagmi'
@@ -22,9 +23,20 @@ const UnsupportedNetworkModal = dynamic(
   { ssr: false },
 )
 
+// Pages that should be allowed to use any network
+const CROSS_CHAIN_PAGES = ['/bridge', '/crosschain']
+
+// Function to check if a path is an Info2 page
+const isInfo2Page = (path: string) => path.startsWith('/info2')
+
 export const NetworkModal = ({ pageSupportedChains = SUPPORT_ONLY_BSC }: { pageSupportedChains?: number[] }) => {
   const { chainId, chain, isWrongNetwork } = useActiveWeb3React()
   const [dismissWrongNetwork, setDismissWrongNetwork] = useAtom(hideWrongNetworkModalAtom)
+  const { pathname } = useRouter()
+
+  // Skip network modal for cross-chain pages to support working with any network
+  const isCrossChainPage = CROSS_CHAIN_PAGES.includes(pathname) || isInfo2Page(pathname)
+  if (isCrossChainPage) return null
 
   const isBNBOnlyPage = useMemo(() => {
     return pageSupportedChains?.length === 1 && pageSupportedChains[0] === ChainId.BSC
