@@ -273,7 +273,7 @@ const DeBridgeWidget = () => {
       <AddressCard>
         <Text bold>Zilliqa USDC Contract Address</Text>
         <ContractAddressBox>
-          <CopyAddress account="0xD8b73cEd1B16C047048f2c5EA42233DA33168198" />
+          <CopyAddress tooltipMessage="USDC on Zilliqa" account="0xD8b73cEd1B16C047048f2c5EA42233DA33168198" />
         </ContractAddressBox>
       </AddressCard>
 
