@@ -552,7 +552,7 @@ const NotInstalled = ({ wallet, qrCode }: { wallet: WalletConfigV2; qrCode?: str
   return (
     <>
       <Heading as="h1" fontSize="20px" color="secondary">
-        {t('%wallet% is not installed', { wallet: wallet.title })}
+        {t('%wallet% is not detected', { wallet: wallet.title })}
       </Heading>
       {qrCode && (
         <Suspense>
@@ -562,11 +562,23 @@ const NotInstalled = ({ wallet, qrCode }: { wallet: WalletConfigV2; qrCode?: str
         </Suspense>
       )}
       {!qrCode && !wallet.isNotExtension && (
-        <Text maxWidth="246px" m="auto">
-          {t('Please install the %wallet% browser extension to connect the %wallet% wallet.', {
+        <>
+          <Text maxWidth="246px" m="auto">
+            {t('Please install the %wallet% browser extension.', {
+              wallet: wallet.title,
+            })}
+          </Text>
+          <Text maxWidth="246px" m="auto">
+            {t('If %wallet% Wallet isn’t recognized, temporarily disable MetaMask by going to MetaMask → Manage Extension → Off.', {
+            wallet: wallet.title,
+            })}
+          </Text>
+          <Text maxWidth="246px" m="auto">
+            {t('Then either select “Injected” or come back here to click on the icon.', {
             wallet: wallet.title,
           })}
-        </Text>
+          </Text>
+        </>
       )}
       {wallet.guide && (
         <Button variant="subtle" as="a" href={getDesktopLink(wallet.guide)} external>
