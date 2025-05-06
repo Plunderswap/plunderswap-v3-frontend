@@ -109,6 +109,10 @@ const walletsConfig = ({
         return typeof window !== 'undefined' && Boolean((window.ethereum as ExtendEthereum)?.isZilPay)
       },
       connectorId: ConnectorNames.Injected,
+      guide: {
+        desktop: 'https://zilpay.io/',
+      },
+      downloadLink: 'https://zilpay.io/',
     },
     {
       id: 'torch',
