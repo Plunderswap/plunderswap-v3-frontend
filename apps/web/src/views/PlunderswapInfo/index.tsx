@@ -292,14 +292,14 @@ export const PlunderswapInfo = () => {
         <Text bold fontSize="24px">
           Pairs & Pools
         </Text>
-        <Flex flexDirection="column" gap="4px">
+        <Flex flexDirection="column">
           <Text fontSize="12px" color="textSubtle">
             Prices are updated every 5 minutes. Volumes are updated every hour.
           </Text>
           {(priceTimestamp || volumeTimestamp) && (
-            <Flex gap="16px" flexWrap="wrap">
+            <Flex flexWrap="wrap" mt="4px">
               {priceTimestamp && (
-                <Text fontSize="11px" color="textSubtle">
+                <Text fontSize="11px" color="textSubtle" mr="16px">
                   Prices: {formatTimeAgo(priceTimestamp)}. 
                 </Text>
               )}
