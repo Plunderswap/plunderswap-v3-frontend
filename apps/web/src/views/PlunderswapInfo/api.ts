@@ -3,6 +3,7 @@ import { PREFERRED_SECOND_TOKEN, STABLECOINS, buildTokenAddressMap } from './uti
 const PAIR_URL = 'https://static.plunderswap.com/PlunderswapPairPrices.json'
 const POOL_URL = 'https://static.plunderswap.com/PlunderswapPoolPrices.json'
 const POOL_ADDRESSES_URL = 'https://static.plunderswap.com/PlunderswapPools.json'
+const VOLUME_URL = 'https://static.plunderswap.com/PlunderswapPoolVolumes.json'
 
 const fetchWithRetry = async (url: string, retries = 3): Promise<any> => {
   try {
@@ -70,4 +71,35 @@ export const fetchPoolData = async () => {
 
 export const fetchPoolAddresses = async () => {
   return fetchWithRetry(POOL_ADDRESSES_URL)
+}
+
+export const fetchVolumeData = async () => {
+  return fetchWithRetry(VOLUME_URL)
+}
+
+export const extractTimestamps = (priceData: any[], volumeData: any) => {
+  let priceTimestamp = null
+  let volumeTimestamp = null
+
+  // Extract price timestamp (any timestamp from price data)
+  if (priceData && priceData.length > 0) {
+    const firstPairWithTimestamp = priceData.find(pair => pair.timestamp)
+    if (firstPairWithTimestamp) {
+      priceTimestamp = firstPairWithTimestamp.timestamp
+    }
+  }
+
+  // Extract latest volume timestamp
+  if (volumeData && typeof volumeData === 'object') {
+    const timestamps = Object.values(volumeData)
+      .map((pool: any) => pool.last_update)
+      .filter(timestamp => timestamp)
+      .sort((a: string, b: string) => new Date(b).getTime() - new Date(a).getTime())
+    
+    if (timestamps.length > 0) {
+      volumeTimestamp = timestamps[0]
+    }
+  }
+
+  return { priceTimestamp, volumeTimestamp }
 }

@@ -184,3 +184,33 @@ export const getStoredShow24hData = (): boolean => {
 export const setStoredShow24hData = (value: boolean) => {
   Cookies.set(SHOW_24H_DATA_COOKIE, value.toString(), { expires: 365 })
 }
+
+export const formatTimeAgo = (timestamp: string): string => {
+  if (!timestamp) return 'Unknown'
+  
+  try {
+    const date = new Date(timestamp)
+    const now = new Date()
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+    
+    if (diffInSeconds < 60) {
+      return 'Just now'
+    }
+    
+    const diffInMinutes = Math.floor(diffInSeconds / 60)
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} min${diffInMinutes === 1 ? '' : 's'} ago`
+    }
+    
+    const diffInHours = Math.floor(diffInMinutes / 60)
+    if (diffInHours < 24) {
+      return `${diffInHours} hour${diffInHours === 1 ? '' : 's'} ago`
+    }
+    
+    const diffInDays = Math.floor(diffInHours / 24)
+    return `${diffInDays} day${diffInDays === 1 ? '' : 's'} ago`
+  } catch (error) {
+    console.error('Error formatting timestamp:', error)
+    return 'Unknown'
+  }
+}
