@@ -32,9 +32,11 @@ const StatBox = styled(Flex)`
 
 interface TotalStatsProps {
   pairs: PairData[]
+  priceTimestamp?: string | null
+  volumeTimestamp?: string | null
 }
 
-const TotalStats: React.FC<TotalStatsProps> = ({ pairs }) => {
+const TotalStats: React.FC<TotalStatsProps> = ({ pairs, priceTimestamp, volumeTimestamp }) => {
   const { isXs } = useMatchBreakpoints()
   const totalTVL = pairs.reduce((sum, pair) => sum + Number(pair.tvlUSD), 0)
   const totalVolume24h = pairs.reduce((sum, pair) => sum + Number(pair.volume_usd_24h), 0)

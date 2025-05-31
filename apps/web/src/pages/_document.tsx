@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
-import { FARMS_API } from 'config/constants/endpoints'
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import { Analytics } from '@vercel/analytics/next';
+import { FARMS_API } from 'config/constants/endpoints';
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -48,6 +49,7 @@ class MyDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
+          <Analytics />
           <Main />
           <NextScript />
           <div id="portal-root" />

@@ -357,6 +357,9 @@ importers:
       '@vanilla-extract/next-plugin':
         specifier: ^2.3.0
         version: 2.3.2(@types/node@13.13.52)(next@13.5.6)(webpack@5.91.0)
+      '@vercel/analytics':
+        specifier: ^1.5.0
+        version: 1.5.0(next@13.5.6)(react@18.2.0)
       '@wallchain/sdk':
         specifier: ^0.6.8
         version: 0.6.8(rollup@2.79.1)
@@ -11220,6 +11223,36 @@ packages:
       - sugarss
       - supports-color
       - terser
+    dev: false
+
+  /@vercel/analytics@1.5.0(next@13.5.6)(react@18.2.0):
+    resolution: {integrity: sha512-MYsBzfPki4gthY5HnYN7jgInhAZ7Ac1cYDoRWFomwGHWEX7odTEzbtg9kf/QSo7XEsEAqlQugA6gJ2WS2DEa3g==}
+    peerDependencies:
+      '@remix-run/react': ^2
+      '@sveltejs/kit': ^1 || ^2
+      next: '>= 13'
+      react: ^18 || ^19 || ^19.0.0-rc
+      svelte: '>= 4'
+      vue: ^3
+      vue-router: ^4
+    peerDependenciesMeta:
+      '@remix-run/react':
+        optional: true
+      '@sveltejs/kit':
+        optional: true
+      next:
+        optional: true
+      react:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+      vue-router:
+        optional: true
+    dependencies:
+      next: 13.5.6(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
     dev: false
 
   /@vitejs/plugin-react@3.1.0(vite@5.0.12):

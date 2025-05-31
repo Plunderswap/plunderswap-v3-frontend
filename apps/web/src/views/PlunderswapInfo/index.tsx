@@ -2,13 +2,14 @@ import { useTheme } from '@pancakeswap/hooks'
 import { Flex, Text, Toggle, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { fetchPairData, fetchPoolAddresses, fetchPoolData } from './api'
+import { extractTimestamps, fetchPairData, fetchPoolAddresses, fetchPoolData, fetchVolumeData } from './api'
 import ErrorState from './components/ErrorState'
 import LoadingState from './components/LoadingState'
 import PairRow from './components/PairRow'
 import TotalStats from './components/TotalStats'
 import { PairData, PoolData } from './types'
 import {
+  formatTimeAgo,
   getStoredHideSmallPools,
   getStoredShow24hData,
   orderPairData,
@@ -169,6 +170,8 @@ export const PlunderswapInfo = () => {
   const [show24hData, setShow24hData] = useState(getStoredShow24hData())
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<boolean>(false)
+  const [priceTimestamp, setPriceTimestamp] = useState<string | null>(null)
+  const [volumeTimestamp, setVolumeTimestamp] = useState<string | null>(null)
   const { isMobile, isXs } = useMatchBreakpoints()
   const theme = useTheme()
   const [sortField, setSortField] = useState<SortField>(null)
@@ -179,16 +182,22 @@ export const PlunderswapInfo = () => {
       setIsLoading(true)
       setError(false)
 
-      const [pairData, poolData, poolAddresses] = await Promise.all([
+      const [pairData, poolData, poolAddresses, volumeData] = await Promise.all([
         fetchPairData(),
         fetchPoolData(),
         fetchPoolAddresses(),
+        fetchVolumeData(),
       ])
 
       if (!pairData?.length && !poolData?.length) {
         setError(true)
         return
       }
+
+      // Extract timestamps
+      const { priceTimestamp: extractedPriceTimestamp, volumeTimestamp: extractedVolumeTimestamp } = extractTimestamps(pairData, volumeData)
+      setPriceTimestamp(extractedPriceTimestamp)
+      setVolumeTimestamp(extractedVolumeTimestamp)
 
       // Filter, order, and sort pairs
       const nonZeroPairs = pairData
@@ -283,12 +292,28 @@ export const PlunderswapInfo = () => {
         <Text bold fontSize="24px">
           Pairs & Pools
         </Text>
-        <Text fontSize="12px" color="textSubtle">
-          Data refreshes every 5 minutes
-        </Text>
+        <Flex flexDirection="column">
+          <Text fontSize="12px" color="textSubtle">
+            Prices are updated every 5 minutes. Volumes are updated every hour.
+          </Text>
+          {(priceTimestamp || volumeTimestamp) && (
+            <Flex flexWrap="wrap" mt="4px">
+              {priceTimestamp && (
+                <Text fontSize="11px" color="textSubtle" mr="16px">
+                  Prices: {formatTimeAgo(priceTimestamp)}. 
+                </Text>
+              )}
+              {volumeTimestamp && (
+                <Text fontSize="11px" color="textSubtle">
+                  Volumes: {formatTimeAgo(volumeTimestamp)}.
+                </Text>
+              )}
+            </Flex>
+          )}
+        </Flex>
       </Flex>
 
-      <TotalStats pairs={pairs} />
+      <TotalStats pairs={pairs} priceTimestamp={priceTimestamp} volumeTimestamp={volumeTimestamp} />
 
       <Flex justifyContent="flex-end" mb="16px">
         <ToggleWrapper>
