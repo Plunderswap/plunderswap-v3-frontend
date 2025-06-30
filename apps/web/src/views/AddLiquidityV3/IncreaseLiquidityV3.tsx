@@ -216,14 +216,14 @@ export default function IncreaseLiquidityV3({ currencyA: baseCurrency, currencyB
              chainId,
            })
         })
-      //sendTransactionAsync({
+      // sendTransactionAsync({
       //  account,
       //  to: manager.address,
       //  data: calldata,
       //  value: hexToBigInt(value),
       //  gas: calculateGasMargin(BigInt(2000000)),
       //  chainId,
-      //})
+      // })
         .then((response) => {
           const baseAmount = formatRawAmount(
             parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
