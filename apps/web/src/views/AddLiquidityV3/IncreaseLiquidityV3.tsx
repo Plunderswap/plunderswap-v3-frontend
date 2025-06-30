@@ -35,6 +35,7 @@ import { isUserRejected } from 'utils/sentry'
 import { hexToBigInt } from 'viem'
 
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
+import { getViemClients } from 'utils/viem'
 import { V3SubmitButton } from './components/V3SubmitButton'
 import LockedDeposit from './formViews/V3FormView/components/LockedDeposit'
 import { PositionPreview } from './formViews/V3FormView/components/PositionPreview'
@@ -198,31 +199,31 @@ export default function IncreaseLiquidityV3({ currencyA: baseCurrency, currencyB
             })
 
       setAttemptingTxn(true)
-      // getViemClients({ chainId })
-      //   ?.estimateGas({
-      //     account,
-      //     to: manager.address,
-      //     data: calldata,
-      //     value: hexToBigInt(value),
-      //   })
-      //   .then((gasLimit) => {
-      //     return sendTransactionAsync({
-      //       account,
-      //       to: manager.address,
-      //       data: calldata,
-      //       value: hexToBigInt(value),
-      //       gas: calculateGasMargin(gasLimit),
-      //       chainId,
-      //     })
-      //   })
-      sendTransactionAsync({
-        account,
-        to: manager.address,
-        data: calldata,
-        value: hexToBigInt(value),
-        gas: calculateGasMargin(BigInt(2000000)),
-        chainId,
-      })
+      getViemClients({ chainId })
+         ?.estimateGas({
+           account,
+           to: manager.address,
+           data: calldata,
+           value: hexToBigInt(value),
+         })
+         .then((gasLimit) => {
+           return sendTransactionAsync({
+             account,
+             to: manager.address,
+             data: calldata,
+             value: hexToBigInt(value),
+             gas: calculateGasMargin(gasLimit),
+             chainId,
+           })
+        })
+      //sendTransactionAsync({
+      //  account,
+      //  to: manager.address,
+      //  data: calldata,
+      //  value: hexToBigInt(value),
+      //  gas: calculateGasMargin(BigInt(2000000)),
+      //  chainId,
+      //})
         .then((response) => {
           const baseAmount = formatRawAmount(
             parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',

@@ -57,6 +57,7 @@ import { useSendTransaction, useWalletClient } from 'wagmi'
 
 import { useGasPrice } from 'state/user/hooks'
 import { transactionErrorToUserReadableMessage } from 'utils/transactionErrorToUserReadableMessage'
+import { getViemClients } from 'utils/viem'
 import { useDensityChartData } from 'views/AddLiquidityV3/hooks/useDensityChartData'
 import LockedDeposit from './components/LockedDeposit'
 import { PositionPreview } from './components/PositionPreview'
@@ -280,19 +281,13 @@ export default function V3FormView({
         value: hexToBigInt(value),
         account,
       }
-      // getViemClients({ chainId })
-      //   ?.estimateGas(txn)
-      //   .then((gas) => {
-      //     sendTransactionAsync({
-      //       ...txn,
-      //       gas: calculateGasMargin(gas),
-      //     })
-      // disable above from getViem to 289 and line 324 reenable below to use hardcoded gas
-      sendTransactionAsync({
-        ...txn,
-        gas: calculateGasMargin(BigInt(2000000)),
-        gasPrice,
-      })
+      getViemClients({ chainId })
+        ?.estimateGas(txn)
+        .then((gas) => {
+          sendTransactionAsync({
+            ...txn,
+            gas: calculateGasMargin(gas),
+          })
         .then((response) => {
           const baseAmount = formatRawAmount(
             parsedAmounts[Field.CURRENCY_A]?.quotient?.toString() ?? '0',
@@ -321,7 +316,7 @@ export default function V3FormView({
           }
           setAttemptingTxn(false)
         })
-      // })
+      })
     }
   }, [
     account,
