@@ -65,7 +65,15 @@ export async function getRoutesWithValidQuote({
         }
       })
     })
-  const chunks = chunk(routesWithoutQuote, 10)
+  // With this more aggressive chunking:
+  const maxChunkSize = Math.min(100, Math.max(25, routesWithoutQuote.length))
+  const chunks = chunk(routesWithoutQuote, maxChunkSize)
+
+  logger.log('Chunking quotes:', {
+    totalRoutes: routesWithoutQuote.length,
+    chunkSize: maxChunkSize,
+    numberOfChunks: chunks.length
+  })
   const result = await Promise.all(chunks.map(getQuotes))
   const quotes = result.reduce<RouteWithQuote[]>((acc, cur) => [...acc, ...cur], [])
   logger.log('Get quotes', 'success, got', quotes.length, 'quoted routes', quotes)
