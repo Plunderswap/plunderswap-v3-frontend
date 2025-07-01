@@ -79,13 +79,32 @@ async function getBestRoutes(
 
   let baseRoutes = computeAllRoutes(inputCurrency, outputCurrency, candidatePools, maxHops)
 
+  // Smart route filtering to reduce RPC calls
+  if (baseRoutes.length > 8) {
+    // Prioritize: 1) Direct routes, 2) Shorter routes, 3) Routes with known good pools
+    const directRoutes = baseRoutes.filter(r => r.pools.length === 1)
+    const multiHopRoutes = baseRoutes.filter(r => r.pools.length > 1)
+      .sort((a, b) => a.pools.length - b.pools.length) // Prefer shorter routes
+      .slice(0, Math.max(1, 8 - directRoutes.length)) // Keep best multi-hop routes
+    
+    baseRoutes = [...directRoutes, ...multiHopRoutes]
+    
+    logger.log('Filtered routes:', {
+      original: baseRoutes.length + multiHopRoutes.length + directRoutes.length - baseRoutes.length,
+      filtered: baseRoutes.length,
+      direct: directRoutes.length,
+        multiHop: multiHopRoutes.length,
+      })
+    }
+
   // Check if we have a direct route (single hop)
   const hasDirectRoute = baseRoutes.some((route) => route.pools.length === 1)
 
   // Try both distribution strategies when we have direct routes
-  const distributions = hasDirectRoute
-    ? [100, configuredDistributionPercent] // Try both full and split distributions
-    : [configuredDistributionPercent] // Only try splits for multi-hop
+  const distributions =
+    hasDirectRoute && baseRoutes.filter((r) => r.pools.length === 1).length <= 2
+      ? [100] // Use 100% only when we have few direct routes
+      : [configuredDistributionPercent] // Use splits for everything else
 
   logger.log('Route distributions to try:', {
     hasDirectRoute,
