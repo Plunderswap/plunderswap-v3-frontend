@@ -203,7 +203,12 @@ function bestTradeHookFactory({
       keepPreviousDataRef.current = false
     }
 
-    const blockNumber = useCurrentBlock()
+    const currentBlockNumber = useCurrentBlock()
+    const blockNumber = useMemo(() => {
+      // Only update every 5th block = 5-15 seconds between quotes
+      return Math.floor(currentBlockNumber / 5) * 5
+    }, [currentBlockNumber])
+    
     const {
       refresh: refreshPools,
       pools: candidatePools,
