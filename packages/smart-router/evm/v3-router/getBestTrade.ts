@@ -101,10 +101,9 @@ async function getBestRoutes(
   const hasDirectRoute = baseRoutes.some((route) => route.pools.length === 1)
 
   // Try both distribution strategies when we have direct routes
-  const distributions =
-    hasDirectRoute && baseRoutes.filter((r) => r.pools.length === 1).length <= 2
-      ? [100] // Use 100% only when we have few direct routes
-      : [configuredDistributionPercent] // Use splits for everything else
+  const distributions = hasDirectRoute
+    ? [100, configuredDistributionPercent] // Try both full and split distributions
+    : [configuredDistributionPercent] // Only try splits for multi-hop
 
   logger.log('Route distributions to try:', {
     hasDirectRoute,
