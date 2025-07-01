@@ -11,4 +11,7 @@ export const ROUTE_CONFIG_BY_CHAIN: { [key in ChainId]?: Partial<RouteConfig> } 
   [ChainId.BASE]: {
     distributionPercent: 10,
   },
+  [ChainId.ZILLIQA]: {
+    distributionPercent: 25,
+  },
 }
