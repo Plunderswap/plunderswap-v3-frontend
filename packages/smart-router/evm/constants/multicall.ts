@@ -71,26 +71,6 @@ export const BATCH_MULTICALL_CONFIGS: ChainMap<BatchMulticallConfigs> = {
   [ChainId.SEPOLIA]: DEFAULT,
   [ChainId.ARBITRUM_SEPOLIA]: DEFAULT,
   [ChainId.BASE_SEPOLIA]: DEFAULT,
-  [ChainId.ZILLIQA]: {
-    defaultConfig: {
-      gasLimitPerCall: 500_000,
-    },
-    gasErrorFailureOverride: {
-      gasLimitPerCall: 1_500_000,
-    },
-    successRateFailureOverrides: {
-      gasLimitPerCall: 1_500_000,
-    },
-  },
-  [ChainId.ZILLIQA_TESTNET]: {
-    defaultConfig: {
-      gasLimitPerCall: 500_000,
-    },
-    gasErrorFailureOverride: {
-      gasLimitPerCall: 1_500_000,
-    },
-    successRateFailureOverrides: {
-      gasLimitPerCall: 1_500_000,
-    },
-  },
+  [ChainId.ZILLIQA]: DEFAULT,
+  [ChainId.ZILLIQA_TESTNET]: DEFAULT,
 }

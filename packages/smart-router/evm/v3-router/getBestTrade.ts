@@ -48,9 +48,9 @@ async function getBestRoutes(
 ): Promise<BestRoutes | null> {
   const { chainId } = currency
   const {
-    maxHops = 3,
-    maxSplits = 4,
-    distributionPercent: configuredDistributionPercent = 5,
+    maxHops = 2,
+    maxSplits = 2,
+    distributionPercent: configuredDistributionPercent = 25,
     poolProvider,
     quoteProvider,
     blockNumber,
