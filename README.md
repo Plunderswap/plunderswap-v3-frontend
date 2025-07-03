@@ -12,7 +12,7 @@ This project contains the main features of the Plunderswap application.
 
 <details>
 <summary>
-How to start
+How to startf
 </summary>
 
 ```sh
