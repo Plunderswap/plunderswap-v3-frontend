@@ -27,4 +27,12 @@ export const zilliqaTokens = {
     'Kalijo USD',
     'https://kalijo.io/',
   ),
+  seed: new ERC20Token(
+    ChainId.ZILLIQA,
+    '0xe64cA52EF34FdD7e20C0c7fb2E392cc9b4F6D049',
+    18,
+    'SEED',
+    'Kalijo',
+    'https://kalijo.io/',
+  ),
 }
