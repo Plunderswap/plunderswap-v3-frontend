@@ -1,10 +1,10 @@
-import { Currency, Token } from '@pancakeswap/sdk'
 import { ChainId } from '@pancakeswap/chains'
-import { Text, QuestionHelper, AutoColumn } from '@pancakeswap/uikit'
-import { CurrencyLogo } from '@pancakeswap/widgets-internal'
-import { styled } from 'styled-components'
-import useNativeCurrency from 'hooks/useNativeCurrency'
 import { useTranslation } from '@pancakeswap/localization'
+import { Currency, Token } from '@pancakeswap/sdk'
+import { AutoColumn, QuestionHelper, Text } from '@pancakeswap/uikit'
+import { CurrencyLogo } from '@pancakeswap/widgets-internal'
+import useNativeCurrency from 'hooks/useNativeCurrency'
+import { styled } from 'styled-components'
 
 import { SUGGESTED_BASES } from 'config/constants/exchange'
 import { AutoRow } from '../Layout/Row'
@@ -56,7 +56,7 @@ export default function CommonBases({
 }) {
   const native = useNativeCurrency()
   const { t } = useTranslation()
-  const pinTokenDescText = commonBasesType === CommonBasesType.SWAP_LIMITORDER ? t('Common tokens') : t('Common bases')
+  const pinTokenDescText = commonBasesType === CommonBasesType.SWAP_LIMITORDER ? t('Popular tokens') : t('Common bases')
 
   return (
     <AutoColumn gap="md">
