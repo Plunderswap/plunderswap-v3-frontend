@@ -86,7 +86,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.SEPOLIA]: [scrollSepoliaTokens.usdc, scrollSepoliaTokens.weth],
   [ChainId.ARBITRUM_SEPOLIA]: [arbSepoliaTokens.usdc, arbSepoliaTokens.weth],
   [ChainId.BASE_SEPOLIA]: [baseSepoliaTokens.usdc, baseSepoliaTokens.weth],
-  [ChainId.ZILLIQA]: [USDC[ChainId.ZILLIQA], USDT[ChainId.ZILLIQA], zilliqaTokens.kusd],
+  [ChainId.ZILLIQA]: [USDC[ChainId.ZILLIQA], zilliqaTokens.kusd, zilliqaTokens.pzil, zilliqaTokens.seed, USDT[ChainId.ZILLIQA]],
   [ChainId.ZILLIQA_TESTNET]: [zilliqaTestnetTokens.usdc, zilliqaTestnetTokens.kusd],
 }
 

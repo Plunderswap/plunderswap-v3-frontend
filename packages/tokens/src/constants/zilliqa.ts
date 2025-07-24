@@ -35,6 +35,22 @@ export const zilliqaTokens = {
     'Kalijo USD',
     'https://kalijo.io/',
   ),
+  pzil: new ERC20Token(
+    ChainId.ZILLIQA,
+    '0xc85b0db68467dede96A7087F4d4C47731555cA7A',
+    6,
+    'pZIL',
+    'PlunderSwap Staked ZIL',
+    'https://plunderswap.com/',
+  ),
+  seed: new ERC20Token(
+    ChainId.ZILLIQA,
+    '0xe64cA52EF34FdD7e20C0c7fb2E392cc9b4F6D049',
+    18,
+    'SEED',
+    'Kalijo',
+    'https://kalijo.io/',
+  ),
   tacocat: new ERC20Token(ChainId.ZILLIQA, '0x2ae05bfc681d7872209a3bf1a9513bd4a48e66f0', 18, 'TACO', 'TacoCat', ''),
   guacamole: new ERC20Token(ChainId.ZILLIQA, '0x87f059cb6e481F9CD9a3F92D876DBDc68e30Ea3B', 18, 'GUAC', 'Guacamole', ''),
 }
