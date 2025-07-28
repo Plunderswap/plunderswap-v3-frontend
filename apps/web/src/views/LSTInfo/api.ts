@@ -2,6 +2,7 @@ import { ChainId } from '@pancakeswap/chains'
 import { publicClient } from 'utils/wagmi'
 import { formatUnits } from 'viem'
 import { LSTConfig, LSTData, LSTHistoricalPrice, LSTPrice, LSTTradingData } from './types'
+import { LST_CONFIGS } from './utils'
 
 const PLUNDERSWAP_PAIR_URL = 'https://static.plunderswap.com/PlunderswapPairPrices.json'
 
@@ -15,8 +16,6 @@ const GET_PRICE_ABI = [
     outputs: [{ name: 'amount', type: 'uint256' }],
   },
 ] as const
-
-import { LST_CONFIGS } from './utils'
 
 const fetchWithRetry = async (url: string, options?: RequestInit, retries = 3): Promise<any> => {
   try {

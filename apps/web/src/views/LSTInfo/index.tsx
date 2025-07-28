@@ -9,18 +9,18 @@ import { LSTRow } from './components/LSTRow'
 import { LSTStats } from './components/LSTStats'
 import { LSTData } from './types'
 import {
-    calculateLSTStats,
-    formatTimeAgo,
-    getStoredPriceDirection,
-    getStoredShowHistorical,
-    getStoredSortPreference,
-    setStoredPriceDirection,
-    setStoredShowHistorical,
-    setStoredSortPreference,
-    sortLSTData
+  calculateLSTStats,
+  formatTimeAgo,
+  getStoredPriceDirection,
+  getStoredShowHistorical,
+  getStoredSortPreference,
+  setStoredPriceDirection,
+  setStoredShowHistorical,
+  setStoredSortPreference,
+  sortLSTData
 } from './utils'
 
-type SortField = 'symbol' | 'price' | 'growth100k' | 'growth1M' | 'tradingVolume' | null
+type SortField = 'symbol' | 'price' | 'growth500k' | 'growth1M' | 'tradingVolume' | null
 type SortDirection = 'asc' | 'desc'
 
 const Container = styled.div`
@@ -236,7 +236,7 @@ export const LSTInfo = () => {
 
       <LSTStats stats={stats} lastUpdated={lastUpdated || undefined} />
 
-      <Flex justifyContent="flex-end" mb="16px" gap="24px" style={{ gap: isMobile ? '8px' : '24px' }}>
+      <Flex justifyContent="flex-end" mb="16px" style={{ gap: isMobile ? '8px' : '24px' }}>
         <ToggleWrapper>
           <Text mr="8px" style={{ whiteSpace: 'nowrap' }}>
             Price Direction
