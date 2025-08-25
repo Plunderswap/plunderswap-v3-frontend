@@ -287,6 +287,24 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
 
       {showHistorical && (
         <GrowthContainer>
+          <GrowthText isPositive={(lst.historical.growth10k ?? 0) >= 0}>
+            {formatPercentage(lst.historical.growth10k ?? 0, 3)}
+          </GrowthText>
+          <GrowthPeriodText>10k blocks</GrowthPeriodText>
+        </GrowthContainer>
+      )}
+
+      {showHistorical && (
+        <GrowthContainer>
+          <GrowthText isPositive={(lst.historical.growth100k ?? 0) >= 0}>
+            {formatPercentage(lst.historical.growth100k ?? 0, 3)}
+          </GrowthText>
+          <GrowthPeriodText>100k blocks</GrowthPeriodText>
+        </GrowthContainer>
+      )}
+
+      {showHistorical && (
+        <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth500k >= 0}>
             {formatPercentage(lst.historical.growth500k, 3)}
           </GrowthText>

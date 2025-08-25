@@ -71,17 +71,21 @@ export const getCurrentBlockNumber = async (): Promise<bigint> => {
   }
 }
 
-const calculateHistoricalBlocks = async (): Promise<{ blocks500k: bigint; blocks1M: bigint }> => {
+const calculateHistoricalBlocks = async (): Promise<{ blocks10k: bigint; blocks100k: bigint; blocks500k: bigint; blocks1M: bigint }> => {
   try {
     const currentBlock = await getCurrentBlockNumber()
     
+    const blocks10k = currentBlock > 10000n ? currentBlock - 10000n : 1n
+    const blocks100k = currentBlock > 100000n ? currentBlock - 100000n : 1n
     const blocks500k = currentBlock > 500000n ? currentBlock - 500000n : 1n
     const blocks1M = currentBlock > 1000000n ? currentBlock - 1000000n : 1n
     
-    return { blocks500k, blocks1M }
+    return { blocks10k, blocks100k, blocks500k, blocks1M }
   } catch (error) {
     console.error('Failed to calculate historical blocks:', error)
     return {
+      blocks10k: BigInt(7190000),
+      blocks100k: BigInt(7100000),
       blocks500k: BigInt(6700000),
       blocks1M: BigInt(6200000),
     }
@@ -90,34 +94,48 @@ const calculateHistoricalBlocks = async (): Promise<{ blocks500k: bigint; blocks
 
 const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistoricalPrice> => {
   try {
-    const { blocks500k, blocks1M } = await calculateHistoricalBlocks()
+    const { blocks10k, blocks100k, blocks500k, blocks1M } = await calculateHistoricalBlocks()
     
-    const [currentPrice, price500k, price1M] = await Promise.all([
+    const [currentPrice, price10k, price100k, price500k, price1M] = await Promise.all([
       getLSTPrice(config.proxyAddress),
+      getLSTPrice(config.proxyAddress, blocks10k),
+      getLSTPrice(config.proxyAddress, blocks100k),
       getLSTPrice(config.proxyAddress, blocks500k),
       getLSTPrice(config.proxyAddress, blocks1M),
     ])
 
     const currentNum = parseFloat(currentPrice)
+    const price10kNum = parseFloat(price10k)
+    const price100kNum = parseFloat(price100k)
     const price500kNum = parseFloat(price500k)
     const price1MNum = parseFloat(price1M)
 
+    const growth10k = price10kNum > 0 ? ((currentNum - price10kNum) / price10kNum) * 100 : 0
+    const growth100k = price100kNum > 0 ? ((currentNum - price100kNum) / price100kNum) * 100 : 0
     const growth500k = price500kNum > 0 ? ((currentNum - price500kNum) / price500kNum) * 100 : 0
     const growth1M = price1MNum > 0 ? ((currentNum - price1MNum) / price1MNum) * 100 : 0
 
     return {
+      blocks10k: price10k,
+      blocks100k: price100k,
       blocks500k: price500k,
       blocks1M: price1M,
       currentPrice,
+      growth10k,
+      growth100k,
       growth500k,
       growth1M,
     }
   } catch (error) {
     console.error(`Failed to fetch historical prices for ${config.symbol}:`, error)
     return {
+      blocks10k: '0',
+      blocks100k: '0',
       blocks500k: '0',
       blocks1M: '0',
       currentPrice: '0',
+      growth10k: 0,
+      growth100k: 0,
       growth500k: 0,
       growth1M: 0,
     }
@@ -212,9 +230,13 @@ export const fetchLSTData = async (config: LSTConfig): Promise<LSTData> => {
       config,
       price: formatLSTPrice('0'),
       historical: {
+        blocks10k: '0',
+        blocks100k: '0',
         blocks500k: '0',
         blocks1M: '0',
         currentPrice: '0',
+        growth10k: 0,
+        growth100k: 0,
         growth500k: 0,
         growth1M: 0,
       },

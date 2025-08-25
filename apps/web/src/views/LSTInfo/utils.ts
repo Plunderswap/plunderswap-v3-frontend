@@ -166,15 +166,29 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
   if (validData.length === 0) {
     return {
       totalCount: 0,
+      avgGrowth10k: 0,
+      avgGrowth100k: 0,
       avgGrowth500k: 0,
       avgGrowth1M: 0,
+      bestPerformer10k: null,
+      bestPerformer100k: null,
       bestPerformer500k: null,
       bestPerformer1M: null,
     }
   }
 
+  const avgGrowth10k = validData.reduce((sum, lst) => sum + (lst.historical.growth10k ?? 0), 0) / validData.length
+  const avgGrowth100k = validData.reduce((sum, lst) => sum + (lst.historical.growth100k ?? 0), 0) / validData.length
   const avgGrowth500k = validData.reduce((sum, lst) => sum + lst.historical.growth500k, 0) / validData.length
   const avgGrowth1M = validData.reduce((sum, lst) => sum + lst.historical.growth1M, 0) / validData.length
+
+  const bestPerformer10k = validData.reduce((best, current) => 
+    (current.historical.growth10k ?? -Infinity) > (best.historical.growth10k ?? -Infinity) ? current : best
+  )
+
+  const bestPerformer100k = validData.reduce((best, current) => 
+    (current.historical.growth100k ?? -Infinity) > (best.historical.growth100k ?? -Infinity) ? current : best
+  )
 
   const bestPerformer500k = validData.reduce((best, current) => 
     current.historical.growth500k > best.historical.growth500k ? current : best
@@ -186,8 +200,12 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
 
   return {
     totalCount: validData.length,
+    avgGrowth10k,
+    avgGrowth100k,
     avgGrowth500k,
     avgGrowth1M,
+    bestPerformer10k,
+    bestPerformer100k,
     bestPerformer500k,
     bestPerformer1M,
   }
@@ -251,6 +269,14 @@ export const sortLSTData = (data: LSTData[], sortBy: string, direction: 'asc' | 
       case 'price':
         aValue = parseFloat(a.price.current)
         bValue = parseFloat(b.price.current)
+        break
+      case 'growth10k':
+        aValue = a.historical.growth10k ?? 0
+        bValue = b.historical.growth10k ?? 0
+        break
+      case 'growth100k':
+        aValue = a.historical.growth100k ?? 0
+        bValue = b.historical.growth100k ?? 0
         break
       case 'growth500k':
         aValue = a.historical.growth500k

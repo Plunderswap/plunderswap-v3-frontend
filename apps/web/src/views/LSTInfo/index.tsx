@@ -9,18 +9,18 @@ import { LSTRow } from './components/LSTRow'
 import { LSTStats } from './components/LSTStats'
 import { LSTData } from './types'
 import {
-  calculateLSTStats,
-  formatTimeAgo,
-  getStoredPriceDirection,
-  getStoredShowHistorical,
-  getStoredSortPreference,
-  setStoredPriceDirection,
-  setStoredShowHistorical,
-  setStoredSortPreference,
-  sortLSTData
+    calculateLSTStats,
+    formatTimeAgo,
+    getStoredPriceDirection,
+    getStoredShowHistorical,
+    getStoredSortPreference,
+    setStoredPriceDirection,
+    setStoredShowHistorical,
+    setStoredSortPreference,
+    sortLSTData
 } from './utils'
 
-type SortField = 'symbol' | 'price' | 'growth500k' | 'growth1M' | 'tradingVolume' | null
+type SortField = 'symbol' | 'price' | 'growth10k' | 'growth100k' | 'growth500k' | 'growth1M' | 'tradingVolume' | null
 type SortDirection = 'asc' | 'desc'
 
 const Container = styled.div`
@@ -258,7 +258,7 @@ export const LSTInfo = () => {
               onChange={() => handleShowHistoricalChange(!showHistorical)} 
               scale="sm" 
             />
-            <Tooltip>Shows growth over 500k and 1M blocks</Tooltip>
+            <Tooltip>Shows growth over 10k, 100k, 500k and 1M blocks</Tooltip>
           </ToggleWrapper>
         )}
       </Flex>
@@ -301,6 +301,12 @@ export const LSTInfo = () => {
                 
                 {showHistorical && (
                   <>
+                    <HeaderText onClick={() => handleSort('growth10k')}>
+                      10k Growth {sortField === 'growth10k' && (sortDirection === 'desc' ? '↓' : '↑')}
+                    </HeaderText>
+                    <HeaderText onClick={() => handleSort('growth100k')}>
+                      100k Growth {sortField === 'growth100k' && (sortDirection === 'desc' ? '↓' : '↑')}
+                    </HeaderText>
                     <HeaderText onClick={() => handleSort('growth500k')}>
                       500k Growth {sortField === 'growth500k' && (sortDirection === 'desc' ? '↓' : '↑')}
                     </HeaderText>
@@ -327,7 +333,7 @@ export const LSTInfo = () => {
       <Text fontSize="12px" color="textSubtle" mt="16px" textAlign="center">
         * LST prices are obtained from proxy contracts using the getPrice() function.
         <br />
-        * Historical growth is calculated comparing current prices to prices 500k and 1M blocks ago.
+        * Historical growth is calculated comparing current prices to prices 10k, 100k, 500k and 1M blocks ago.
         <br />
         * Swap prices show arbitrage opportunities between proxy rates and PlunderSwap pairs.
         <br />

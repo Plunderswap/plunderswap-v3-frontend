@@ -14,9 +14,13 @@ export interface LSTPrice {
 }
 
 export interface LSTHistoricalPrice {
+  blocks10k?: string // Price 10k blocks ago
+  blocks100k?: string // Price 100k blocks ago
   blocks500k: string // Price 500k blocks ago
   blocks1M: string // Price 1M blocks ago
   currentPrice: string
+  growth10k?: number // Growth percentage from 10k blocks ago
+  growth100k?: number // Growth percentage from 100k blocks ago
   growth500k: number // Growth percentage from 500k blocks ago
   growth1M: number // Growth percentage from 1M blocks ago
 }
@@ -48,8 +52,12 @@ export interface LSTData {
 
 export interface LSTStats {
   totalCount: number
+  avgGrowth10k?: number
+  avgGrowth100k?: number
   avgGrowth500k: number
   avgGrowth1M: number
+  bestPerformer10k?: LSTData | null
+  bestPerformer100k?: LSTData | null
   bestPerformer500k: LSTData | null
   bestPerformer1M: LSTData | null
 }
