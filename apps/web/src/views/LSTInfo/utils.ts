@@ -1,4 +1,4 @@
-import { AddTokenParams, LSTConfig, LSTData, LSTStats } from './types'
+import { AddTokenParams, LSTConfig, LSTData, LSTJsonPriceData, LSTJsonPriceEntry, LSTStats } from './types'
 
 // Simple cookie functions (temporary)
 const getCookie = (name: string): string | undefined => {
@@ -24,6 +24,7 @@ export const LST_CONFIGS: LSTConfig[] = [
     tokenAddress: '0x8E3073b22F670d3A09C66D0Abb863f9E358402d2',
     proxyAddress: '0x1311059DD836D7000Dc673eA4Cc834fe04e9933C',
     logoPath: 'lst/logo_encapsulate.webp',
+    jsonFilename: 'encapZIL_prices.json',
   },
   {
     name: 'Lithium Digital',
@@ -31,6 +32,7 @@ export const LST_CONFIGS: LSTConfig[] = [
     tokenAddress: '0x3B78f66651E2eCAbf13977817848F82927a17DcF',
     proxyAddress: '0xBD6ca237f30A86eea8CF9bF869677F3a0496a990',
     logoPath: 'lst/logo_lithiumdigital.webp',
+    jsonFilename: 'litZIL_prices.json',
   },
   {
     name: 'StakeShark',
@@ -38,6 +40,7 @@ export const LST_CONFIGS: LSTConfig[] = [
     tokenAddress: '0x737EBf814D2C14fb21E00Fd2990AFc364C2AF506',
     proxyAddress: '0xF7F4049e7472fC32805Aae5bcCE909419a34D254',
     logoPath: 'lst/logo_shark.svg',
+    jsonFilename: 'shZIL_prices.json',
   },
   {
     name: 'PlunderSwap',
@@ -45,6 +48,7 @@ export const LST_CONFIGS: LSTConfig[] = [
     tokenAddress: '0xc85b0db68467dede96A7087F4d4C47731555cA7A',
     proxyAddress: '0x691682FCa60Fa6B702a0a69F60d045c08f404220',
     logoPath: 'lst/logo_Plunderswap.webp',
+    jsonFilename: 'pZIL_prices.json',
   },
   {
     name: 'TorchWallet.io',
@@ -52,6 +56,7 @@ export const LST_CONFIGS: LSTConfig[] = [
     tokenAddress: '0x9e4E0F7A06E50DA13c78cF8C83E907f792DE54fd',
     proxyAddress: '0xBB2Cb8B573Ec1ec4f77953128df7F1d08D9c34DF',
     logoPath: 'lst/logo_torchwallet.webp',
+    jsonFilename: 'tZIL_prices.json',
   },
   {
     name: 'Amazing Pool - Avely and ZilPay',
@@ -59,6 +64,7 @@ export const LST_CONFIGS: LSTConfig[] = [
     tokenAddress: '0x8a2afD8Fe79F8C694210eB71f4d726Fc8cAFdB31',
     proxyAddress: '0x1f0e86Bc299Cc66df2e5512a7786C3F528C0b5b6',
     logoPath: 'lst/logo_amazing_pool.svg',
+    jsonFilename: 'aZIL_prices.json',
   },
 ]
 
@@ -66,6 +72,106 @@ export const LST_CONFIGS: LSTConfig[] = [
 const LST_SHOW_HISTORICAL_COOKIE = 'lst_show_historical'
 const LST_SORT_PREFERENCE_COOKIE = 'lst_sort_preference'
 const LST_PRICE_DIRECTION_COOKIE = 'lst_price_direction'
+
+// LST Price Data Utility Functions
+export const LST_PRICES_BASE_URL = 'https://static.plunderswap.com/lst-prices/'
+
+/**
+ * Find the closest price entry for a given target block number
+ */
+export const findClosestPriceEntry = (prices: LSTJsonPriceEntry[], targetBlock: number): LSTJsonPriceEntry | null => {
+  if (!prices.length) return null
+  
+  // Binary search for the closest block
+  let left = 0
+  let right = prices.length - 1
+  let closest = prices[0]
+  let minDiff = Math.abs(prices[0].block - targetBlock)
+  
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2)
+    const currentDiff = Math.abs(prices[mid].block - targetBlock)
+    
+    if (currentDiff < minDiff) {
+      minDiff = currentDiff
+      closest = prices[mid]
+    }
+    
+    if (prices[mid].block === targetBlock) {
+      return prices[mid]
+    } else if (prices[mid].block < targetBlock) {
+      left = mid + 1
+    } else {
+      right = mid - 1
+    }
+  }
+  
+  return closest
+}
+
+/**
+ * Calculate historical block numbers based on current block
+ */
+export const calculateHistoricalBlocks = (currentBlock: number): {
+  blocks10k: number
+  blocks100k: number
+  blocks500k: number
+  blocks1M: number
+} => {
+  return {
+    blocks10k: Math.max(currentBlock - 10000, 1),
+    blocks100k: Math.max(currentBlock - 100000, 1),
+    blocks500k: Math.max(currentBlock - 500000, 1),
+    blocks1M: Math.max(currentBlock - 1000000, 1),
+  }
+}
+
+/**
+ * Get historical prices from JSON data for specific block periods
+ */
+export const getHistoricalPricesFromJSON = (
+  jsonData: LSTJsonPriceData,
+  currentBlock: number,
+  currentPrice: string
+): {
+  blocks10k: string
+  blocks100k: string
+  blocks500k: string
+  blocks1M: string
+  growth10k: number
+  growth100k: number
+  growth500k: number
+  growth1M: number
+} => {
+  const { blocks10k, blocks100k, blocks500k, blocks1M } = calculateHistoricalBlocks(currentBlock)
+  
+  const price10k = findClosestPriceEntry(jsonData.prices, blocks10k)?.price || '0'
+  const price100k = findClosestPriceEntry(jsonData.prices, blocks100k)?.price || '0'
+  const price500k = findClosestPriceEntry(jsonData.prices, blocks500k)?.price || '0'
+  const price1M = findClosestPriceEntry(jsonData.prices, blocks1M)?.price || '0'
+  
+  const currentNum = parseFloat(currentPrice)
+  const price10kNum = parseFloat(price10k)
+  const price100kNum = parseFloat(price100k)
+  const price500kNum = parseFloat(price500k)
+  const price1MNum = parseFloat(price1M)
+  
+  const growth10k = price10kNum > 0 ? ((currentNum - price10kNum) / price10kNum) * 100 : 0
+  const growth100k = price100kNum > 0 ? ((currentNum - price100kNum) / price100kNum) * 100 : 0
+  const growth500k = price500kNum > 0 ? ((currentNum - price500kNum) / price500kNum) * 100 : 0
+  const growth1M = price1MNum > 0 ? ((currentNum - price1MNum) / price1MNum) * 100 : 0
+  
+  return {
+    blocks10k: price10k,
+    blocks100k: price100k,
+    blocks500k: price500k,
+    blocks1M: price1M,
+    growth10k,
+    growth100k,
+    growth500k,
+    growth1M,
+  }
+}
 
 // Utility functions
 export const formatNumber = (value: string | number, decimals = 2): string => {

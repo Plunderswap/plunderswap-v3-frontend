@@ -4,6 +4,7 @@ export interface LSTConfig {
   tokenAddress: string
   proxyAddress: string
   logoPath?: string
+  jsonFilename?: string // For pre-indexed price data
 }
 
 export interface LSTPrice {
@@ -94,4 +95,17 @@ export interface EthRPCResponse {
     code: number
     message: string
   }
+}
+
+// Pre-indexed JSON price data interfaces
+export interface LSTJsonPriceEntry {
+  block: number
+  price: string
+  timestamp: number
+}
+
+export interface LSTJsonPriceData {
+  symbol: string
+  name: string
+  prices: LSTJsonPriceEntry[]
 } 

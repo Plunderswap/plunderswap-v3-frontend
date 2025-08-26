@@ -1,8 +1,8 @@
 import { ChainId } from '@pancakeswap/chains'
 import { publicClient } from 'utils/wagmi'
 import { formatUnits } from 'viem'
-import { LSTConfig, LSTData, LSTHistoricalPrice, LSTPrice, LSTTradingData } from './types'
-import { LST_CONFIGS } from './utils'
+import { LSTConfig, LSTData, LSTHistoricalPrice, LSTJsonPriceData, LSTPrice, LSTTradingData } from './types'
+import { getHistoricalPricesFromJSON, LST_CONFIGS, LST_PRICES_BASE_URL } from './utils'
 
 const PLUNDERSWAP_PAIR_URL = 'https://static.plunderswap.com/PlunderswapPairPrices.json'
 
@@ -71,60 +71,62 @@ export const getCurrentBlockNumber = async (): Promise<bigint> => {
   }
 }
 
-const calculateHistoricalBlocks = async (): Promise<{ blocks10k: bigint; blocks100k: bigint; blocks500k: bigint; blocks1M: bigint }> => {
+export const fetchLSTJsonPriceData = async (config: LSTConfig): Promise<LSTJsonPriceData | null> => {
+  if (!config.jsonFilename) {
+    console.error(`No JSON filename configured for ${config.symbol}`)
+    return null
+  }
+
   try {
-    const currentBlock = await getCurrentBlockNumber()
-    
-    const blocks10k = currentBlock > 10000n ? currentBlock - 10000n : 1n
-    const blocks100k = currentBlock > 100000n ? currentBlock - 100000n : 1n
-    const blocks500k = currentBlock > 500000n ? currentBlock - 500000n : 1n
-    const blocks1M = currentBlock > 1000000n ? currentBlock - 1000000n : 1n
-    
-    return { blocks10k, blocks100k, blocks500k, blocks1M }
+    const url = `${LST_PRICES_BASE_URL}${config.jsonFilename}`
+    const response = await fetchWithRetry(url)
+    return response as LSTJsonPriceData
   } catch (error) {
-    console.error('Failed to calculate historical blocks:', error)
-    return {
-      blocks10k: BigInt(7190000),
-      blocks100k: BigInt(7100000),
-      blocks500k: BigInt(6700000),
-      blocks1M: BigInt(6200000),
-    }
+    console.error(`Failed to fetch JSON price data for ${config.symbol}:`, error)
+    return null
   }
 }
 
 const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistoricalPrice> => {
   try {
-    const { blocks10k, blocks100k, blocks500k, blocks1M } = await calculateHistoricalBlocks()
+    // Get current price from blockchain (this is fast)
+    const currentPrice = await getLSTPrice(config.proxyAddress)
     
-    const [currentPrice, price10k, price100k, price500k, price1M] = await Promise.all([
-      getLSTPrice(config.proxyAddress),
-      getLSTPrice(config.proxyAddress, blocks10k),
-      getLSTPrice(config.proxyAddress, blocks100k),
-      getLSTPrice(config.proxyAddress, blocks500k),
-      getLSTPrice(config.proxyAddress, blocks1M),
-    ])
-
-    const currentNum = parseFloat(currentPrice)
-    const price10kNum = parseFloat(price10k)
-    const price100kNum = parseFloat(price100k)
-    const price500kNum = parseFloat(price500k)
-    const price1MNum = parseFloat(price1M)
-
-    const growth10k = price10kNum > 0 ? ((currentNum - price10kNum) / price10kNum) * 100 : 0
-    const growth100k = price100kNum > 0 ? ((currentNum - price100kNum) / price100kNum) * 100 : 0
-    const growth500k = price500kNum > 0 ? ((currentNum - price500kNum) / price500kNum) * 100 : 0
-    const growth1M = price1MNum > 0 ? ((currentNum - price1MNum) / price1MNum) * 100 : 0
-
+    // Get current block number
+    const currentBlockBigInt = await getCurrentBlockNumber()
+    const currentBlock = Number(currentBlockBigInt)
+    
+    // Fetch pre-indexed JSON price data
+    const jsonData = await fetchLSTJsonPriceData(config)
+    
+    if (!jsonData) {
+      // Fallback to zeros if JSON data is not available
+      return {
+        blocks10k: '0',
+        blocks100k: '0',
+        blocks500k: '0',
+        blocks1M: '0',
+        currentPrice,
+        growth10k: 0,
+        growth100k: 0,
+        growth500k: 0,
+        growth1M: 0,
+      }
+    }
+    
+    // Get historical prices from JSON data
+    const historicalData = getHistoricalPricesFromJSON(jsonData, currentBlock, currentPrice)
+    
     return {
-      blocks10k: price10k,
-      blocks100k: price100k,
-      blocks500k: price500k,
-      blocks1M: price1M,
+      blocks10k: historicalData.blocks10k,
+      blocks100k: historicalData.blocks100k,
+      blocks500k: historicalData.blocks500k,
+      blocks1M: historicalData.blocks1M,
       currentPrice,
-      growth10k,
-      growth100k,
-      growth500k,
-      growth1M,
+      growth10k: historicalData.growth10k,
+      growth100k: historicalData.growth100k,
+      growth500k: historicalData.growth500k,
+      growth1M: historicalData.growth1M,
     }
   } catch (error) {
     console.error(`Failed to fetch historical prices for ${config.symbol}:`, error)
