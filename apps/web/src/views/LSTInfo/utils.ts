@@ -99,7 +99,8 @@ export const findClosestPriceEntry = (prices: LSTJsonPriceEntry[], targetBlock: 
     
     if (prices[mid].block === targetBlock) {
       return prices[mid]
-    } else if (prices[mid].block < targetBlock) {
+    }
+    if (prices[mid].block < targetBlock) {
       left = mid + 1
     } else {
       right = mid - 1
