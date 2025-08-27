@@ -70,6 +70,7 @@ export const LST_CONFIGS: LSTConfig[] = [
 
 // Cookie keys for user preferences
 const LST_SHOW_HISTORICAL_COOKIE = 'lst_show_historical'
+const LST_SHOW_EXTENDED_HISTORICAL_COOKIE = 'lst_show_extended_historical'
 const LST_SORT_PREFERENCE_COOKIE = 'lst_sort_preference'
 const LST_PRICE_DIRECTION_COOKIE = 'lst_price_direction'
 
@@ -362,6 +363,15 @@ export const getStoredShowHistorical = (): boolean => {
 
 export const setStoredShowHistorical = (value: boolean) => {
   setCookie(LST_SHOW_HISTORICAL_COOKIE, value.toString())
+}
+
+export const getStoredShowExtendedHistorical = (): boolean => {
+  const stored = getCookie(LST_SHOW_EXTENDED_HISTORICAL_COOKIE)
+  return stored ? stored === 'true' : false // default to false
+}
+
+export const setStoredShowExtendedHistorical = (value: boolean) => {
+  setCookie(LST_SHOW_EXTENDED_HISTORICAL_COOKIE, value.toString())
 }
 
 export const getStoredSortPreference = (): string => {

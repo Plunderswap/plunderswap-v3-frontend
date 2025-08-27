@@ -23,37 +23,51 @@ const StatCard = styled(Card)`
   min-width: 200px;
 `
 
+const CompactStatCard = styled(Card)`
+  flex: 1;
+  min-width: 180px;
+`
+
 const StatValue = styled(Text)`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.1;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 `
 
 const StatLabel = styled(Text)`
-  font-size: 12px;
+  font-size: 11px;
   color: ${({ theme }) => theme.colors.textSubtle};
   text-transform: uppercase;
   letter-spacing: 0.5px;
 `
 
 const GrowthText = styled(Text)<{ isPositive: boolean }>`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.1;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  color: ${({ theme, isPositive }) => (isPositive ? theme.colors.success : theme.colors.failure)};
+`
+
+const CompactGrowthText = styled(Text)<{ isPositive: boolean }>`
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 2px;
   color: ${({ theme, isPositive }) => (isPositive ? theme.colors.success : theme.colors.failure)};
 `
 
 const BestPerformerText = styled(Text)`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 `
 
 const BestPerformerSubtext = styled(Text)`
-  font-size: 12px;
+  font-size: 10px;
   color: ${({ theme }) => theme.colors.textSubtle};
+  margin-bottom: 2px;
 `
 
 export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
@@ -61,96 +75,93 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
 
   return (
     <>
+      {/* Average Growth Row */}
       <StatsContainer>
-        <StatCard>
-          <CardBody>
-            <StatValue>{stats.totalCount}</StatValue>
-            <StatLabel>Total LSTs</StatLabel>
-          </CardBody>
-        </StatCard>
-
-        <StatCard>
-          <CardBody>
+        <CompactStatCard>
+          <CardBody style={{ padding: '12px 16px' }}>
             <GrowthText isPositive={stats.avgGrowth500k >= 0}>
               {formatPercentage(stats.avgGrowth500k)}
             </GrowthText>
             <StatLabel>Avg Growth (500k blocks)</StatLabel>
           </CardBody>
-        </StatCard>
+        </CompactStatCard>
 
-        <StatCard>
-          <CardBody>
+        <CompactStatCard>
+          <CardBody style={{ padding: '12px 16px' }}>
             <GrowthText isPositive={stats.avgGrowth1M >= 0}>
               {formatPercentage(stats.avgGrowth1M)}
             </GrowthText>
             <StatLabel>Avg Growth (1M blocks)</StatLabel>
           </CardBody>
-        </StatCard>
+        </CompactStatCard>
 
-        <StatCard>
-          <CardBody>
+        <CompactStatCard>
+          <CardBody style={{ padding: '12px 16px' }}>
             <GrowthText isPositive={stats.avgGrowth2M >= 0}>
               {formatPercentage(stats.avgGrowth2M)}
             </GrowthText>
             <StatLabel>Avg Growth (2M blocks)</StatLabel>
           </CardBody>
-        </StatCard>
+        </CompactStatCard>
 
-        <StatCard>
-          <CardBody>
+        <CompactStatCard>
+          <CardBody style={{ padding: '12px 16px' }}>
             <GrowthText isPositive={stats.avgGrowth3M >= 0}>
               {formatPercentage(stats.avgGrowth3M)}
             </GrowthText>
             <StatLabel>Avg Growth (3M blocks)</StatLabel>
           </CardBody>
-        </StatCard>
+        </CompactStatCard>
+      </StatsContainer>
 
+      {/* Best Performers Row */}
+      <StatsContainer>
         {stats.bestPerformer500k && (
-          <StatCard>
-            <CardBody>
+          <CompactStatCard>
+            <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer500k.config.symbol}</BestPerformerText>
               <BestPerformerSubtext>Best 500k Growth</BestPerformerSubtext>
-              <GrowthText isPositive={stats.bestPerformer500k.historical.growth500k >= 0}>
+              <CompactGrowthText isPositive={stats.bestPerformer500k.historical.growth500k >= 0}>
                 {formatPercentage(stats.bestPerformer500k.historical.growth500k)}
-              </GrowthText>
+              </CompactGrowthText>
             </CardBody>
-          </StatCard>
+          </CompactStatCard>
         )}
 
         {stats.bestPerformer1M && (
-          <StatCard>
-            <CardBody>
+          <CompactStatCard>
+            <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer1M.config.symbol}</BestPerformerText>
               <BestPerformerSubtext>Best 1M Growth</BestPerformerSubtext>
-              <GrowthText isPositive={stats.bestPerformer1M.historical.growth1M >= 0}>
+              <CompactGrowthText isPositive={stats.bestPerformer1M.historical.growth1M >= 0}>
                 {formatPercentage(stats.bestPerformer1M.historical.growth1M)}
-              </GrowthText>
+              </CompactGrowthText>
             </CardBody>
-          </StatCard>
+          </CompactStatCard>
         )}
 
         {stats.bestPerformer2M && (
-          <StatCard>
-            <CardBody>
+          <CompactStatCard>
+            <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer2M.config.symbol}</BestPerformerText>
               <BestPerformerSubtext>Best 2M Growth</BestPerformerSubtext>
-              <GrowthText isPositive={stats.bestPerformer2M.historical.growth2M >= 0}>
+              <CompactGrowthText isPositive={stats.bestPerformer2M.historical.growth2M >= 0}>
                 {formatPercentage(stats.bestPerformer2M.historical.growth2M)}
-              </GrowthText>
+              </CompactGrowthText>
             </CardBody>
-          </StatCard>
+          </CompactStatCard>
         )}
 
         {stats.bestPerformer3M && (
-          <StatCard>
-            <CardBody>
+          <CompactStatCard>
+            <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer3M.config.symbol}</BestPerformerText>
               <BestPerformerSubtext>Best 3M Growth</BestPerformerSubtext>
-              <GrowthText isPositive={stats.bestPerformer3M.historical.growth3M >= 0}>
+              <CompactGrowthText isPositive={stats.bestPerformer3M.historical.growth3M >= 0}>
                 {formatPercentage(stats.bestPerformer3M.historical.growth3M)}
-              </GrowthText>
+              </CompactGrowthText>
             </CardBody>
-          </StatCard>
+          </CompactStatCard>
         )}
       </StatsContainer>
     </>

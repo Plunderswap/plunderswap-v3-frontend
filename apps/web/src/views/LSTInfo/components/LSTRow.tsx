@@ -7,6 +7,7 @@ import { addTokenToWallet, formatPercentage, formatPrice, isWeb3Supported } from
 interface LSTRowProps {
   lst: LSTData
   showHistorical: boolean
+  showExtendedHistorical: boolean
   priceDirection: 'zil-to-lst' | 'lst-to-zil'
 }
 
@@ -165,7 +166,7 @@ const MobileStatRow = styled(Flex)`
   align-items: center;
 `
 
-export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => {
+export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirection }: LSTRowProps) => {
   const [isAddingToWallet, setIsAddingToWallet] = useState(false)
   const { isMobile } = useMatchBreakpoints()
 
@@ -320,7 +321,7 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
         </GrowthContainer>
       )}
 
-      {showHistorical && (
+      {showExtendedHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth1M >= 0}>
             {formatPercentage(lst.historical.growth1M, 3)}
@@ -329,7 +330,7 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
         </GrowthContainer>
       )}
 
-      {showHistorical && (
+      {showExtendedHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth2M >= 0}>
             {formatPercentage(lst.historical.growth2M, 3)}
@@ -338,7 +339,7 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
         </GrowthContainer>
       )}
 
-      {showHistorical && (
+      {showExtendedHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth3M >= 0}>
             {formatPercentage(lst.historical.growth3M, 3)}

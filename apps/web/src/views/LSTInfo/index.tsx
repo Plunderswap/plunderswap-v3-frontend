@@ -12,9 +12,11 @@ import {
     calculateLSTStats,
     formatTimeAgo,
     getStoredPriceDirection,
+    getStoredShowExtendedHistorical,
     getStoredShowHistorical,
     getStoredSortPreference,
     setStoredPriceDirection,
+    setStoredShowExtendedHistorical,
     setStoredShowHistorical,
     setStoredSortPreference,
     sortLSTData
@@ -133,6 +135,7 @@ const RefreshButton = styled(Button)`
 export const LSTInfo = () => {
   const [lstData, setLSTData] = useState<LSTData[]>([])
   const [showHistorical, setShowHistorical] = useState(getStoredShowHistorical())
+  const [showExtendedHistorical, setShowExtendedHistorical] = useState(getStoredShowExtendedHistorical())
   const [priceDirection, setPriceDirection] = useState<'zil-to-lst' | 'lst-to-zil'>(getStoredPriceDirection())
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<boolean>(false)
@@ -172,6 +175,11 @@ export const LSTInfo = () => {
   const handleShowHistoricalChange = useCallback((newValue: boolean) => {
     setShowHistorical(newValue)
     setStoredShowHistorical(newValue)
+  }, [])
+
+  const handleShowExtendedHistoricalChange = useCallback((newValue: boolean) => {
+    setShowExtendedHistorical(newValue)
+    setStoredShowExtendedHistorical(newValue)
   }, [])
 
   const handlePriceDirectionChange = useCallback(() => {
@@ -249,15 +257,26 @@ export const LSTInfo = () => {
           </Button>
         </ToggleWrapper>
         {!isMobile && (
-          <ToggleWrapper>
-            <Text mr="8px">Show Historical Data</Text>
-            <Toggle 
-              checked={showHistorical} 
-              onChange={() => handleShowHistoricalChange(!showHistorical)} 
-              scale="sm" 
-            />
-            <Tooltip>Shows growth over 10k, 100k, 500k, 1M, 2M and 3M blocks</Tooltip>
-          </ToggleWrapper>
+          <>
+            <ToggleWrapper>
+              <Text mr="8px">Show Historical Data</Text>
+              <Toggle 
+                checked={showHistorical} 
+                onChange={() => handleShowHistoricalChange(!showHistorical)} 
+                scale="sm" 
+              />
+              <Tooltip>Shows growth over 10k, 100k and 500k blocks</Tooltip>
+            </ToggleWrapper>
+            <ToggleWrapper>
+              <Text mr="8px">Show Extended Historical</Text>
+              <Toggle 
+                checked={showExtendedHistorical} 
+                onChange={() => handleShowExtendedHistoricalChange(!showExtendedHistorical)} 
+                scale="sm" 
+              />
+              <Tooltip>Shows growth over 1M, 2M and 3M blocks</Tooltip>
+            </ToggleWrapper>
+          </>
         )}
       </Flex>
 
@@ -308,15 +327,19 @@ export const LSTInfo = () => {
                     <HeaderText onClick={() => handleSort('growth500k')}>
                       500k Growth {sortField === 'growth500k' && (sortDirection === 'desc' ? '↓' : '↑')}
                     </HeaderText>
-                    <HeaderText onClick={() => handleSort('growth1M')}>
-                      1M Growth {sortField === 'growth1M' && (sortDirection === 'desc' ? '↓' : '↑')}
-                    </HeaderText>
-                    <HeaderText onClick={() => handleSort('growth2M')}>
-                      2M Growth {sortField === 'growth2M' && (sortDirection === 'desc' ? '↓' : '↑')}
-                    </HeaderText>
-                    <HeaderText onClick={() => handleSort('growth3M')}>
-                      3M Growth {sortField === 'growth3M' && (sortDirection === 'desc' ? '↓' : '↑')}
-                    </HeaderText>
+                    {showExtendedHistorical && (
+                      <>
+                        <HeaderText onClick={() => handleSort('growth1M')}>
+                          1M Growth {sortField === 'growth1M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                        </HeaderText>
+                        <HeaderText onClick={() => handleSort('growth2M')}>
+                          2M Growth {sortField === 'growth2M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                        </HeaderText>
+                        <HeaderText onClick={() => handleSort('growth3M')}>
+                          3M Growth {sortField === 'growth3M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                        </HeaderText>
+                      </>
+                    )}
                   </>
                 )}
               </>
@@ -328,6 +351,7 @@ export const LSTInfo = () => {
               key={lst.config.symbol}
               lst={lst}
               showHistorical={showHistorical}
+              showExtendedHistorical={showExtendedHistorical}
               priceDirection={priceDirection}
             />
           ))}
