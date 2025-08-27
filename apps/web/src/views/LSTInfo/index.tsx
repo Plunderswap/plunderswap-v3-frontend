@@ -2,24 +2,23 @@ import { useTheme } from '@pancakeswap/hooks'
 import { Button, Flex, Text, Toggle, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { fetchAllLSTData } from './api'
+import { fetchAllLSTData, getCurrentBlockNumber } from './api'
 import { ErrorState } from './components/ErrorState'
 import { LoadingState } from './components/LoadingState'
 import { LSTRow } from './components/LSTRow'
 import { LSTStats } from './components/LSTStats'
 import { LSTData } from './types'
 import {
-    calculateLSTStats,
-    formatTimeAgo,
-    getStoredPriceDirection,
-    getStoredShowExtendedHistorical,
-    getStoredShowHistorical,
-    getStoredSortPreference,
-    setStoredPriceDirection,
-    setStoredShowExtendedHistorical,
-    setStoredShowHistorical,
-    setStoredSortPreference,
-    sortLSTData
+  calculateLSTStats,
+  getStoredPriceDirection,
+  getStoredShowExtendedHistorical,
+  getStoredShowHistorical,
+  getStoredSortPreference,
+  setStoredPriceDirection,
+  setStoredShowExtendedHistorical,
+  setStoredShowHistorical,
+  setStoredSortPreference,
+  sortLSTData
 } from './utils'
 
 type SortField = 'symbol' | 'price' | 'growth10k' | 'growth100k' | 'growth500k' | 'growth1M' | 'growth2M' | 'growth3M' | 'tradingVolume' | null
@@ -140,6 +139,7 @@ export const LSTInfo = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<boolean>(false)
   const [lastUpdated, setLastUpdated] = useState<string | null>(null)
+  const [currentBlockNumber, setCurrentBlockNumber] = useState<number | null>(null)
   const { isMobile } = useMatchBreakpoints()
   const theme = useTheme()
   const [sortField, setSortField] = useState<SortField>(getStoredSortPreference() as SortField)
@@ -150,7 +150,10 @@ export const LSTInfo = () => {
       setIsLoading(true)
       setError(false)
 
-      const data = await fetchAllLSTData()
+      const [data, currentBlock] = await Promise.all([
+        fetchAllLSTData(),
+        getCurrentBlockNumber()
+      ])
 
       if (!data?.length) {
         setError(true)
@@ -158,6 +161,7 @@ export const LSTInfo = () => {
       }
 
       setLSTData(data)
+      setCurrentBlockNumber(Number(currentBlock))
       setLastUpdated(new Date().toISOString())
     } catch (err) {
       console.error('Error fetching LST data:', err)
@@ -234,9 +238,12 @@ export const LSTInfo = () => {
           </Text>
           {lastUpdated && (
             <Text fontSize="11px" color="textSubtle" mt="4px">
-              Last updated: {formatTimeAgo(lastUpdated)}
+              Last updated: 
               {lstData.length > 0 && lstData[0].historical.latestBlock && (
                 <> • Baseline Block: {lstData[0].historical.latestBlock.toLocaleString()}</>
+              )}
+              {currentBlockNumber && (
+                <> • Current Block: {currentBlockNumber.toLocaleString()}</>
               )}
             </Text>
           )}
