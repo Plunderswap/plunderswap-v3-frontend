@@ -166,9 +166,7 @@ export const LSTInfo = () => {
 
   useEffect(() => {
     fetchData()
-    // Refresh every 5 minutes
-    const interval = setInterval(fetchData, 5 * 60 * 1000)
-    return () => clearInterval(interval)
+    // No auto refresh - user can manually refresh if needed
   }, [fetchData])
 
   const handleShowHistoricalChange = useCallback((newValue: boolean) => {
@@ -224,7 +222,7 @@ export const LSTInfo = () => {
         </Flex>
         <Flex flexDirection="column">
           <Text fontSize="12px" color="textSubtle">
-            LST prices are fetched from proxy contracts. Trading data is updated every 5 minutes.
+            LST prices are fetched from proxy contracts. Trading data is updated on each refresh.
           </Text>
           {lastUpdated && (
             <Text fontSize="11px" color="textSubtle" mt="4px">

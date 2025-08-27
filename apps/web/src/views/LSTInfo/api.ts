@@ -79,7 +79,12 @@ export const fetchLSTJsonPriceData = async (config: LSTConfig): Promise<LSTJsonP
 
   try {
     const url = `${LST_PRICES_BASE_URL}${config.jsonFilename}`
-    const response = await fetchWithRetry(url)
+    // Cache for 1 hour to reduce requests while staying within R2 cache window
+    const response = await fetchWithRetry(url, {
+      headers: {
+        'Cache-Control': 'max-age=3600', // 1 hour = 3600 seconds
+      },
+    })
     return response as LSTJsonPriceData
   } catch (error) {
     console.error(`Failed to fetch JSON price data for ${config.symbol}:`, error)
@@ -158,7 +163,12 @@ const formatLSTPrice = (priceStr: string): LSTPrice => {
 
 export const fetchPlunderSwapTradingData = async (): Promise<LSTTradingData[]> => {
   try {
-    const pairData = await fetchWithRetry(PLUNDERSWAP_PAIR_URL)
+    // No caching for trading data - always fetch fresh pair prices
+    const pairData = await fetchWithRetry(PLUNDERSWAP_PAIR_URL, {
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    })
     
     const lstTradingData: LSTTradingData[] = []
     
