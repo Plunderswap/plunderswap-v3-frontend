@@ -20,7 +20,7 @@ import {
     sortLSTData
 } from './utils'
 
-type SortField = 'symbol' | 'price' | 'growth10k' | 'growth100k' | 'growth500k' | 'growth1M' | 'tradingVolume' | null
+type SortField = 'symbol' | 'price' | 'growth10k' | 'growth100k' | 'growth500k' | 'growth1M' | 'growth2M' | 'growth3M' | 'tradingVolume' | null
 type SortDirection = 'asc' | 'desc'
 
 const Container = styled.div`
@@ -256,7 +256,7 @@ export const LSTInfo = () => {
               onChange={() => handleShowHistoricalChange(!showHistorical)} 
               scale="sm" 
             />
-            <Tooltip>Shows growth over 10k, 100k, 500k and 1M blocks</Tooltip>
+            <Tooltip>Shows growth over 10k, 100k, 500k, 1M, 2M and 3M blocks</Tooltip>
           </ToggleWrapper>
         )}
       </Flex>
@@ -311,6 +311,12 @@ export const LSTInfo = () => {
                     <HeaderText onClick={() => handleSort('growth1M')}>
                       1M Growth {sortField === 'growth1M' && (sortDirection === 'desc' ? '↓' : '↑')}
                     </HeaderText>
+                    <HeaderText onClick={() => handleSort('growth2M')}>
+                      2M Growth {sortField === 'growth2M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                    </HeaderText>
+                    <HeaderText onClick={() => handleSort('growth3M')}>
+                      3M Growth {sortField === 'growth3M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                    </HeaderText>
                   </>
                 )}
               </>
@@ -331,7 +337,7 @@ export const LSTInfo = () => {
       <Text fontSize="12px" color="textSubtle" mt="16px" textAlign="center">
         * LST prices are obtained from proxy contracts using the getPrice() function.
         <br />
-        * Historical growth is calculated comparing current prices to prices 10k, 100k, 500k and 1M blocks ago.
+        * Historical growth is calculated comparing current prices to prices 10k, 100k, 500k, 1M, 2M and 3M blocks ago.
         <br />
         * Swap prices show arbitrage opportunities between proxy rates and PlunderSwap pairs.
         <br />

@@ -111,11 +111,15 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
         blocks100k: '0',
         blocks500k: '0',
         blocks1M: '0',
+        blocks2M: '0',
+        blocks3M: '0',
         currentPrice,
         growth10k: 0,
         growth100k: 0,
         growth500k: 0,
         growth1M: 0,
+        growth2M: 0,
+        growth3M: 0,
       }
     }
     
@@ -127,11 +131,15 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       blocks100k: historicalData.blocks100k,
       blocks500k: historicalData.blocks500k,
       blocks1M: historicalData.blocks1M,
+      blocks2M: historicalData.blocks2M,
+      blocks3M: historicalData.blocks3M,
       currentPrice,
       growth10k: historicalData.growth10k,
       growth100k: historicalData.growth100k,
       growth500k: historicalData.growth500k,
       growth1M: historicalData.growth1M,
+      growth2M: historicalData.growth2M,
+      growth3M: historicalData.growth3M,
     }
   } catch (error) {
     console.error(`Failed to fetch historical prices for ${config.symbol}:`, error)
@@ -140,11 +148,15 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       blocks100k: '0',
       blocks500k: '0',
       blocks1M: '0',
+      blocks2M: '0',
+      blocks3M: '0',
       currentPrice: '0',
       growth10k: 0,
       growth100k: 0,
       growth500k: 0,
       growth1M: 0,
+      growth2M: 0,
+      growth3M: 0,
     }
   }
 }
@@ -246,11 +258,15 @@ export const fetchLSTData = async (config: LSTConfig): Promise<LSTData> => {
         blocks100k: '0',
         blocks500k: '0',
         blocks1M: '0',
+        blocks2M: '0',
+        blocks3M: '0',
         currentPrice: '0',
         growth10k: 0,
         growth100k: 0,
         growth500k: 0,
         growth1M: 0,
+        growth2M: 0,
+        growth3M: 0,
       },
       lastUpdated: new Date().toISOString(),
     }

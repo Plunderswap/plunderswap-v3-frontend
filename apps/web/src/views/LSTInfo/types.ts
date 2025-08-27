@@ -19,11 +19,15 @@ export interface LSTHistoricalPrice {
   blocks100k?: string // Price 100k blocks ago
   blocks500k: string // Price 500k blocks ago
   blocks1M: string // Price 1M blocks ago
+  blocks2M: string // Price 2M blocks ago
+  blocks3M: string // Price 3M blocks ago
   currentPrice: string
   growth10k?: number // Growth percentage from 10k blocks ago
   growth100k?: number // Growth percentage from 100k blocks ago
   growth500k: number // Growth percentage from 500k blocks ago
   growth1M: number // Growth percentage from 1M blocks ago
+  growth2M: number // Growth percentage from 2M blocks ago
+  growth3M: number // Growth percentage from 3M blocks ago
 }
 
 export interface LSTTradingData {
@@ -57,10 +61,14 @@ export interface LSTStats {
   avgGrowth100k?: number
   avgGrowth500k: number
   avgGrowth1M: number
+  avgGrowth2M: number
+  avgGrowth3M: number
   bestPerformer10k?: LSTData | null
   bestPerformer100k?: LSTData | null
   bestPerformer500k: LSTData | null
   bestPerformer1M: LSTData | null
+  bestPerformer2M: LSTData | null
+  bestPerformer3M: LSTData | null
 }
 
 // EIP-747 Add Token to Wallet interface

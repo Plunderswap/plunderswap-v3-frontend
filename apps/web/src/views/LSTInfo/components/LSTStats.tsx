@@ -87,6 +87,24 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
           </CardBody>
         </StatCard>
 
+        <StatCard>
+          <CardBody>
+            <GrowthText isPositive={stats.avgGrowth2M >= 0}>
+              {formatPercentage(stats.avgGrowth2M)}
+            </GrowthText>
+            <StatLabel>Avg Growth (2M blocks)</StatLabel>
+          </CardBody>
+        </StatCard>
+
+        <StatCard>
+          <CardBody>
+            <GrowthText isPositive={stats.avgGrowth3M >= 0}>
+              {formatPercentage(stats.avgGrowth3M)}
+            </GrowthText>
+            <StatLabel>Avg Growth (3M blocks)</StatLabel>
+          </CardBody>
+        </StatCard>
+
         {stats.bestPerformer500k && (
           <StatCard>
             <CardBody>
@@ -106,6 +124,30 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
               <BestPerformerSubtext>Best 1M Growth</BestPerformerSubtext>
               <GrowthText isPositive={stats.bestPerformer1M.historical.growth1M >= 0}>
                 {formatPercentage(stats.bestPerformer1M.historical.growth1M)}
+              </GrowthText>
+            </CardBody>
+          </StatCard>
+        )}
+
+        {stats.bestPerformer2M && (
+          <StatCard>
+            <CardBody>
+              <BestPerformerText>{stats.bestPerformer2M.config.symbol}</BestPerformerText>
+              <BestPerformerSubtext>Best 2M Growth</BestPerformerSubtext>
+              <GrowthText isPositive={stats.bestPerformer2M.historical.growth2M >= 0}>
+                {formatPercentage(stats.bestPerformer2M.historical.growth2M)}
+              </GrowthText>
+            </CardBody>
+          </StatCard>
+        )}
+
+        {stats.bestPerformer3M && (
+          <StatCard>
+            <CardBody>
+              <BestPerformerText>{stats.bestPerformer3M.config.symbol}</BestPerformerText>
+              <BestPerformerSubtext>Best 3M Growth</BestPerformerSubtext>
+              <GrowthText isPositive={stats.bestPerformer3M.historical.growth3M >= 0}>
+                {formatPercentage(stats.bestPerformer3M.historical.growth3M)}
               </GrowthText>
             </CardBody>
           </StatCard>

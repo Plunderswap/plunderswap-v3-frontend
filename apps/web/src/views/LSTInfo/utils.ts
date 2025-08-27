@@ -118,12 +118,16 @@ export const calculateHistoricalBlocks = (currentBlock: number): {
   blocks100k: number
   blocks500k: number
   blocks1M: number
+  blocks2M: number
+  blocks3M: number
 } => {
   return {
     blocks10k: Math.max(currentBlock - 10000, 1),
     blocks100k: Math.max(currentBlock - 100000, 1),
     blocks500k: Math.max(currentBlock - 500000, 1),
     blocks1M: Math.max(currentBlock - 1000000, 1),
+    blocks2M: Math.max(currentBlock - 2000000, 1),
+    blocks3M: Math.max(currentBlock - 3000000, 1),
   }
 }
 
@@ -139,38 +143,52 @@ export const getHistoricalPricesFromJSON = (
   blocks100k: string
   blocks500k: string
   blocks1M: string
+  blocks2M: string
+  blocks3M: string
   growth10k: number
   growth100k: number
   growth500k: number
   growth1M: number
+  growth2M: number
+  growth3M: number
 } => {
-  const { blocks10k, blocks100k, blocks500k, blocks1M } = calculateHistoricalBlocks(currentBlock)
+  const { blocks10k, blocks100k, blocks500k, blocks1M, blocks2M, blocks3M } = calculateHistoricalBlocks(currentBlock)
   
   const price10k = findClosestPriceEntry(jsonData.prices, blocks10k)?.price || '0'
   const price100k = findClosestPriceEntry(jsonData.prices, blocks100k)?.price || '0'
   const price500k = findClosestPriceEntry(jsonData.prices, blocks500k)?.price || '0'
   const price1M = findClosestPriceEntry(jsonData.prices, blocks1M)?.price || '0'
+  const price2M = findClosestPriceEntry(jsonData.prices, blocks2M)?.price || '0'
+  const price3M = findClosestPriceEntry(jsonData.prices, blocks3M)?.price || '0'
   
   const currentNum = parseFloat(currentPrice)
   const price10kNum = parseFloat(price10k)
   const price100kNum = parseFloat(price100k)
   const price500kNum = parseFloat(price500k)
   const price1MNum = parseFloat(price1M)
+  const price2MNum = parseFloat(price2M)
+  const price3MNum = parseFloat(price3M)
   
   const growth10k = price10kNum > 0 ? ((currentNum - price10kNum) / price10kNum) * 100 : 0
   const growth100k = price100kNum > 0 ? ((currentNum - price100kNum) / price100kNum) * 100 : 0
   const growth500k = price500kNum > 0 ? ((currentNum - price500kNum) / price500kNum) * 100 : 0
   const growth1M = price1MNum > 0 ? ((currentNum - price1MNum) / price1MNum) * 100 : 0
+  const growth2M = price2MNum > 0 ? ((currentNum - price2MNum) / price2MNum) * 100 : 0
+  const growth3M = price3MNum > 0 ? ((currentNum - price3MNum) / price3MNum) * 100 : 0
   
   return {
     blocks10k: price10k,
     blocks100k: price100k,
     blocks500k: price500k,
     blocks1M: price1M,
+    blocks2M: price2M,
+    blocks3M: price3M,
     growth10k,
     growth100k,
     growth500k,
     growth1M,
+    growth2M,
+    growth3M,
   }
 }
 
@@ -277,10 +295,14 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
       avgGrowth100k: 0,
       avgGrowth500k: 0,
       avgGrowth1M: 0,
+      avgGrowth2M: 0,
+      avgGrowth3M: 0,
       bestPerformer10k: null,
       bestPerformer100k: null,
       bestPerformer500k: null,
       bestPerformer1M: null,
+      bestPerformer2M: null,
+      bestPerformer3M: null,
     }
   }
 
@@ -288,6 +310,8 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
   const avgGrowth100k = validData.reduce((sum, lst) => sum + (lst.historical.growth100k ?? 0), 0) / validData.length
   const avgGrowth500k = validData.reduce((sum, lst) => sum + lst.historical.growth500k, 0) / validData.length
   const avgGrowth1M = validData.reduce((sum, lst) => sum + lst.historical.growth1M, 0) / validData.length
+  const avgGrowth2M = validData.reduce((sum, lst) => sum + lst.historical.growth2M, 0) / validData.length
+  const avgGrowth3M = validData.reduce((sum, lst) => sum + lst.historical.growth3M, 0) / validData.length
 
   const bestPerformer10k = validData.reduce((best, current) => 
     (current.historical.growth10k ?? -Infinity) > (best.historical.growth10k ?? -Infinity) ? current : best
@@ -305,16 +329,28 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
     current.historical.growth1M > best.historical.growth1M ? current : best
   )
 
+  const bestPerformer2M = validData.reduce((best, current) => 
+    current.historical.growth2M > best.historical.growth2M ? current : best
+  )
+
+  const bestPerformer3M = validData.reduce((best, current) => 
+    current.historical.growth3M > best.historical.growth3M ? current : best
+  )
+
   return {
     totalCount: validData.length,
     avgGrowth10k,
     avgGrowth100k,
     avgGrowth500k,
     avgGrowth1M,
+    avgGrowth2M,
+    avgGrowth3M,
     bestPerformer10k,
     bestPerformer100k,
     bestPerformer500k,
     bestPerformer1M,
+    bestPerformer2M,
+    bestPerformer3M,
   }
 }
 
@@ -392,6 +428,14 @@ export const sortLSTData = (data: LSTData[], sortBy: string, direction: 'asc' | 
       case 'growth1M':
         aValue = a.historical.growth1M
         bValue = b.historical.growth1M
+        break
+      case 'growth2M':
+        aValue = a.historical.growth2M
+        bValue = b.historical.growth2M
+        break
+      case 'growth3M':
+        aValue = a.historical.growth3M
+        bValue = b.historical.growth3M
         break
       case 'tradingVolume':
         aValue = a.trading ? parseFloat(a.trading.volume_usd_24h) : 0

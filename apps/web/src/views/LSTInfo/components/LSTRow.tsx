@@ -169,6 +169,14 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
   const [isAddingToWallet, setIsAddingToWallet] = useState(false)
   const { isMobile } = useMatchBreakpoints()
 
+  // Helper function to get display name (shorten encapZIL)
+  const getDisplayName = () => {
+    if (lst.config.symbol === 'encapZIL') {
+      return 'Encap'
+    }
+    return lst.config.name
+  }
+
   // Helper functions to format prices based on direction
   const getProxyPriceDisplay = () => {
     if (priceDirection === 'lst-to-zil') {
@@ -223,7 +231,7 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
           />
           <TokenInfo>
             <TokenSymbol>{lst.config.symbol}</TokenSymbol>
-            <TokenName>{lst.config.name}</TokenName>
+            <TokenName>{getDisplayName()}</TokenName>
           </TokenInfo>
         </TokenContainer>
 
@@ -263,7 +271,7 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
           />
         <TokenInfo>
           <TokenSymbol>{lst.config.symbol}</TokenSymbol>
-          <TokenName>{lst.config.name}</TokenName>
+          <TokenName>{getDisplayName()}</TokenName>
         </TokenInfo>
       </TokenContainer>
 
@@ -318,6 +326,24 @@ export const LSTRow = ({ lst, showHistorical, priceDirection }: LSTRowProps) => 
             {formatPercentage(lst.historical.growth1M, 3)}
           </GrowthText>
           <GrowthPeriodText>1M blocks</GrowthPeriodText>
+        </GrowthContainer>
+      )}
+
+      {showHistorical && (
+        <GrowthContainer>
+          <GrowthText isPositive={lst.historical.growth2M >= 0}>
+            {formatPercentage(lst.historical.growth2M, 3)}
+          </GrowthText>
+          <GrowthPeriodText>2M blocks</GrowthPeriodText>
+        </GrowthContainer>
+      )}
+
+      {showHistorical && (
+        <GrowthContainer>
+          <GrowthText isPositive={lst.historical.growth3M >= 0}>
+            {formatPercentage(lst.historical.growth3M, 3)}
+          </GrowthText>
+          <GrowthPeriodText>3M blocks</GrowthPeriodText>
         </GrowthContainer>
       )}
 
