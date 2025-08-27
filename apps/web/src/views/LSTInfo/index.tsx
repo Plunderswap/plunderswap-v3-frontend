@@ -361,7 +361,9 @@ export const LSTInfo = () => {
       <Text fontSize="12px" color="textSubtle" mt="16px" textAlign="center">
         * LST prices are obtained from proxy contracts using the getPrice() function.
         <br />
-        * Historical growth is calculated comparing current prices to prices 10k, 100k, 500k, 1M, 2M and 3M blocks ago.
+        * Historical growth is calculated comparing current prices to prices 10k (~3.6hrs), 100k (~1.5 days), 500k (~7.5 days), 1M (~15 days), 2M (~30 days) and 3M (~45 days) blocks ago.
+        <br />
+        * Block durations are approximate based on 1.3 second average block times.
         <br />
         * Swap prices show arbitrage opportunities between proxy rates and PlunderSwap pairs.
         <br />

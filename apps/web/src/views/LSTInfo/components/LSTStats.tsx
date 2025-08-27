@@ -77,6 +77,28 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
     <>
       {/* Average Growth Row */}
       <StatsContainer>
+        {stats.avgGrowth10k !== undefined && (
+          <CompactStatCard>
+            <CardBody style={{ padding: '12px 16px' }}>
+              <GrowthText isPositive={stats.avgGrowth10k >= 0}>
+                {formatPercentage(stats.avgGrowth10k)}
+              </GrowthText>
+              <StatLabel>Avg Growth (10k blocks)</StatLabel>
+            </CardBody>
+          </CompactStatCard>
+        )}
+
+        {stats.avgGrowth100k !== undefined && (
+          <CompactStatCard>
+            <CardBody style={{ padding: '12px 16px' }}>
+              <GrowthText isPositive={stats.avgGrowth100k >= 0}>
+                {formatPercentage(stats.avgGrowth100k)}
+              </GrowthText>
+              <StatLabel>Avg Growth (100k blocks)</StatLabel>
+            </CardBody>
+          </CompactStatCard>
+        )}
+
         <CompactStatCard>
           <CardBody style={{ padding: '12px 16px' }}>
             <GrowthText isPositive={stats.avgGrowth500k >= 0}>
@@ -116,6 +138,30 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
 
       {/* Best Performers Row */}
       <StatsContainer>
+        {stats.bestPerformer10k && (
+          <CompactStatCard>
+            <CardBody style={{ padding: '10px 14px' }}>
+              <BestPerformerText>{stats.bestPerformer10k.config.symbol}</BestPerformerText>
+              <BestPerformerSubtext>Best 10k Growth</BestPerformerSubtext>
+              <CompactGrowthText isPositive={(stats.bestPerformer10k.historical.growth10k ?? 0) >= 0}>
+                {formatPercentage(stats.bestPerformer10k.historical.growth10k ?? 0)}
+              </CompactGrowthText>
+            </CardBody>
+          </CompactStatCard>
+        )}
+
+        {stats.bestPerformer100k && (
+          <CompactStatCard>
+            <CardBody style={{ padding: '10px 14px' }}>
+              <BestPerformerText>{stats.bestPerformer100k.config.symbol}</BestPerformerText>
+              <BestPerformerSubtext>Best 100k Growth</BestPerformerSubtext>
+              <CompactGrowthText isPositive={(stats.bestPerformer100k.historical.growth100k ?? 0) >= 0}>
+                {formatPercentage(stats.bestPerformer100k.historical.growth100k ?? 0)}
+              </CompactGrowthText>
+            </CardBody>
+          </CompactStatCard>
+        )}
+
         {stats.bestPerformer500k && (
           <CompactStatCard>
             <CardBody style={{ padding: '10px 14px' }}>
