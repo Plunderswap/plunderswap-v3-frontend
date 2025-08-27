@@ -133,12 +133,10 @@ export const calculateHistoricalBlocks = (currentBlock: number): {
 }
 
 /**
- * Get historical prices from JSON data for specific block periods
+ * Get historical prices from JSON data using latest values as baseline
  */
 export const getHistoricalPricesFromJSON = (
-  jsonData: LSTJsonPriceData,
-  currentBlock: number,
-  currentPrice: string
+  jsonData: LSTJsonPriceData
 ): {
   blocks10k: string
   blocks100k: string
@@ -146,6 +144,8 @@ export const getHistoricalPricesFromJSON = (
   blocks1M: string
   blocks2M: string
   blocks3M: string
+  currentPrice: string
+  latestBlock: number
   growth10k: number
   growth100k: number
   growth500k: number
@@ -153,8 +153,39 @@ export const getHistoricalPricesFromJSON = (
   growth2M: number
   growth3M: number
 } => {
-  const { blocks10k, blocks100k, blocks500k, blocks1M, blocks2M, blocks3M } = calculateHistoricalBlocks(currentBlock)
+  if (!jsonData.prices.length) {
+    return {
+      blocks10k: '0',
+      blocks100k: '0',
+      blocks500k: '0',
+      blocks1M: '0',
+      blocks2M: '0',
+      blocks3M: '0',
+      currentPrice: '0',
+      latestBlock: 0,
+      growth10k: 0,
+      growth100k: 0,
+      growth500k: 0,
+      growth1M: 0,
+      growth2M: 0,
+      growth3M: 0,
+    }
+  }
+
+  // Get the latest (most recent) entry as our baseline
+  const latestEntry = jsonData.prices[jsonData.prices.length - 1]
+  const latestBlock = latestEntry.block
+  const latestPrice = latestEntry.price
   
+  // Calculate historical block numbers based on latest block
+  const blocks10k = latestBlock - 10000
+  const blocks100k = latestBlock - 100000
+  const blocks500k = latestBlock - 500000
+  const blocks1M = latestBlock - 1000000
+  const blocks2M = latestBlock - 2000000
+  const blocks3M = latestBlock - 3000000
+  
+  // Find closest price entries for each period
   const price10k = findClosestPriceEntry(jsonData.prices, blocks10k)?.price || '0'
   const price100k = findClosestPriceEntry(jsonData.prices, blocks100k)?.price || '0'
   const price500k = findClosestPriceEntry(jsonData.prices, blocks500k)?.price || '0'
@@ -162,7 +193,8 @@ export const getHistoricalPricesFromJSON = (
   const price2M = findClosestPriceEntry(jsonData.prices, blocks2M)?.price || '0'
   const price3M = findClosestPriceEntry(jsonData.prices, blocks3M)?.price || '0'
   
-  const currentNum = parseFloat(currentPrice)
+  // Use latest price as baseline for all calculations
+  const latestNum = parseFloat(latestPrice)
   const price10kNum = parseFloat(price10k)
   const price100kNum = parseFloat(price100k)
   const price500kNum = parseFloat(price500k)
@@ -170,12 +202,13 @@ export const getHistoricalPricesFromJSON = (
   const price2MNum = parseFloat(price2M)
   const price3MNum = parseFloat(price3M)
   
-  const growth10k = price10kNum > 0 ? ((currentNum - price10kNum) / price10kNum) * 100 : 0
-  const growth100k = price100kNum > 0 ? ((currentNum - price100kNum) / price100kNum) * 100 : 0
-  const growth500k = price500kNum > 0 ? ((currentNum - price500kNum) / price500kNum) * 100 : 0
-  const growth1M = price1MNum > 0 ? ((currentNum - price1MNum) / price1MNum) * 100 : 0
-  const growth2M = price2MNum > 0 ? ((currentNum - price2MNum) / price2MNum) * 100 : 0
-  const growth3M = price3MNum > 0 ? ((currentNum - price3MNum) / price3MNum) * 100 : 0
+  // Calculate growth based on latest JSON price vs historical JSON prices
+  const growth10k = price10kNum > 0 ? ((latestNum - price10kNum) / price10kNum) * 100 : 0
+  const growth100k = price100kNum > 0 ? ((latestNum - price100kNum) / price100kNum) * 100 : 0
+  const growth500k = price500kNum > 0 ? ((latestNum - price500kNum) / price500kNum) * 100 : 0
+  const growth1M = price1MNum > 0 ? ((latestNum - price1MNum) / price1MNum) * 100 : 0
+  const growth2M = price2MNum > 0 ? ((latestNum - price2MNum) / price2MNum) * 100 : 0
+  const growth3M = price3MNum > 0 ? ((latestNum - price3MNum) / price3MNum) * 100 : 0
   
   return {
     blocks10k: price10k,
@@ -184,6 +217,8 @@ export const getHistoricalPricesFromJSON = (
     blocks1M: price1M,
     blocks2M: price2M,
     blocks3M: price3M,
+    currentPrice: latestPrice,
+    latestBlock,
     growth10k,
     growth100k,
     growth500k,

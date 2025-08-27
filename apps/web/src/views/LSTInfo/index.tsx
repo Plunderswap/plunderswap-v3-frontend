@@ -230,11 +230,14 @@ export const LSTInfo = () => {
         </Flex>
         <Flex flexDirection="column">
           <Text fontSize="12px" color="textSubtle">
-            LST prices are fetched from proxy contracts. Trading data is updated on each refresh.
+            LST prices are from pre-indexed historical data. Trading data is updated on each refresh.
           </Text>
           {lastUpdated && (
             <Text fontSize="11px" color="textSubtle" mt="4px">
               Last updated: {formatTimeAgo(lastUpdated)}
+              {lstData.length > 0 && lstData[0].historical.latestBlock && (
+                <> • Baseline Block: {lstData[0].historical.latestBlock.toLocaleString()}</>
+              )}
             </Text>
           )}
         </Flex>
@@ -359,13 +362,13 @@ export const LSTInfo = () => {
       )}
 
       <Text fontSize="12px" color="textSubtle" mt="16px" textAlign="center">
-        * LST prices are obtained from proxy contracts using the getPrice() function.
+        * LST prices are obtained from indexed files using the latest 10k block data as baseline.
         <br />
-        * Historical growth is calculated comparing current prices to prices 10k (~3.6hrs), 100k (~1.5 days), 500k (~7.5 days), 1M (~15 days), 2M (~30 days) and 3M (~45 days) blocks ago.
+        * Historical growth is calculated comparing latest recorded prices to prices 10k (~3.6hrs), 100k (~1.5 days), 500k (~7.5 days), 1M (~15 days), 2M (~30 days) and 3M (~45 days) blocks ago.
         <br />
         * Block durations are approximate based on 1.3 second average block times.
         <br />
-        * Swap prices show arbitrage opportunities between proxy rates and PlunderSwap pairs.
+        * Swap prices show arbitrage opportunities between recorded rates and PlunderSwap pairs.
         <br />
         * Click token logos to add to wallet via EIP-747.
       </Text>

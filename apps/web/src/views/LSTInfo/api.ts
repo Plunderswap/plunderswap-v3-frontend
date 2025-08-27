@@ -94,14 +94,7 @@ export const fetchLSTJsonPriceData = async (config: LSTConfig): Promise<LSTJsonP
 
 const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistoricalPrice> => {
   try {
-    // Get current price from blockchain (this is fast)
-    const currentPrice = await getLSTPrice(config.proxyAddress)
-    
-    // Get current block number
-    const currentBlockBigInt = await getCurrentBlockNumber()
-    const currentBlock = Number(currentBlockBigInt)
-    
-    // Fetch pre-indexed JSON price data
+    // Fetch pre-indexed JSON price data (no blockchain calls needed)
     const jsonData = await fetchLSTJsonPriceData(config)
     
     if (!jsonData) {
@@ -113,7 +106,8 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
         blocks1M: '0',
         blocks2M: '0',
         blocks3M: '0',
-        currentPrice,
+        currentPrice: '0',
+        latestBlock: 0,
         growth10k: 0,
         growth100k: 0,
         growth500k: 0,
@@ -123,8 +117,8 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       }
     }
     
-    // Get historical prices from JSON data
-    const historicalData = getHistoricalPricesFromJSON(jsonData, currentBlock, currentPrice)
+    // Get all data from JSON using latest values as baseline
+    const historicalData = getHistoricalPricesFromJSON(jsonData)
     
     return {
       blocks10k: historicalData.blocks10k,
@@ -133,7 +127,8 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       blocks1M: historicalData.blocks1M,
       blocks2M: historicalData.blocks2M,
       blocks3M: historicalData.blocks3M,
-      currentPrice,
+      currentPrice: historicalData.currentPrice,
+      latestBlock: historicalData.latestBlock,
       growth10k: historicalData.growth10k,
       growth100k: historicalData.growth100k,
       growth500k: historicalData.growth500k,
@@ -151,6 +146,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       blocks2M: '0',
       blocks3M: '0',
       currentPrice: '0',
+      latestBlock: 0,
       growth10k: 0,
       growth100k: 0,
       growth500k: 0,
@@ -235,12 +231,11 @@ export const fetchPlunderSwapTradingData = async (): Promise<LSTTradingData[]> =
 
 export const fetchLSTData = async (config: LSTConfig): Promise<LSTData> => {
   try {
-    const [currentPriceStr, historical] = await Promise.all([
-      getLSTPrice(config.proxyAddress),
-      fetchLSTHistoricalPrices(config),
-    ])
+    // Fetch all data from JSON (no blockchain calls needed)
+    const historical = await fetchLSTHistoricalPrices(config)
 
-    const price = formatLSTPrice(currentPriceStr)
+    // Use the current price from JSON data
+    const price = formatLSTPrice(historical.currentPrice)
 
     return {
       config,
@@ -261,6 +256,7 @@ export const fetchLSTData = async (config: LSTConfig): Promise<LSTData> => {
         blocks2M: '0',
         blocks3M: '0',
         currentPrice: '0',
+        latestBlock: 0,
         growth10k: 0,
         growth100k: 0,
         growth500k: 0,

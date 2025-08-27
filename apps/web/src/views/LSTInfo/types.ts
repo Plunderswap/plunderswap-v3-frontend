@@ -22,6 +22,7 @@ export interface LSTHistoricalPrice {
   blocks2M: string // Price 2M blocks ago
   blocks3M: string // Price 3M blocks ago
   currentPrice: string
+  latestBlock?: number // Latest block number from JSON data
   growth10k?: number // Growth percentage from 10k blocks ago
   growth100k?: number // Growth percentage from 100k blocks ago
   growth500k: number // Growth percentage from 500k blocks ago
