@@ -21,7 +21,7 @@ import {
   sortLSTData
 } from './utils'
 
-type SortField = 'symbol' | 'price' | 'growth10k' | 'growth100k' | 'growth500k' | 'growth1M' | 'growth2M' | 'growth3M' | 'tradingVolume' | null
+type SortField = 'symbol' | 'price' | 'change10k' | 'change100k' | 'change500k' | 'change1M' | 'change2M' | 'change3M' | 'tradingVolume' | null
 type SortDirection = 'asc' | 'desc'
 
 const Container = styled.div`
@@ -275,7 +275,7 @@ export const LSTInfo = () => {
                 onChange={() => handleShowHistoricalChange(!showHistorical)} 
                 scale="sm" 
               />
-              <Tooltip>Shows growth over 10k, 100k and 500k blocks</Tooltip>
+              <Tooltip>Shows raw price changes over 10k, 100k and 500k blocks</Tooltip>
             </ToggleWrapper>
             <ToggleWrapper>
               <Text mr="8px">Show Extended Historical</Text>
@@ -328,25 +328,25 @@ export const LSTInfo = () => {
                 
                 {showHistorical && (
                   <>
-                    <HeaderText onClick={() => handleSort('growth10k')}>
-                      10k Growth {sortField === 'growth10k' && (sortDirection === 'desc' ? '↓' : '↑')}
+                    <HeaderText onClick={() => handleSort('change10k')}>
+                      10k Change {sortField === 'change10k' && (sortDirection === 'desc' ? '↓' : '↑')}
                     </HeaderText>
-                    <HeaderText onClick={() => handleSort('growth100k')}>
-                      100k Growth {sortField === 'growth100k' && (sortDirection === 'desc' ? '↓' : '↑')}
+                    <HeaderText onClick={() => handleSort('change100k')}>
+                      100k Change {sortField === 'change100k' && (sortDirection === 'desc' ? '↓' : '↑')}
                     </HeaderText>
-                    <HeaderText onClick={() => handleSort('growth500k')}>
-                      500k Growth {sortField === 'growth500k' && (sortDirection === 'desc' ? '↓' : '↑')}
+                    <HeaderText onClick={() => handleSort('change500k')}>
+                      500k Change {sortField === 'change500k' && (sortDirection === 'desc' ? '↓' : '↑')}
                     </HeaderText>
                     {showExtendedHistorical && (
                       <>
-                        <HeaderText onClick={() => handleSort('growth1M')}>
-                          1M Growth {sortField === 'growth1M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                        <HeaderText onClick={() => handleSort('change1M')}>
+                          1M Change {sortField === 'change1M' && (sortDirection === 'desc' ? '↓' : '↑')}
                         </HeaderText>
-                        <HeaderText onClick={() => handleSort('growth2M')}>
-                          2M Growth {sortField === 'growth2M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                        <HeaderText onClick={() => handleSort('change2M')}>
+                          2M Change {sortField === 'change2M' && (sortDirection === 'desc' ? '↓' : '↑')}
                         </HeaderText>
-                        <HeaderText onClick={() => handleSort('growth3M')}>
-                          3M Growth {sortField === 'growth3M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                        <HeaderText onClick={() => handleSort('change3M')}>
+                          3M Change {sortField === 'change3M' && (sortDirection === 'desc' ? '↓' : '↑')}
                         </HeaderText>
                       </>
                     )}
@@ -371,7 +371,7 @@ export const LSTInfo = () => {
       <Text fontSize="12px" color="textSubtle" mt="16px" textAlign="center">
         * LST prices are obtained from indexed files using the latest 10k block data as baseline.
         <br />
-        * Historical growth is calculated comparing latest recorded prices to prices 10k (~3.6hrs), 100k (~1.5 days), 500k (~7.5 days), 1M (~15 days), 2M (~30 days) and 3M (~45 days) blocks ago.
+        * Historical price change is calculated as raw price difference between latest recorded prices and prices 10k (~3.6hrs), 100k (~1.5 days), 500k (~7.5 days), 1M (~15 days), 2M (~30 days) and 3M (~45 days) blocks ago.
         <br />
         * Block durations are approximate based on 1.3 second average block times.
         <br />

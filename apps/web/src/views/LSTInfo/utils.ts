@@ -146,12 +146,12 @@ export const getHistoricalPricesFromJSON = (
   blocks3M: string
   currentPrice: string
   latestBlock: number
-  growth10k: number
-  growth100k: number
-  growth500k: number
-  growth1M: number
-  growth2M: number
-  growth3M: number
+  change10k: number
+  change100k: number
+  change500k: number
+  change1M: number
+  change2M: number
+  change3M: number
 } => {
   if (!jsonData.prices.length) {
     return {
@@ -163,12 +163,12 @@ export const getHistoricalPricesFromJSON = (
       blocks3M: '0',
       currentPrice: '0',
       latestBlock: 0,
-      growth10k: 0,
-      growth100k: 0,
-      growth500k: 0,
-      growth1M: 0,
-      growth2M: 0,
-      growth3M: 0,
+      change10k: 0,
+      change100k: 0,
+      change500k: 0,
+      change1M: 0,
+      change2M: 0,
+      change3M: 0,
     }
   }
 
@@ -202,13 +202,13 @@ export const getHistoricalPricesFromJSON = (
   const price2MNum = parseFloat(price2M)
   const price3MNum = parseFloat(price3M)
   
-  // Calculate growth based on latest JSON price vs historical JSON prices
-  const growth10k = price10kNum > 0 ? ((latestNum - price10kNum) / price10kNum) * 100 : 0
-  const growth100k = price100kNum > 0 ? ((latestNum - price100kNum) / price100kNum) * 100 : 0
-  const growth500k = price500kNum > 0 ? ((latestNum - price500kNum) / price500kNum) * 100 : 0
-  const growth1M = price1MNum > 0 ? ((latestNum - price1MNum) / price1MNum) * 100 : 0
-  const growth2M = price2MNum > 0 ? ((latestNum - price2MNum) / price2MNum) * 100 : 0
-  const growth3M = price3MNum > 0 ? ((latestNum - price3MNum) / price3MNum) * 100 : 0
+  // Calculate raw price change based on latest JSON price vs historical JSON prices
+  const change10k = latestNum - price10kNum
+  const change100k = latestNum - price100kNum
+  const change500k = latestNum - price500kNum
+  const change1M = latestNum - price1MNum
+  const change2M = latestNum - price2MNum
+  const change3M = latestNum - price3MNum
   
   return {
     blocks10k: price10k,
@@ -219,12 +219,12 @@ export const getHistoricalPricesFromJSON = (
     blocks3M: price3M,
     currentPrice: latestPrice,
     latestBlock,
-    growth10k,
-    growth100k,
-    growth500k,
-    growth1M,
-    growth2M,
-    growth3M,
+    change10k,
+    change100k,
+    change500k,
+    change1M,
+    change2M,
+    change3M,
   }
 }
 
@@ -245,6 +245,12 @@ export const formatNumber = (value: string | number, decimals = 2): string => {
 export const formatPercentage = (value: number, decimals = 2): string => {
   if (Number.isNaN(value)) return '0.00%'
   return `${value.toFixed(decimals)}%`
+}
+
+export const formatRawChange = (value: number, decimals = 8): string => {
+  if (Number.isNaN(value)) return '0.00000000'
+  const sign = value >= 0 ? '+' : ''
+  return `${sign}${value.toFixed(decimals)}`
 }
 
 export const formatPrice = (value: string | number, decimals = 6): string => {
@@ -327,12 +333,12 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
   if (validData.length === 0) {
     return {
       totalCount: 0,
-      avgGrowth10k: 0,
-      avgGrowth100k: 0,
-      avgGrowth500k: 0,
-      avgGrowth1M: 0,
-      avgGrowth2M: 0,
-      avgGrowth3M: 0,
+      avgChange10k: 0,
+      avgChange100k: 0,
+      avgChange500k: 0,
+      avgChange1M: 0,
+      avgChange2M: 0,
+      avgChange3M: 0,
       bestPerformer10k: null,
       bestPerformer100k: null,
       bestPerformer500k: null,
@@ -342,45 +348,45 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
     }
   }
 
-  const avgGrowth10k = validData.reduce((sum, lst) => sum + (lst.historical.growth10k ?? 0), 0) / validData.length
-  const avgGrowth100k = validData.reduce((sum, lst) => sum + (lst.historical.growth100k ?? 0), 0) / validData.length
-  const avgGrowth500k = validData.reduce((sum, lst) => sum + lst.historical.growth500k, 0) / validData.length
-  const avgGrowth1M = validData.reduce((sum, lst) => sum + lst.historical.growth1M, 0) / validData.length
-  const avgGrowth2M = validData.reduce((sum, lst) => sum + lst.historical.growth2M, 0) / validData.length
-  const avgGrowth3M = validData.reduce((sum, lst) => sum + lst.historical.growth3M, 0) / validData.length
+  const avgChange10k = validData.reduce((sum, lst) => sum + (lst.historical.change10k ?? 0), 0) / validData.length
+  const avgChange100k = validData.reduce((sum, lst) => sum + (lst.historical.change100k ?? 0), 0) / validData.length
+  const avgChange500k = validData.reduce((sum, lst) => sum + lst.historical.change500k, 0) / validData.length
+  const avgChange1M = validData.reduce((sum, lst) => sum + lst.historical.change1M, 0) / validData.length
+  const avgChange2M = validData.reduce((sum, lst) => sum + lst.historical.change2M, 0) / validData.length
+  const avgChange3M = validData.reduce((sum, lst) => sum + lst.historical.change3M, 0) / validData.length
 
   const bestPerformer10k = validData.reduce((best, current) => 
-    (current.historical.growth10k ?? -Infinity) > (best.historical.growth10k ?? -Infinity) ? current : best
+    (current.historical.change10k ?? -Infinity) > (best.historical.change10k ?? -Infinity) ? current : best
   )
 
   const bestPerformer100k = validData.reduce((best, current) => 
-    (current.historical.growth100k ?? -Infinity) > (best.historical.growth100k ?? -Infinity) ? current : best
+    (current.historical.change100k ?? -Infinity) > (best.historical.change100k ?? -Infinity) ? current : best
   )
 
   const bestPerformer500k = validData.reduce((best, current) => 
-    current.historical.growth500k > best.historical.growth500k ? current : best
+    current.historical.change500k > best.historical.change500k ? current : best
   )
 
   const bestPerformer1M = validData.reduce((best, current) => 
-    current.historical.growth1M > best.historical.growth1M ? current : best
+    current.historical.change1M > best.historical.change1M ? current : best
   )
 
   const bestPerformer2M = validData.reduce((best, current) => 
-    current.historical.growth2M > best.historical.growth2M ? current : best
+    current.historical.change2M > best.historical.change2M ? current : best
   )
 
   const bestPerformer3M = validData.reduce((best, current) => 
-    current.historical.growth3M > best.historical.growth3M ? current : best
+    current.historical.change3M > best.historical.change3M ? current : best
   )
 
   return {
     totalCount: validData.length,
-    avgGrowth10k,
-    avgGrowth100k,
-    avgGrowth500k,
-    avgGrowth1M,
-    avgGrowth2M,
-    avgGrowth3M,
+    avgChange10k,
+    avgChange100k,
+    avgChange500k,
+    avgChange1M,
+    avgChange2M,
+    avgChange3M,
     bestPerformer10k,
     bestPerformer100k,
     bestPerformer500k,
@@ -458,29 +464,29 @@ export const sortLSTData = (data: LSTData[], sortBy: string, direction: 'asc' | 
         aValue = parseFloat(a.price.current)
         bValue = parseFloat(b.price.current)
         break
-      case 'growth10k':
-        aValue = a.historical.growth10k ?? 0
-        bValue = b.historical.growth10k ?? 0
+      case 'change10k':
+        aValue = a.historical.change10k ?? 0
+        bValue = b.historical.change10k ?? 0
         break
-      case 'growth100k':
-        aValue = a.historical.growth100k ?? 0
-        bValue = b.historical.growth100k ?? 0
+      case 'change100k':
+        aValue = a.historical.change100k ?? 0
+        bValue = b.historical.change100k ?? 0
         break
-      case 'growth500k':
-        aValue = a.historical.growth500k
-        bValue = b.historical.growth500k
+      case 'change500k':
+        aValue = a.historical.change500k
+        bValue = b.historical.change500k
         break
-      case 'growth1M':
-        aValue = a.historical.growth1M
-        bValue = b.historical.growth1M
+      case 'change1M':
+        aValue = a.historical.change1M
+        bValue = b.historical.change1M
         break
-      case 'growth2M':
-        aValue = a.historical.growth2M
-        bValue = b.historical.growth2M
+      case 'change2M':
+        aValue = a.historical.change2M
+        bValue = b.historical.change2M
         break
-      case 'growth3M':
-        aValue = a.historical.growth3M
-        bValue = b.historical.growth3M
+      case 'change3M':
+        aValue = a.historical.change3M
+        bValue = b.historical.change3M
         break
       case 'tradingVolume':
         aValue = a.trading ? parseFloat(a.trading.volume_usd_24h) : 0

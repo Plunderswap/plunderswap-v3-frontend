@@ -2,7 +2,7 @@ import { Button, Flex, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { LSTData } from '../types'
-import { addTokenToWallet, formatPercentage, formatPrice, isWeb3Supported } from '../utils'
+import { addTokenToWallet, formatPrice, formatRawChange, isWeb3Supported } from '../utils'
 
 interface LSTRowProps {
   lst: LSTData
@@ -296,8 +296,8 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
 
       {showHistorical && (
         <GrowthContainer>
-          <GrowthText isPositive={(lst.historical.growth10k ?? 0) >= 0}>
-            {formatPercentage(lst.historical.growth10k ?? 0, 5)}
+          <GrowthText isPositive={(lst.historical.change10k ?? 0) >= 0}>
+            {formatRawChange(lst.historical.change10k ?? 0, 8)}
           </GrowthText>
           <GrowthPeriodText>10k blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -305,8 +305,8 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
 
       {showHistorical && (
         <GrowthContainer>
-          <GrowthText isPositive={(lst.historical.growth100k ?? 0) >= 0}>
-            {formatPercentage(lst.historical.growth100k ?? 0, 5)}
+          <GrowthText isPositive={(lst.historical.change100k ?? 0) >= 0}>
+            {formatRawChange(lst.historical.change100k ?? 0, 8)}
           </GrowthText>
           <GrowthPeriodText>100k blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -314,8 +314,8 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
 
       {showHistorical && (
         <GrowthContainer>
-          <GrowthText isPositive={lst.historical.growth500k >= 0}>
-            {formatPercentage(lst.historical.growth500k, 5)}
+          <GrowthText isPositive={lst.historical.change500k >= 0}>
+            {formatRawChange(lst.historical.change500k, 8)}
           </GrowthText>
           <GrowthPeriodText>500k blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -323,8 +323,8 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
 
       {showExtendedHistorical && (
         <GrowthContainer>
-          <GrowthText isPositive={lst.historical.growth1M >= 0}>
-            {formatPercentage(lst.historical.growth1M, 5)}
+          <GrowthText isPositive={lst.historical.change1M >= 0}>
+            {formatRawChange(lst.historical.change1M, 8)}
           </GrowthText>
           <GrowthPeriodText>1M blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -332,8 +332,8 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
 
       {showExtendedHistorical && (
         <GrowthContainer>
-          <GrowthText isPositive={lst.historical.growth2M >= 0}>
-            {formatPercentage(lst.historical.growth2M, 5)}
+          <GrowthText isPositive={lst.historical.change2M >= 0}>
+            {formatRawChange(lst.historical.change2M, 8)}
           </GrowthText>
           <GrowthPeriodText>2M blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -341,8 +341,8 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
 
       {showExtendedHistorical && (
         <GrowthContainer>
-          <GrowthText isPositive={lst.historical.growth3M >= 0}>
-            {formatPercentage(lst.historical.growth3M, 5)}
+          <GrowthText isPositive={lst.historical.change3M >= 0}>
+            {formatRawChange(lst.historical.change3M, 8)}
           </GrowthText>
           <GrowthPeriodText>3M blocks</GrowthPeriodText>
         </GrowthContainer>

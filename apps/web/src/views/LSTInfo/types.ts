@@ -23,12 +23,12 @@ export interface LSTHistoricalPrice {
   blocks3M: string // Price 3M blocks ago
   currentPrice: string
   latestBlock?: number // Latest block number from JSON data
-  growth10k?: number // Growth percentage from 10k blocks ago
-  growth100k?: number // Growth percentage from 100k blocks ago
-  growth500k: number // Growth percentage from 500k blocks ago
-  growth1M: number // Growth percentage from 1M blocks ago
-  growth2M: number // Growth percentage from 2M blocks ago
-  growth3M: number // Growth percentage from 3M blocks ago
+  change10k?: number // Raw price change from 10k blocks ago
+  change100k?: number // Raw price change from 100k blocks ago
+  change500k: number // Raw price change from 500k blocks ago
+  change1M: number // Raw price change from 1M blocks ago
+  change2M: number // Raw price change from 2M blocks ago
+  change3M: number // Raw price change from 3M blocks ago
 }
 
 export interface LSTTradingData {
@@ -58,12 +58,12 @@ export interface LSTData {
 
 export interface LSTStats {
   totalCount: number
-  avgGrowth10k?: number
-  avgGrowth100k?: number
-  avgGrowth500k: number
-  avgGrowth1M: number
-  avgGrowth2M: number
-  avgGrowth3M: number
+  avgChange10k?: number
+  avgChange100k?: number
+  avgChange500k: number
+  avgChange1M: number
+  avgChange2M: number
+  avgChange3M: number
   bestPerformer10k?: LSTData | null
   bestPerformer100k?: LSTData | null
   bestPerformer500k: LSTData | null

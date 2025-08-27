@@ -1,7 +1,7 @@
 import { Card, CardBody, Flex, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { LSTStats as LSTStatsType } from '../types'
-import { formatPercentage } from '../utils'
+import { formatRawChange } from '../utils'
 
 interface LSTStatsProps {
   stats: LSTStatsType
@@ -75,63 +75,63 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
 
   return (
     <>
-      {/* Average Growth Row */}
+      {/* Average Change Row */}
       <StatsContainer>
-        {stats.avgGrowth10k !== undefined && (
+        {stats.avgChange10k !== undefined && (
           <CompactStatCard>
             <CardBody style={{ padding: '12px 16px' }}>
-              <GrowthText isPositive={stats.avgGrowth10k >= 0}>
-                {formatPercentage(stats.avgGrowth10k, 5)}
+              <GrowthText isPositive={stats.avgChange10k >= 0}>
+                {formatRawChange(stats.avgChange10k, 8)}
               </GrowthText>
-              <StatLabel>Avg Growth (10k blocks)</StatLabel>
+              <StatLabel>Avg Change (10k blocks)</StatLabel>
             </CardBody>
           </CompactStatCard>
         )}
 
-        {stats.avgGrowth100k !== undefined && (
+        {stats.avgChange100k !== undefined && (
           <CompactStatCard>
             <CardBody style={{ padding: '12px 16px' }}>
-              <GrowthText isPositive={stats.avgGrowth100k >= 0}>
-                {formatPercentage(stats.avgGrowth100k, 5)}
+              <GrowthText isPositive={stats.avgChange100k >= 0}>
+                {formatRawChange(stats.avgChange100k, 8)}
               </GrowthText>
-              <StatLabel>Avg Growth (100k blocks)</StatLabel>
+              <StatLabel>Avg Change (100k blocks)</StatLabel>
             </CardBody>
           </CompactStatCard>
         )}
 
         <CompactStatCard>
           <CardBody style={{ padding: '12px 16px' }}>
-            <GrowthText isPositive={stats.avgGrowth500k >= 0}>
-              {formatPercentage(stats.avgGrowth500k, 5)}
+            <GrowthText isPositive={stats.avgChange500k >= 0}>
+              {formatRawChange(stats.avgChange500k, 8)}
             </GrowthText>
-            <StatLabel>Avg Growth (500k blocks)</StatLabel>
+            <StatLabel>Avg Change (500k blocks)</StatLabel>
           </CardBody>
         </CompactStatCard>
 
         <CompactStatCard>
           <CardBody style={{ padding: '12px 16px' }}>
-            <GrowthText isPositive={stats.avgGrowth1M >= 0}>
-              {formatPercentage(stats.avgGrowth1M, 5)}
+            <GrowthText isPositive={stats.avgChange1M >= 0}>
+              {formatRawChange(stats.avgChange1M, 8)}
             </GrowthText>
-            <StatLabel>Avg Growth (1M blocks)</StatLabel>
+            <StatLabel>Avg Change (1M blocks)</StatLabel>
           </CardBody>
         </CompactStatCard>
 
         <CompactStatCard>
           <CardBody style={{ padding: '12px 16px' }}>
-            <GrowthText isPositive={stats.avgGrowth2M >= 0}>
-              {formatPercentage(stats.avgGrowth2M, 5)}
+            <GrowthText isPositive={stats.avgChange2M >= 0}>
+              {formatRawChange(stats.avgChange2M, 8)}
             </GrowthText>
-            <StatLabel>Avg Growth (2M blocks)</StatLabel>
+            <StatLabel>Avg Change (2M blocks)</StatLabel>
           </CardBody>
         </CompactStatCard>
 
         <CompactStatCard>
           <CardBody style={{ padding: '12px 16px' }}>
-            <GrowthText isPositive={stats.avgGrowth3M >= 0}>
-              {formatPercentage(stats.avgGrowth3M, 5)}
+            <GrowthText isPositive={stats.avgChange3M >= 0}>
+              {formatRawChange(stats.avgChange3M, 8)}
             </GrowthText>
-            <StatLabel>Avg Growth (3M blocks)</StatLabel>
+            <StatLabel>Avg Change (3M blocks)</StatLabel>
           </CardBody>
         </CompactStatCard>
       </StatsContainer>
@@ -142,9 +142,9 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
           <CompactStatCard>
             <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer10k.config.symbol}</BestPerformerText>
-              <BestPerformerSubtext>Best 10k Growth</BestPerformerSubtext>
-              <CompactGrowthText isPositive={(stats.bestPerformer10k.historical.growth10k ?? 0) >= 0}>
-                {formatPercentage(stats.bestPerformer10k.historical.growth10k ?? 0, 5)}
+              <BestPerformerSubtext>Best 10k Change</BestPerformerSubtext>
+              <CompactGrowthText isPositive={(stats.bestPerformer10k.historical.change10k ?? 0) >= 0}>
+                {formatRawChange(stats.bestPerformer10k.historical.change10k ?? 0, 8)}
               </CompactGrowthText>
             </CardBody>
           </CompactStatCard>
@@ -154,9 +154,9 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
           <CompactStatCard>
             <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer100k.config.symbol}</BestPerformerText>
-              <BestPerformerSubtext>Best 100k Growth</BestPerformerSubtext>
-              <CompactGrowthText isPositive={(stats.bestPerformer100k.historical.growth100k ?? 0) >= 0}>
-                {formatPercentage(stats.bestPerformer100k.historical.growth100k ?? 0, 5)}
+              <BestPerformerSubtext>Best 100k Change</BestPerformerSubtext>
+              <CompactGrowthText isPositive={(stats.bestPerformer100k.historical.change100k ?? 0) >= 0}>
+                {formatRawChange(stats.bestPerformer100k.historical.change100k ?? 0, 8)}
               </CompactGrowthText>
             </CardBody>
           </CompactStatCard>
@@ -166,9 +166,9 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
           <CompactStatCard>
             <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer500k.config.symbol}</BestPerformerText>
-              <BestPerformerSubtext>Best 500k Growth</BestPerformerSubtext>
-              <CompactGrowthText isPositive={stats.bestPerformer500k.historical.growth500k >= 0}>
-                {formatPercentage(stats.bestPerformer500k.historical.growth500k, 5)}
+              <BestPerformerSubtext>Best 500k Change</BestPerformerSubtext>
+              <CompactGrowthText isPositive={stats.bestPerformer500k.historical.change500k >= 0}>
+                {formatRawChange(stats.bestPerformer500k.historical.change500k, 8)}
               </CompactGrowthText>
             </CardBody>
           </CompactStatCard>
@@ -178,9 +178,9 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
           <CompactStatCard>
             <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer1M.config.symbol}</BestPerformerText>
-              <BestPerformerSubtext>Best 1M Growth</BestPerformerSubtext>
-              <CompactGrowthText isPositive={stats.bestPerformer1M.historical.growth1M >= 0}>
-                {formatPercentage(stats.bestPerformer1M.historical.growth1M, 5)}
+              <BestPerformerSubtext>Best 1M Change</BestPerformerSubtext>
+              <CompactGrowthText isPositive={stats.bestPerformer1M.historical.change1M >= 0}>
+                {formatRawChange(stats.bestPerformer1M.historical.change1M, 8)}
               </CompactGrowthText>
             </CardBody>
           </CompactStatCard>
@@ -190,9 +190,9 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
           <CompactStatCard>
             <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer2M.config.symbol}</BestPerformerText>
-              <BestPerformerSubtext>Best 2M Growth</BestPerformerSubtext>
-              <CompactGrowthText isPositive={stats.bestPerformer2M.historical.growth2M >= 0}>
-                {formatPercentage(stats.bestPerformer2M.historical.growth2M, 5)}
+              <BestPerformerSubtext>Best 2M Change</BestPerformerSubtext>
+              <CompactGrowthText isPositive={stats.bestPerformer2M.historical.change2M >= 0}>
+                {formatRawChange(stats.bestPerformer2M.historical.change2M, 8)}
               </CompactGrowthText>
             </CardBody>
           </CompactStatCard>
@@ -202,9 +202,9 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
           <CompactStatCard>
             <CardBody style={{ padding: '10px 14px' }}>
               <BestPerformerText>{stats.bestPerformer3M.config.symbol}</BestPerformerText>
-              <BestPerformerSubtext>Best 3M Growth</BestPerformerSubtext>
-              <CompactGrowthText isPositive={stats.bestPerformer3M.historical.growth3M >= 0}>
-                {formatPercentage(stats.bestPerformer3M.historical.growth3M, 5)}
+              <BestPerformerSubtext>Best 3M Change</BestPerformerSubtext>
+              <CompactGrowthText isPositive={stats.bestPerformer3M.historical.change3M >= 0}>
+                {formatRawChange(stats.bestPerformer3M.historical.change3M, 8)}
               </CompactGrowthText>
             </CardBody>
           </CompactStatCard>
