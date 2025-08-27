@@ -297,7 +297,7 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
       {showHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={(lst.historical.growth10k ?? 0) >= 0}>
-            {formatPercentage(lst.historical.growth10k ?? 0, 3)}
+            {formatPercentage(lst.historical.growth10k ?? 0, 5)}
           </GrowthText>
           <GrowthPeriodText>10k blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -306,7 +306,7 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
       {showHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={(lst.historical.growth100k ?? 0) >= 0}>
-            {formatPercentage(lst.historical.growth100k ?? 0, 3)}
+            {formatPercentage(lst.historical.growth100k ?? 0, 5)}
           </GrowthText>
           <GrowthPeriodText>100k blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -315,7 +315,7 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
       {showHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth500k >= 0}>
-            {formatPercentage(lst.historical.growth500k, 3)}
+            {formatPercentage(lst.historical.growth500k, 5)}
           </GrowthText>
           <GrowthPeriodText>500k blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -324,7 +324,7 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
       {showExtendedHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth1M >= 0}>
-            {formatPercentage(lst.historical.growth1M, 3)}
+            {formatPercentage(lst.historical.growth1M, 5)}
           </GrowthText>
           <GrowthPeriodText>1M blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -333,7 +333,7 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
       {showExtendedHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth2M >= 0}>
-            {formatPercentage(lst.historical.growth2M, 3)}
+            {formatPercentage(lst.historical.growth2M, 5)}
           </GrowthText>
           <GrowthPeriodText>2M blocks</GrowthPeriodText>
         </GrowthContainer>
@@ -342,7 +342,7 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
       {showExtendedHistorical && (
         <GrowthContainer>
           <GrowthText isPositive={lst.historical.growth3M >= 0}>
-            {formatPercentage(lst.historical.growth3M, 3)}
+            {formatPercentage(lst.historical.growth3M, 5)}
           </GrowthText>
           <GrowthPeriodText>3M blocks</GrowthPeriodText>
         </GrowthContainer>
