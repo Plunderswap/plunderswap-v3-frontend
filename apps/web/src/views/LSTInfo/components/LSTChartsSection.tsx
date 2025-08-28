@@ -113,8 +113,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
       <TooltipContainer>
         <TooltipLabel>Block: {blockNumber?.toLocaleString()}</TooltipLabel>
         <TooltipValue>Date: {date}</TooltipValue>
-        {payload.map((entry: any, index: number) => (
-          <TooltipValue key={index} style={{ color: entry.color }}>
+        {payload.map((entry: any) => (
+          <TooltipValue key={entry.dataKey} style={{ color: entry.color }}>
             {entry.dataKey}: {Number(entry.value).toFixed(8)}
           </TooltipValue>
         ))}
@@ -264,7 +264,7 @@ export const LSTChartsSection = ({ show }: LSTChartsProps) => {
     filteredChartData.forEach(dataPoint => {
       symbols.forEach(symbol => {
         const change = dataPoint[symbol]
-        if (change !== undefined && !isNaN(change) && change >= 0) {
+        if (change !== undefined && !Number.isNaN(change) && change >= 0) {
           maxChange = Math.max(maxChange, change)
         }
       })
