@@ -5,16 +5,19 @@ import styled from 'styled-components'
 import { fetchAllLSTData, getCurrentBlockNumber } from './api'
 import { ErrorState } from './components/ErrorState'
 import { LoadingState } from './components/LoadingState'
+import { LSTChartsSection } from './components/LSTChartsSection'
 import { LSTRow } from './components/LSTRow'
 import { LSTStats } from './components/LSTStats'
 import { LSTData } from './types'
 import {
   calculateLSTStats,
   getStoredPriceDirection,
+  getStoredShowCharts,
   getStoredShowExtendedHistorical,
   getStoredShowHistorical,
   getStoredSortPreference,
   setStoredPriceDirection,
+  setStoredShowCharts,
   setStoredShowExtendedHistorical,
   setStoredShowHistorical,
   setStoredSortPreference,
@@ -135,6 +138,7 @@ export const LSTInfo = () => {
   const [lstData, setLSTData] = useState<LSTData[]>([])
   const [showHistorical, setShowHistorical] = useState(getStoredShowHistorical())
   const [showExtendedHistorical, setShowExtendedHistorical] = useState(getStoredShowExtendedHistorical())
+  const [showCharts, setShowCharts] = useState(getStoredShowCharts())
   const [priceDirection, setPriceDirection] = useState<'zil-to-lst' | 'lst-to-zil'>(getStoredPriceDirection())
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<boolean>(false)
@@ -184,6 +188,11 @@ export const LSTInfo = () => {
   const handleShowExtendedHistoricalChange = useCallback((newValue: boolean) => {
     setShowExtendedHistorical(newValue)
     setStoredShowExtendedHistorical(newValue)
+  }, [])
+
+  const handleShowChartsChange = useCallback((newValue: boolean) => {
+    setShowCharts(newValue)
+    setStoredShowCharts(newValue)
   }, [])
 
   const handlePriceDirectionChange = useCallback(() => {
@@ -252,6 +261,8 @@ export const LSTInfo = () => {
 
       <LSTStats stats={stats} lastUpdated={lastUpdated || undefined} />
 
+      <LSTChartsSection show={showCharts} />
+
       <Flex justifyContent="flex-end" mb="16px" style={{ gap: isMobile ? '8px' : '24px' }}>
         <ToggleWrapper>
           <Text mr="8px" style={{ whiteSpace: 'nowrap' }}>
@@ -268,6 +279,15 @@ export const LSTInfo = () => {
         </ToggleWrapper>
         {!isMobile && (
           <>
+            <ToggleWrapper>
+              <Text mr="8px">Show Charts</Text>
+              <Toggle 
+                checked={showCharts} 
+                onChange={() => handleShowChartsChange(!showCharts)} 
+                scale="sm" 
+              />
+              <Tooltip>Shows price trend graphs for all LSTs</Tooltip>
+            </ToggleWrapper>
             <ToggleWrapper>
               <Text mr="8px">Show Historical Data</Text>
               <Toggle 
