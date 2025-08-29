@@ -409,7 +409,7 @@ export const setStoredShowHistorical = (value: boolean) => {
 
 export const getStoredShowExtendedHistorical = (): boolean => {
   const stored = getCookie(LST_SHOW_EXTENDED_HISTORICAL_COOKIE)
-  return stored ? stored === 'true' : false // default to false
+  return stored ? stored === 'true' : true // default to true
 }
 
 export const setStoredShowExtendedHistorical = (value: boolean) => {
@@ -418,7 +418,7 @@ export const setStoredShowExtendedHistorical = (value: boolean) => {
 
 export const getStoredShowCharts = (): boolean => {
   const stored = getCookie(LST_SHOW_CHARTS_COOKIE)
-  return stored ? stored === 'true' : false // default to false
+  return stored ? stored === 'true' : true // default to true
 }
 
 export const setStoredShowCharts = (value: boolean) => {
