@@ -1,5 +1,6 @@
 import { ContextApi } from '@pancakeswap/localization';
 import {
+  BulbIcon,
   CurrencyIcon,
   DropdownMenuItemType,
   DropdownMenuItems,
@@ -10,7 +11,7 @@ import {
   MenuItemsType,
   SwapFillIcon,
   SwapIcon,
-  SwapVertIcon,
+  SwapVertIcon
 } from '@pancakeswap/uikit';
 
 export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
@@ -111,6 +112,12 @@ const config: (
           href: '/stats',
           icon: SwapVertIcon,
           fillIcon: SwapVertIcon,
+        },
+        {
+          label: 'Liquid Staking Tokens',
+          href: '/lst',
+          icon: BulbIcon,
+          fillIcon: BulbIcon,
         },
         {
           label: 'PlunderPoints',
