@@ -1,5 +1,6 @@
 import { ContextApi } from '@pancakeswap/localization';
 import {
+  BulbIcon,
   CurrencyIcon,
   DropdownMenuItemType,
   DropdownMenuItems,
@@ -112,12 +113,12 @@ const config: (
           icon: SwapVertIcon,
           fillIcon: SwapVertIcon,
         },
-        // {
-        //   label: 'Liquid Staking Tokens',
-        //   href: '/lst',
-        //   icon: BulbIcon,
-        //   fillIcon: BulbIcon,
-        // },
+        {
+          label: 'Liquid Staking Tokens',
+          href: '/lst',
+          icon: BulbIcon,
+          fillIcon: BulbIcon,
+        },
         {
           label: 'PlunderPoints',
           href: '/plunder-points',
