@@ -10,18 +10,18 @@ import { LSTRow } from './components/LSTRow'
 import { LSTStats } from './components/LSTStats'
 import { LSTData } from './types'
 import {
-    calculateLSTStats,
-    getStoredPriceDirection,
-    getStoredShowCharts,
-    getStoredShowExtendedHistorical,
-    getStoredShowHistorical,
-    getStoredSortPreference,
-    setStoredPriceDirection,
-    setStoredShowCharts,
-    setStoredShowExtendedHistorical,
-    setStoredShowHistorical,
-    setStoredSortPreference,
-    sortLSTData
+  calculateLSTStats,
+  getStoredPriceDirection,
+  getStoredShowCharts,
+  getStoredShowExtendedHistorical,
+  getStoredShowHistorical,
+  getStoredSortPreference,
+  setStoredPriceDirection,
+  setStoredShowCharts,
+  setStoredShowExtendedHistorical,
+  setStoredShowHistorical,
+  setStoredSortPreference,
+  sortLSTData
 } from './utils'
 
 type SortField = 'symbol' | 'price' | 'change10k' | 'change100k' | 'change500k' | 'change1M' | 'change2M' | 'change3M' | 'uptime' | 'tradingVolume' | null
@@ -377,9 +377,6 @@ export const LSTInfo = () => {
                   Uptime {sortField === 'uptime' && (sortDirection === 'desc' ? '↓' : '↑')}
                 </HeaderText>
                 
-                <HeaderText style={{ textAlign: 'center' }}>
-                  Actions
-                </HeaderText>
               </>
             )}
           </TableHeader>

@@ -374,20 +374,6 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
         <UptimeText>{lst.historical.uptime.toFixed(1)}%</UptimeText>
         <GrowthPeriodText>uptime</GrowthPeriodText>
       </UptimeContainer>
-
-      <ActionsContainer>
-        {isWeb3Supported() && (
-          <AddToWalletButton
-            variant="secondary"
-            size="sm"
-            onClick={handleAddToWallet}
-            disabled={isAddingToWallet}
-          >
-            {isAddingToWallet ? 'Adding...' : 'Add to Wallet'}
-          </AddToWalletButton>
-        )}
-      </ActionsContainer>
-
     </RowContainer>
   )
 } 
