@@ -114,6 +114,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
         change1M: 0,
         change2M: 0,
         change3M: 0,
+        uptime: 100,
       }
     }
     
@@ -135,6 +136,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       change1M: historicalData.change1M,
       change2M: historicalData.change2M,
       change3M: historicalData.change3M,
+      uptime: historicalData.uptime,
     }
   } catch (error) {
     console.error(`Failed to fetch historical prices for ${config.symbol}:`, error)
@@ -153,6 +155,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       change1M: 0,
       change2M: 0,
       change3M: 0,
+      uptime: 100,
     }
   }
 }
@@ -263,6 +266,7 @@ export const fetchLSTData = async (config: LSTConfig): Promise<LSTData> => {
         change1M: 0,
         change2M: 0,
         change3M: 0,
+        uptime: 100,
       },
       lastUpdated: new Date().toISOString(),
     }

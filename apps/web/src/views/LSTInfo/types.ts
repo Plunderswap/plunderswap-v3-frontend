@@ -29,6 +29,7 @@ export interface LSTHistoricalPrice {
   change1M: number // Raw price change from 1M blocks ago
   change2M: number // Raw price change from 2M blocks ago
   change3M: number // Raw price change from 3M blocks ago
+  uptime: number // Uptime percentage based on price changes over 10k block intervals
 }
 
 export interface LSTTradingData {
