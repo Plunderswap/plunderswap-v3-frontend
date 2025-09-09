@@ -122,6 +122,7 @@ export const calculateHistoricalBlocks = (currentBlock: number): {
   blocks1M: number
   blocks2M: number
   blocks3M: number
+  blocks4M: number
 } => {
   return {
     blocks10k: Math.max(currentBlock - 10000, 1),
@@ -130,6 +131,7 @@ export const calculateHistoricalBlocks = (currentBlock: number): {
     blocks1M: Math.max(currentBlock - 1000000, 1),
     blocks2M: Math.max(currentBlock - 2000000, 1),
     blocks3M: Math.max(currentBlock - 3000000, 1),
+    blocks4M: Math.max(currentBlock - 4000000, 1),
   }
 }
 
@@ -177,6 +179,7 @@ export const getHistoricalPricesFromJSON = (
   blocks1M: string
   blocks2M: string
   blocks3M: string
+  blocks4M: string
   currentPrice: string
   latestBlock: number
   change10k: number
@@ -185,6 +188,7 @@ export const getHistoricalPricesFromJSON = (
   change1M: number
   change2M: number
   change3M: number
+  change4M: number
   uptime: number
 } => {
   if (!jsonData.prices.length) {
@@ -195,6 +199,7 @@ export const getHistoricalPricesFromJSON = (
       blocks1M: '0',
       blocks2M: '0',
       blocks3M: '0',
+      blocks4M: '0',
       currentPrice: '0',
       latestBlock: 0,
       change10k: 0,
@@ -203,6 +208,7 @@ export const getHistoricalPricesFromJSON = (
       change1M: 0,
       change2M: 0,
       change3M: 0,
+      change4M: 0,
       uptime: 100,
     }
   }
@@ -219,6 +225,7 @@ export const getHistoricalPricesFromJSON = (
   const blocks1M = latestBlock - 1000000
   const blocks2M = latestBlock - 2000000
   const blocks3M = latestBlock - 3000000
+  const blocks4M = latestBlock - 4000000
   
   // Find closest price entries for each period
   const price10k = findClosestPriceEntry(jsonData.prices, blocks10k)?.price || '0'
@@ -227,6 +234,7 @@ export const getHistoricalPricesFromJSON = (
   const price1M = findClosestPriceEntry(jsonData.prices, blocks1M)?.price || '0'
   const price2M = findClosestPriceEntry(jsonData.prices, blocks2M)?.price || '0'
   const price3M = findClosestPriceEntry(jsonData.prices, blocks3M)?.price || '0'
+  const price4M = findClosestPriceEntry(jsonData.prices, blocks4M)?.price || '0'
   
   // Use latest price as baseline for all calculations
   const latestNum = parseFloat(latestPrice)
@@ -236,6 +244,7 @@ export const getHistoricalPricesFromJSON = (
   const price1MNum = parseFloat(price1M)
   const price2MNum = parseFloat(price2M)
   const price3MNum = parseFloat(price3M)
+  const price4MNum = parseFloat(price4M)
   
   // Calculate raw price change based on latest JSON price vs historical JSON prices
   const change10k = latestNum - price10kNum
@@ -244,6 +253,7 @@ export const getHistoricalPricesFromJSON = (
   const change1M = latestNum - price1MNum
   const change2M = latestNum - price2MNum
   const change3M = latestNum - price3MNum
+  const change4M = latestNum - price4MNum
   
   // Calculate uptime based on price changes over 10k block intervals
   const uptime = calculateUptime(jsonData.prices)
@@ -255,6 +265,7 @@ export const getHistoricalPricesFromJSON = (
     blocks1M: price1M,
     blocks2M: price2M,
     blocks3M: price3M,
+    blocks4M: price4M,
     currentPrice: latestPrice,
     latestBlock,
     change10k,
@@ -263,6 +274,7 @@ export const getHistoricalPricesFromJSON = (
     change1M,
     change2M,
     change3M,
+    change4M,
     uptime,
   }
 }
@@ -535,6 +547,10 @@ export const sortLSTData = (data: LSTData[], sortBy: string, direction: 'asc' | 
       case 'change3M':
         aValue = a.historical.change3M
         bValue = b.historical.change3M
+        break
+      case 'change4M':
+        aValue = a.historical.change4M
+        bValue = b.historical.change4M
         break
       case 'uptime':
         aValue = a.historical.uptime

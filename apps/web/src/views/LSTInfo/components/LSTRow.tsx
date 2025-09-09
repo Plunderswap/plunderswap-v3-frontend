@@ -370,6 +370,15 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
         </GrowthContainer>
       )}
 
+      {showExtendedHistorical && (
+        <GrowthContainer>
+          <GrowthText isPositive={lst.historical.change4M >= 0}>
+            {formatRawChange(lst.historical.change4M, 8)}
+          </GrowthText>
+          <GrowthPeriodText>4M blocks</GrowthPeriodText>
+        </GrowthContainer>
+      )}
+
       <UptimeContainer>
         <UptimeText>{lst.historical.uptime.toFixed(1)}%</UptimeText>
         <GrowthPeriodText>uptime</GrowthPeriodText>

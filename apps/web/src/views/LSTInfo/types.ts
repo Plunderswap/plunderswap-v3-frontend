@@ -21,6 +21,7 @@ export interface LSTHistoricalPrice {
   blocks1M: string // Price 1M blocks ago
   blocks2M: string // Price 2M blocks ago
   blocks3M: string // Price 3M blocks ago
+  blocks4M: string // Price 4M blocks ago
   currentPrice: string
   latestBlock?: number // Latest block number from JSON data
   change10k?: number // Raw price change from 10k blocks ago
@@ -29,6 +30,7 @@ export interface LSTHistoricalPrice {
   change1M: number // Raw price change from 1M blocks ago
   change2M: number // Raw price change from 2M blocks ago
   change3M: number // Raw price change from 3M blocks ago
+  change4M: number // Raw price change from 4M blocks ago
   uptime: number // Uptime percentage based on price changes over 10k block intervals
 }
 

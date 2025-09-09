@@ -106,6 +106,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
         blocks1M: '0',
         blocks2M: '0',
         blocks3M: '0',
+        blocks4M: '0',
         currentPrice: '0',
         latestBlock: 0,
         change10k: 0,
@@ -114,6 +115,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
         change1M: 0,
         change2M: 0,
         change3M: 0,
+        change4M: 0,
         uptime: 100,
       }
     }
@@ -128,6 +130,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       blocks1M: historicalData.blocks1M,
       blocks2M: historicalData.blocks2M,
       blocks3M: historicalData.blocks3M,
+      blocks4M: historicalData.blocks4M,
       currentPrice: historicalData.currentPrice,
       latestBlock: historicalData.latestBlock,
       change10k: historicalData.change10k,
@@ -136,6 +139,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       change1M: historicalData.change1M,
       change2M: historicalData.change2M,
       change3M: historicalData.change3M,
+      change4M: historicalData.change4M,
       uptime: historicalData.uptime,
     }
   } catch (error) {
@@ -147,6 +151,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       blocks1M: '0',
       blocks2M: '0',
       blocks3M: '0',
+      blocks4M: '0',
       currentPrice: '0',
       latestBlock: 0,
       change10k: 0,
@@ -155,6 +160,7 @@ const fetchLSTHistoricalPrices = async (config: LSTConfig): Promise<LSTHistorica
       change1M: 0,
       change2M: 0,
       change3M: 0,
+      change4M: 0,
       uptime: 100,
     }
   }
@@ -258,6 +264,7 @@ export const fetchLSTData = async (config: LSTConfig): Promise<LSTData> => {
         blocks1M: '0',
         blocks2M: '0',
         blocks3M: '0',
+        blocks4M: '0',
         currentPrice: '0',
         latestBlock: 0,
         change10k: 0,
@@ -266,6 +273,7 @@ export const fetchLSTData = async (config: LSTConfig): Promise<LSTData> => {
         change1M: 0,
         change2M: 0,
         change3M: 0,
+        change4M: 0,
         uptime: 100,
       },
       lastUpdated: new Date().toISOString(),
