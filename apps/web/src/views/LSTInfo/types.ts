@@ -67,12 +67,14 @@ export interface LSTStats {
   avgChange1M: number
   avgChange2M: number
   avgChange3M: number
+  avgChange4M: number
   bestPerformer10k?: LSTData | null
   bestPerformer100k?: LSTData | null
   bestPerformer500k: LSTData | null
   bestPerformer1M: LSTData | null
   bestPerformer2M: LSTData | null
   bestPerformer3M: LSTData | null
+  bestPerformer4M: LSTData | null
 }
 
 // EIP-747 Add Token to Wallet interface

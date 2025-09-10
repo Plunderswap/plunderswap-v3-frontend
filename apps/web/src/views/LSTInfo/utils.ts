@@ -390,12 +390,14 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
       avgChange1M: 0,
       avgChange2M: 0,
       avgChange3M: 0,
+      avgChange4M: 0,
       bestPerformer10k: null,
       bestPerformer100k: null,
       bestPerformer500k: null,
       bestPerformer1M: null,
       bestPerformer2M: null,
       bestPerformer3M: null,
+      bestPerformer4M: null,
     }
   }
 
@@ -405,6 +407,7 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
   const avgChange1M = validData.reduce((sum, lst) => sum + lst.historical.change1M, 0) / validData.length
   const avgChange2M = validData.reduce((sum, lst) => sum + lst.historical.change2M, 0) / validData.length
   const avgChange3M = validData.reduce((sum, lst) => sum + lst.historical.change3M, 0) / validData.length
+  const avgChange4M = validData.reduce((sum, lst) => sum + lst.historical.change4M, 0) / validData.length
 
   const bestPerformer10k = validData.reduce((best, current) => 
     (current.historical.change10k ?? -Infinity) > (best.historical.change10k ?? -Infinity) ? current : best
@@ -430,6 +433,10 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
     current.historical.change3M > best.historical.change3M ? current : best
   )
 
+  const bestPerformer4M = validData.reduce((best, current) => 
+    current.historical.change4M > best.historical.change4M ? current : best
+  )
+
   return {
     totalCount: validData.length,
     avgChange10k,
@@ -438,12 +445,14 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
     avgChange1M,
     avgChange2M,
     avgChange3M,
+    avgChange4M,
     bestPerformer10k,
     bestPerformer100k,
     bestPerformer500k,
     bestPerformer1M,
     bestPerformer2M,
     bestPerformer3M,
+    bestPerformer4M,
   }
 }
 

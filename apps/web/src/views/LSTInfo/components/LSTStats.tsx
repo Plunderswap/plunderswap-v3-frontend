@@ -134,6 +134,15 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
             <StatLabel>Avg Change (3M blocks)</StatLabel>
           </CardBody>
         </CompactStatCard>
+
+        <CompactStatCard>
+          <CardBody style={{ padding: '12px 16px' }}>
+            <GrowthText isPositive={stats.avgChange4M >= 0}>
+              {formatRawChange(stats.avgChange4M, 8)}
+            </GrowthText>
+            <StatLabel>Avg Change (4M blocks)</StatLabel>
+          </CardBody>
+        </CompactStatCard>
       </StatsContainer>
 
       {/* Best Performers Row */}
@@ -205,6 +214,18 @@ export const LSTStats = ({ stats, lastUpdated }: LSTStatsProps) => {
               <BestPerformerSubtext>Best 3M Change</BestPerformerSubtext>
               <CompactGrowthText isPositive={stats.bestPerformer3M.historical.change3M >= 0}>
                 {formatRawChange(stats.bestPerformer3M.historical.change3M, 8)}
+              </CompactGrowthText>
+            </CardBody>
+          </CompactStatCard>
+        )}
+
+        {stats.bestPerformer4M && (
+          <CompactStatCard>
+            <CardBody style={{ padding: '10px 14px' }}>
+              <BestPerformerText>{stats.bestPerformer4M.config.symbol}</BestPerformerText>
+              <BestPerformerSubtext>Best 4M Change</BestPerformerSubtext>
+              <CompactGrowthText isPositive={stats.bestPerformer4M.historical.change4M >= 0}>
+                {formatRawChange(stats.bestPerformer4M.historical.change4M, 8)}
               </CompactGrowthText>
             </CardBody>
           </CompactStatCard>
