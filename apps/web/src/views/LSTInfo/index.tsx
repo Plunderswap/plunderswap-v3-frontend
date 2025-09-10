@@ -10,26 +10,26 @@ import { LSTRow } from './components/LSTRow'
 import { LSTStats } from './components/LSTStats'
 import { LSTData } from './types'
 import {
-  calculateLSTStats,
-  getStoredPriceDirection,
-  getStoredShowCharts,
-  getStoredShowExtendedHistorical,
-  getStoredShowHistorical,
-  getStoredSortPreference,
-  setStoredPriceDirection,
-  setStoredShowCharts,
-  setStoredShowExtendedHistorical,
-  setStoredShowHistorical,
-  setStoredSortPreference,
-  sortLSTData
+    calculateLSTStats,
+    getStoredPriceDirection,
+    getStoredShowCharts,
+    getStoredShowExtendedHistorical,
+    getStoredShowHistorical,
+    getStoredSortPreference,
+    setStoredPriceDirection,
+    setStoredShowCharts,
+    setStoredShowExtendedHistorical,
+    setStoredShowHistorical,
+    setStoredSortPreference,
+    sortLSTData
 } from './utils'
 
-type SortField = 'symbol' | 'price' | 'change10k' | 'change100k' | 'change500k' | 'change1M' | 'change2M' | 'change3M' | 'tradingVolume' | null
+type SortField = 'symbol' | 'price' | 'change10k' | 'change100k' | 'change500k' | 'change1M' | 'change2M' | 'change3M' | 'change4M' | 'uptime' | 'tradingVolume' | null
 type SortDirection = 'asc' | 'desc'
 
 const Container = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 16px;
 `
@@ -368,10 +368,18 @@ export const LSTInfo = () => {
                         <HeaderText onClick={() => handleSort('change3M')}>
                           3M Change {sortField === 'change3M' && (sortDirection === 'desc' ? '↓' : '↑')}
                         </HeaderText>
+                        <HeaderText onClick={() => handleSort('change4M')}>
+                          4M Change {sortField === 'change4M' && (sortDirection === 'desc' ? '↓' : '↑')}
+                        </HeaderText>
                       </>
                     )}
                   </>
                 )}
+                
+                <HeaderText onClick={() => handleSort('uptime')}>
+                  Uptime {sortField === 'uptime' && (sortDirection === 'desc' ? '↓' : '↑')}
+                </HeaderText>
+                
               </>
             )}
           </TableHeader>
@@ -391,9 +399,11 @@ export const LSTInfo = () => {
       <Text fontSize="12px" color="textSubtle" mt="16px" textAlign="center">
         * LST prices are obtained from indexed files using the latest 10k block data as baseline.
         <br />
-        * Historical price change is calculated as raw price difference between latest recorded prices and prices 10k (~3.6hrs), 100k (~1.5 days), 500k (~7.5 days), 1M (~15 days), 2M (~30 days) and 3M (~45 days) blocks ago.
+        * Historical price change is calculated as raw price difference between latest recorded prices and prices 10k (~3.6hrs), 100k (~1.5 days), 500k (~7.5 days), 1M (~15 days), 2M (~30 days), 3M (~45 days) and 4M (~60 days) blocks ago.
         <br />
         * Block durations are approximate based on 1.3 second average block times.
+        <br />
+        * Uptime represents the percentage of 10k block intervals where price changes occurred (indicating active validator/staking activity).
         <br />
         * Swap prices show arbitrage opportunities between recorded rates and PlunderSwap pairs.
         <br />

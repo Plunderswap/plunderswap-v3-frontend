@@ -151,6 +151,23 @@ const GrowthPeriodText = styled(Text)`
   color: ${({ theme }) => theme.colors.textSubtle};
 `
 
+const UptimeContainer = styled(Flex)`
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+
+  @media screen and (max-width: 852px) {
+    align-items: flex-start;
+  }
+`
+
+const UptimeText = styled(Text)`
+  font-weight: 600;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.primary};
+`
+
 const MobileStatsContainer = styled(Flex)`
   flex-direction: column;
   flex: 2;
@@ -245,6 +262,11 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
           <MobileStatRow>
             <Text fontSize="12px" color="textSubtle">Swap Price</Text>
             <PriceText>{lst.trading ? getSwapPriceDisplay() : '-'}</PriceText>
+          </MobileStatRow>
+
+          <MobileStatRow>
+            <Text fontSize="12px" color="textSubtle">Uptime</Text>
+            <UptimeText>{lst.historical.uptime.toFixed(1)}%</UptimeText>
           </MobileStatRow>
 
           {lst.trading && (
@@ -348,7 +370,19 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
         </GrowthContainer>
       )}
 
+      {showExtendedHistorical && (
+        <GrowthContainer>
+          <GrowthText isPositive={lst.historical.change4M >= 0}>
+            {formatRawChange(lst.historical.change4M, 8)}
+          </GrowthText>
+          <GrowthPeriodText>4M blocks</GrowthPeriodText>
+        </GrowthContainer>
+      )}
 
+      <UptimeContainer>
+        <UptimeText>{lst.historical.uptime.toFixed(1)}%</UptimeText>
+        <GrowthPeriodText>uptime</GrowthPeriodText>
+      </UptimeContainer>
     </RowContainer>
   )
 } 

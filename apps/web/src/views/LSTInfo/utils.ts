@@ -122,6 +122,7 @@ export const calculateHistoricalBlocks = (currentBlock: number): {
   blocks1M: number
   blocks2M: number
   blocks3M: number
+  blocks4M: number
 } => {
   return {
     blocks10k: Math.max(currentBlock - 10000, 1),
@@ -130,7 +131,40 @@ export const calculateHistoricalBlocks = (currentBlock: number): {
     blocks1M: Math.max(currentBlock - 1000000, 1),
     blocks2M: Math.max(currentBlock - 2000000, 1),
     blocks3M: Math.max(currentBlock - 3000000, 1),
+    blocks4M: Math.max(currentBlock - 4000000, 1),
   }
+}
+
+/**
+ * Calculate uptime percentage based on price changes over 10k block intervals
+ * Downtime is detected when consecutive entries (10k blocks apart) have identical prices
+ */
+export const calculateUptime = (prices: LSTJsonPriceEntry[]): number => {
+  if (prices.length < 2) return 100 // Can't calculate with less than 2 data points
+  
+  let totalPeriods = 0
+  let uptimePeriods = 0
+  
+  for (let i = 1; i < prices.length; i++) {
+    const currentEntry = prices[i]
+    const previousEntry = prices[i - 1]
+    
+    // Check if this is a 10k block interval (approximately)
+    const blockDiff = currentEntry.block - previousEntry.block
+    if (blockDiff >= 9000 && blockDiff <= 11000) { // Allow some tolerance for 10k intervals
+      totalPeriods++
+      
+      // If prices are different, this is uptime (activity detected)
+      if (currentEntry.price !== previousEntry.price) {
+        uptimePeriods++
+      }
+      // If prices are identical, this is downtime (no activity)
+    }
+  }
+  
+  if (totalPeriods === 0) return 100 // No 10k intervals found, assume 100% uptime
+  
+  return (uptimePeriods / totalPeriods) * 100
 }
 
 /**
@@ -145,6 +179,7 @@ export const getHistoricalPricesFromJSON = (
   blocks1M: string
   blocks2M: string
   blocks3M: string
+  blocks4M: string
   currentPrice: string
   latestBlock: number
   change10k: number
@@ -153,6 +188,8 @@ export const getHistoricalPricesFromJSON = (
   change1M: number
   change2M: number
   change3M: number
+  change4M: number
+  uptime: number
 } => {
   if (!jsonData.prices.length) {
     return {
@@ -162,6 +199,7 @@ export const getHistoricalPricesFromJSON = (
       blocks1M: '0',
       blocks2M: '0',
       blocks3M: '0',
+      blocks4M: '0',
       currentPrice: '0',
       latestBlock: 0,
       change10k: 0,
@@ -170,6 +208,8 @@ export const getHistoricalPricesFromJSON = (
       change1M: 0,
       change2M: 0,
       change3M: 0,
+      change4M: 0,
+      uptime: 100,
     }
   }
 
@@ -185,6 +225,7 @@ export const getHistoricalPricesFromJSON = (
   const blocks1M = latestBlock - 1000000
   const blocks2M = latestBlock - 2000000
   const blocks3M = latestBlock - 3000000
+  const blocks4M = latestBlock - 4000000
   
   // Find closest price entries for each period
   const price10k = findClosestPriceEntry(jsonData.prices, blocks10k)?.price || '0'
@@ -193,6 +234,7 @@ export const getHistoricalPricesFromJSON = (
   const price1M = findClosestPriceEntry(jsonData.prices, blocks1M)?.price || '0'
   const price2M = findClosestPriceEntry(jsonData.prices, blocks2M)?.price || '0'
   const price3M = findClosestPriceEntry(jsonData.prices, blocks3M)?.price || '0'
+  const price4M = findClosestPriceEntry(jsonData.prices, blocks4M)?.price || '0'
   
   // Use latest price as baseline for all calculations
   const latestNum = parseFloat(latestPrice)
@@ -202,6 +244,7 @@ export const getHistoricalPricesFromJSON = (
   const price1MNum = parseFloat(price1M)
   const price2MNum = parseFloat(price2M)
   const price3MNum = parseFloat(price3M)
+  const price4MNum = parseFloat(price4M)
   
   // Calculate raw price change based on latest JSON price vs historical JSON prices
   const change10k = latestNum - price10kNum
@@ -210,6 +253,10 @@ export const getHistoricalPricesFromJSON = (
   const change1M = latestNum - price1MNum
   const change2M = latestNum - price2MNum
   const change3M = latestNum - price3MNum
+  const change4M = latestNum - price4MNum
+  
+  // Calculate uptime based on price changes over 10k block intervals
+  const uptime = calculateUptime(jsonData.prices)
   
   return {
     blocks10k: price10k,
@@ -218,6 +265,7 @@ export const getHistoricalPricesFromJSON = (
     blocks1M: price1M,
     blocks2M: price2M,
     blocks3M: price3M,
+    blocks4M: price4M,
     currentPrice: latestPrice,
     latestBlock,
     change10k,
@@ -226,6 +274,8 @@ export const getHistoricalPricesFromJSON = (
     change1M,
     change2M,
     change3M,
+    change4M,
+    uptime,
   }
 }
 
@@ -340,12 +390,14 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
       avgChange1M: 0,
       avgChange2M: 0,
       avgChange3M: 0,
+      avgChange4M: 0,
       bestPerformer10k: null,
       bestPerformer100k: null,
       bestPerformer500k: null,
       bestPerformer1M: null,
       bestPerformer2M: null,
       bestPerformer3M: null,
+      bestPerformer4M: null,
     }
   }
 
@@ -355,6 +407,7 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
   const avgChange1M = validData.reduce((sum, lst) => sum + lst.historical.change1M, 0) / validData.length
   const avgChange2M = validData.reduce((sum, lst) => sum + lst.historical.change2M, 0) / validData.length
   const avgChange3M = validData.reduce((sum, lst) => sum + lst.historical.change3M, 0) / validData.length
+  const avgChange4M = validData.reduce((sum, lst) => sum + lst.historical.change4M, 0) / validData.length
 
   const bestPerformer10k = validData.reduce((best, current) => 
     (current.historical.change10k ?? -Infinity) > (best.historical.change10k ?? -Infinity) ? current : best
@@ -380,6 +433,10 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
     current.historical.change3M > best.historical.change3M ? current : best
   )
 
+  const bestPerformer4M = validData.reduce((best, current) => 
+    current.historical.change4M > best.historical.change4M ? current : best
+  )
+
   return {
     totalCount: validData.length,
     avgChange10k,
@@ -388,12 +445,14 @@ export const calculateLSTStats = (lstData: LSTData[]): LSTStats => {
     avgChange1M,
     avgChange2M,
     avgChange3M,
+    avgChange4M,
     bestPerformer10k,
     bestPerformer100k,
     bestPerformer500k,
     bestPerformer1M,
     bestPerformer2M,
     bestPerformer3M,
+    bestPerformer4M,
   }
 }
 
@@ -497,6 +556,14 @@ export const sortLSTData = (data: LSTData[], sortBy: string, direction: 'asc' | 
       case 'change3M':
         aValue = a.historical.change3M
         bValue = b.historical.change3M
+        break
+      case 'change4M':
+        aValue = a.historical.change4M
+        bValue = b.historical.change4M
+        break
+      case 'uptime':
+        aValue = a.historical.uptime
+        bValue = b.historical.uptime
         break
       case 'tradingVolume':
         aValue = a.trading ? parseFloat(a.trading.volume_usd_24h) : 0
