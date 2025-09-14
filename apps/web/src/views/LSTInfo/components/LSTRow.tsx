@@ -2,7 +2,7 @@ import { Button, Flex, Text, useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import { LSTData } from '../types'
-import { addTokenToWallet, formatPrice, formatRawChange, isWeb3Supported } from '../utils'
+import { addTokenToWallet, calculatePeriodAPR, formatAPRWithBonus, formatPrice, formatRawChange, isWeb3Supported } from '../utils'
 
 interface LSTRowProps {
   lst: LSTData
@@ -151,6 +151,12 @@ const GrowthPeriodText = styled(Text)`
   color: ${({ theme }) => theme.colors.textSubtle};
 `
 
+const APRText = styled(Text)`
+  font-size: 9px;
+  color: ${({ theme }) => theme.colors.primary};
+  font-weight: 500;
+`
+
 const UptimeContainer = styled(Flex)`
   flex: 1;
   flex-direction: column;
@@ -193,6 +199,11 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
       return 'Encap'
     }
     return lst.config.name
+  }
+
+  // Helper function to check if this is pZIL token
+  const isPZIL = () => {
+    return lst.config.symbol === 'pZIL'
   }
 
   // Helper functions to format prices based on direction
@@ -322,6 +333,12 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
             {formatRawChange(lst.historical.change10k ?? 0, 8)}
           </GrowthText>
           <GrowthPeriodText>10k blocks</GrowthPeriodText>
+          {(() => {
+            const aprData = calculatePeriodAPR(lst.historical.change10k, lst.historical.blocks10k, 10000, isPZIL())
+            return aprData.apr !== 0 && (
+              <APRText>{formatAPRWithBonus(aprData.apr, aprData.pzilBonus)} APR</APRText>
+            )
+          })()}
         </GrowthContainer>
       )}
 
@@ -331,6 +348,12 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
             {formatRawChange(lst.historical.change100k ?? 0, 8)}
           </GrowthText>
           <GrowthPeriodText>100k blocks</GrowthPeriodText>
+          {(() => {
+            const aprData = calculatePeriodAPR(lst.historical.change100k, lst.historical.blocks100k, 100000, isPZIL())
+            return aprData.apr !== 0 && (
+              <APRText>{formatAPRWithBonus(aprData.apr, aprData.pzilBonus)} APR</APRText>
+            )
+          })()}
         </GrowthContainer>
       )}
 
@@ -340,6 +363,12 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
             {formatRawChange(lst.historical.change500k, 8)}
           </GrowthText>
           <GrowthPeriodText>500k blocks</GrowthPeriodText>
+          {(() => {
+            const aprData = calculatePeriodAPR(lst.historical.change500k, lst.historical.blocks500k, 500000, isPZIL())
+            return aprData.apr !== 0 && (
+              <APRText>{formatAPRWithBonus(aprData.apr, aprData.pzilBonus)} APR</APRText>
+            )
+          })()}
         </GrowthContainer>
       )}
 
@@ -349,6 +378,12 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
             {formatRawChange(lst.historical.change1M, 8)}
           </GrowthText>
           <GrowthPeriodText>1M blocks</GrowthPeriodText>
+          {(() => {
+            const aprData = calculatePeriodAPR(lst.historical.change1M, lst.historical.blocks1M, 1000000, isPZIL())
+            return aprData.apr !== 0 && (
+              <APRText>{formatAPRWithBonus(aprData.apr, aprData.pzilBonus)} APR</APRText>
+            )
+          })()}
         </GrowthContainer>
       )}
 
@@ -358,6 +393,12 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
             {formatRawChange(lst.historical.change2M, 8)}
           </GrowthText>
           <GrowthPeriodText>2M blocks</GrowthPeriodText>
+          {(() => {
+            const aprData = calculatePeriodAPR(lst.historical.change2M, lst.historical.blocks2M, 2000000, isPZIL())
+            return aprData.apr !== 0 && (
+              <APRText>{formatAPRWithBonus(aprData.apr, aprData.pzilBonus)} APR</APRText>
+            )
+          })()}
         </GrowthContainer>
       )}
 
@@ -367,6 +408,12 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
             {formatRawChange(lst.historical.change3M, 8)}
           </GrowthText>
           <GrowthPeriodText>3M blocks</GrowthPeriodText>
+          {(() => {
+            const aprData = calculatePeriodAPR(lst.historical.change3M, lst.historical.blocks3M, 3000000, isPZIL())
+            return aprData.apr !== 0 && (
+              <APRText>{formatAPRWithBonus(aprData.apr, aprData.pzilBonus)} APR</APRText>
+            )
+          })()}
         </GrowthContainer>
       )}
 
@@ -376,6 +423,12 @@ export const LSTRow = ({ lst, showHistorical, showExtendedHistorical, priceDirec
             {formatRawChange(lst.historical.change4M, 8)}
           </GrowthText>
           <GrowthPeriodText>4M blocks</GrowthPeriodText>
+          {(() => {
+            const aprData = calculatePeriodAPR(lst.historical.change4M, lst.historical.blocks4M, 4000000, isPZIL())
+            return aprData.apr !== 0 && (
+              <APRText>{formatAPRWithBonus(aprData.apr, aprData.pzilBonus)} APR</APRText>
+            )
+          })()}
         </GrowthContainer>
       )}
 

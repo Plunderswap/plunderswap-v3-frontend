@@ -346,6 +346,73 @@ export const formatTimeAgo = (timestamp: string): string => {
   }
 }
 
+// Block time constants for APR calculations
+const BLOCK_TIME_SECONDS = 1.3
+const SECONDS_PER_DAY = 24 * 60 * 60
+const DAYS_PER_YEAR = 365
+
+// Convert blocks to days
+export const blocksToDays = (blocks: number): number => {
+  return (blocks * BLOCK_TIME_SECONDS) / SECONDS_PER_DAY
+}
+
+// Calculate percentage return from raw change and historical price
+export const calculatePercentageReturn = (rawChange: number, historicalPrice: string): number => {
+  const historicalPriceNum = parseFloat(historicalPrice)
+  if (historicalPriceNum === 0) return 0
+  return (rawChange / historicalPriceNum) * 100
+}
+
+// Calculate APR (Annual Percentage Rate) - simple interest
+export const calculateAPR = (percentageReturn: number, days: number): number => {
+  if (days === 0) return 0
+  return (percentageReturn / days) * DAYS_PER_YEAR
+}
+
+// Calculate APR for a specific period with optional pZIL bonus
+export const calculatePeriodAPR = (
+  rawChange: number | undefined,
+  historicalPrice: string | undefined,
+  blocks: number,
+  isPZIL = false
+): { apr: number; pzilBonus?: number } => {
+  if (!rawChange || !historicalPrice) {
+    return { apr: 0 }
+  }
+
+  const days = blocksToDays(blocks)
+  const percentageReturn = calculatePercentageReturn(rawChange, historicalPrice)
+  const baseAPR = calculateAPR(percentageReturn, days)
+  
+  if (isPZIL) {
+    // pZIL gets extra 0.5% APR over 365 days, apportion it to this period
+    const pzilBonusAPR = 0.5 * (days / DAYS_PER_YEAR)
+    return { 
+      apr: baseAPR, 
+      pzilBonus: pzilBonusAPR 
+    }
+  }
+  
+  return { apr: baseAPR }
+}
+
+// Format APR for display
+export const formatAPR = (apr: number, showSign = true): string => {
+  if (Math.abs(apr) < 0.01) return '0.00%'
+  const sign = showSign && apr >= 0 ? '+' : ''
+  return `${sign}${apr.toFixed(2)}%`
+}
+
+// Format APR with pZIL bonus
+export const formatAPRWithBonus = (apr: number, pzilBonus?: number): string => {
+  const baseAPRText = formatAPR(apr)
+  if (pzilBonus && pzilBonus > 0) {
+    const bonusText = formatAPR(pzilBonus, false)
+    return `${baseAPRText} (+${bonusText})`
+  }
+  return baseAPRText
+}
+
 // EIP-747 Add Token to Wallet functionality
 export const addTokenToWallet = async (config: LSTConfig): Promise<boolean> => {
   const ethereum = (window as any)?.ethereum
