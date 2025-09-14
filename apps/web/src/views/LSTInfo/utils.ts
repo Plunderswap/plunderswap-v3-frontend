@@ -385,8 +385,8 @@ export const calculatePeriodAPR = (
   const baseAPR = calculateAPR(percentageReturn, days)
   
   if (isPZIL) {
-    // pZIL gets extra 0.5% APR over 365 days, apportion it to this period
-    const pzilBonusAPR = 0.5 * (days / DAYS_PER_YEAR)
+    // pZIL gets extra 0.5% APR - this is a fixed annual rate, not proportional
+    const pzilBonusAPR = 0.5
     return { 
       apr: baseAPR, 
       pzilBonus: pzilBonusAPR 
