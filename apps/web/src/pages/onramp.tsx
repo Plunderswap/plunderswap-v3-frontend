@@ -6,6 +6,11 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 
+// Extend TransakConfig to include widgetUrl until TypeScript definitions are updated
+interface ExtendedTransakConfig extends Omit<TransakConfig, 'apiKey'> {
+  widgetUrl: string
+}
+
 const Container = styled(Flex)`
   flex-direction: column;
   align-items: center;
@@ -110,7 +115,7 @@ const OnRampPage = () => {
         try {
           const { Transak } = await import('@transak/transak-sdk')
 
-          // First, generate the widget URL via our backend API
+          // Generate the widget URL via our backend API
           const widgetParams = {
             apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY ?? '',
             referrerDomain: window.location.hostname,
@@ -155,7 +160,7 @@ const OnRampPage = () => {
           const widgetUrl = data.widgetUrl
 
           // Use the new SDK pattern with widgetUrl
-          const transakConfig: TransakConfig = {
+          const transakConfig: ExtendedTransakConfig = {
             widgetUrl,
             widgetHeight: '100%',
             widgetWidth: '100%',
@@ -170,6 +175,8 @@ const OnRampPage = () => {
             // eslint-disable-next-line no-console
             console.log('Order Successful:', orderData)
           })
+
+          setIsLoading(false)
         } catch (error) {
           console.error('Failed to initialize Transak:', error)
           setIsLoading(false)
@@ -177,13 +184,12 @@ const OnRampPage = () => {
       }
 
       initTransak()
-      setIsLoading(false)
     }
 
     // Cleanup function
     return () => {
       if (transak) {
-        transak.cleanup()
+        transak.close()
       }
     }
   }, [address, isDark, zilAddress])
@@ -202,7 +208,10 @@ const OnRampPage = () => {
   if (isLoading) {
     return (
       <Container>
-        <Text>Loading...</Text>
+        <Heading scale="xl" mb="24px">
+          Buy ZIL
+        </Heading>
+        <Text>Loading Transak widget...</Text>
       </Container>
     )
   }
