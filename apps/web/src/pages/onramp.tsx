@@ -1,16 +1,12 @@
 import { useTheme } from '@pancakeswap/hooks'
 import { Box, CopyAddress, Flex, Heading, Link, Text } from '@pancakeswap/uikit'
-import type { TransakConfig } from '@transak/transak-sdk'
 import { toBech32Address } from '@zilliqa-js/crypto'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 
-// Extend TransakConfig to include widgetUrl until TypeScript definitions are updated
-// Exclude apiKey since it's now embedded in the widgetUrl
-interface ExtendedTransakConfig extends Omit<TransakConfig, 'apiKey'> {
-  widgetUrl: string
-}
+// TypeScript definitions for @transak/transak-sdk are outdated for the new widgetUrl pattern
+// Using type assertion to bypass until they update their types
 
 const Container = styled(Flex)`
   flex-direction: column;
@@ -161,7 +157,8 @@ const OnRampPage = () => {
           const widgetUrl = data.widgetUrl
 
           // Use the new SDK pattern with widgetUrl
-          const transakConfig: ExtendedTransakConfig = {
+          // Type assertion needed because SDK types haven't been updated for widgetUrl pattern
+          const transakConfig = {
             widgetUrl,
             environment:
               process.env.NEXT_PUBLIC_TRANSAK_ENVIRONMENT === 'PRODUCTION'
@@ -170,7 +167,7 @@ const OnRampPage = () => {
             widgetHeight: '100%',
             widgetWidth: '100%',
             containerId: 'transakMount',
-          }
+          } as any
 
           transak = new Transak(transakConfig)
           transak.init()
