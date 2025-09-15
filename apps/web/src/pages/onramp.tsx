@@ -7,7 +7,8 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 
 // Extend TransakConfig to include widgetUrl until TypeScript definitions are updated
-interface ExtendedTransakConfig extends TransakConfig {
+// Exclude apiKey since it's now embedded in the widgetUrl
+interface ExtendedTransakConfig extends Omit<TransakConfig, 'apiKey'> {
   widgetUrl: string
 }
 
