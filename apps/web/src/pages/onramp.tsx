@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 
 // Extend TransakConfig to include widgetUrl until TypeScript definitions are updated
-interface ExtendedTransakConfig extends Omit<TransakConfig, 'apiKey'> {
+interface ExtendedTransakConfig extends TransakConfig {
   widgetUrl: string
 }
 
@@ -162,6 +162,10 @@ const OnRampPage = () => {
           // Use the new SDK pattern with widgetUrl
           const transakConfig: ExtendedTransakConfig = {
             widgetUrl,
+            environment:
+              process.env.NEXT_PUBLIC_TRANSAK_ENVIRONMENT === 'PRODUCTION'
+                ? Transak.ENVIRONMENTS.PRODUCTION
+                : Transak.ENVIRONMENTS.STAGING,
             widgetHeight: '100%',
             widgetWidth: '100%',
             containerId: 'transakMount',
