@@ -110,12 +110,10 @@ const OnRampPage = () => {
         try {
           const { Transak } = await import('@transak/transak-sdk')
 
-          const transakConfig: TransakConfig = {
+          // First, generate the widget URL via our backend API
+          const widgetParams = {
             apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY ?? '',
-            environment:
-              process.env.NEXT_PUBLIC_TRANSAK_ENVIRONMENT === 'PRODUCTION'
-                ? Transak.ENVIRONMENTS.PRODUCTION
-                : Transak.ENVIRONMENTS.STAGING,
+            referrerDomain: window.location.hostname,
             defaultCryptoCurrency: 'ZIL',
             walletAddressesData: {
               networks: {
@@ -130,8 +128,6 @@ const OnRampPage = () => {
               },
             },
             themeColor: '00D2FF',
-            widgetHeight: '100%',
-            widgetWidth: '100%',
             defaultNetwork: 'zilliqa',
             defaultFiatCurrency: 'USD',
             hideMenu: false,
@@ -140,8 +136,30 @@ const OnRampPage = () => {
             hideExchangeScreen: false,
             disableWalletAddressForm: true,
             isAutoFillUserData: true,
-            containerId: 'transakMount',
             colorMode: isDark ? 'DARK' : 'LIGHT',
+          }
+
+          const response = await fetch('/api/transak/create-widget-url', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ widgetParams }),
+          })
+
+          if (!response.ok) {
+            throw new Error(`Failed to create widget URL: ${response.statusText}`)
+          }
+
+          const { data } = await response.json()
+          const widgetUrl = data.widgetUrl
+
+          // Use the new SDK pattern with widgetUrl
+          const transakConfig: TransakConfig = {
+            widgetUrl,
+            widgetHeight: '100%',
+            widgetWidth: '100%',
+            containerId: 'transakMount',
           }
 
           transak = new Transak(transakConfig)
