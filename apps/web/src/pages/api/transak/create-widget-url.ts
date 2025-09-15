@@ -42,7 +42,8 @@ const handler: NextApiHandler = async (req, res) => {
 
     // Get environment variables
     const accessToken = process.env.TRANSAK_ACCESS_TOKEN
-    const apiBaseUrl = process.env.TRANSAK_API_BASE_URL || 'https://api.transak.com'
+    // Use api-gateway subdomain for Create Widget URL API (different from base API)
+    const apiBaseUrl = process.env.TRANSAK_API_BASE_URL || 'https://api-gateway.transak.com'
 
     if (!accessToken) {
       return res.status(500).json({ 
@@ -82,8 +83,10 @@ const handler: NextApiHandler = async (req, res) => {
     return res.status(200).json(data)
   } catch (error) {
     console.error('Error creating Transak widget URL:', error)
+    console.error('Error details:', error instanceof Error ? error.message : String(error))
     return res.status(500).json({ 
-      error: 'Internal server error while creating widget URL' 
+      error: 'Internal server error while creating widget URL',
+      details: error instanceof Error ? error.message : String(error)
     })
   }
 }

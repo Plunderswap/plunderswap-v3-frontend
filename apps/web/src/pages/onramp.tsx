@@ -101,22 +101,31 @@ const SupportLink = styled(Link)`
 const OnRampPage = () => {
   const { address } = useAccount()
   const [isLoading, setIsLoading] = useState(true)
+  const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
   const zilAddress = address ? toBech32Address(address) : ''
   const { isDark } = useTheme()
 
+  // First effect: Generate widget URL
   useEffect(() => {
-    let transak: any
-
     if (address) {
-      const initTransak = async () => {
+      const generateWidgetUrl = async () => {
         try {
-          const { Transak } = await import('@transak/transak-sdk')
-
-          // Generate the widget URL via our backend API
+          // Generate the widget URL via our backend API (ALL params must go through API)
           const widgetParams = {
             apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY ?? '',
             referrerDomain: window.location.hostname,
+            colorMode: isDark ? 'DARK' : 'LIGHT',
+            // Add all the ZIL-specific parameters to the API call (using defaults so users can change)
             defaultCryptoCurrency: 'ZIL',
+            defaultNetwork: 'zil',
+            defaultFiatCurrency: 'USD',
+            disableWalletAddressForm: true,
+            isAutoFillUserData: true,
+            hideMenu: false,
+            exchangeScreenTitle: 'Buy Crypto',
+            isFeeCalculationHidden: false,
+            hideExchangeScreen: false,
+            themeColor: '00D2FF',
             walletAddressesData: {
               networks: {
                 zil: { address: zilAddress },
@@ -129,16 +138,6 @@ const OnRampPage = () => {
                 polygon: { address },
               },
             },
-            themeColor: '00D2FF',
-            defaultNetwork: 'zilliqa',
-            defaultFiatCurrency: 'USD',
-            hideMenu: false,
-            exchangeScreenTitle: 'Buy Crypto',
-            isFeeCalculationHidden: false,
-            hideExchangeScreen: false,
-            disableWalletAddressForm: true,
-            isAutoFillUserData: true,
-            colorMode: isDark ? 'DARK' : 'LIGHT',
           }
 
           const response = await fetch('/api/transak/create-widget-url', {
@@ -154,47 +153,23 @@ const OnRampPage = () => {
           }
 
           const { data } = await response.json()
-          const widgetUrl = data.widgetUrl
-
-          // Use the new SDK pattern with widgetUrl
-          // Type assertion needed because SDK types haven't been updated for widgetUrl pattern
-          const transakConfig = {
-            widgetUrl,
-            environment:
-              process.env.NEXT_PUBLIC_TRANSAK_ENVIRONMENT === 'PRODUCTION'
-                ? Transak.ENVIRONMENTS.PRODUCTION
-                : Transak.ENVIRONMENTS.STAGING,
-            widgetHeight: '100%',
-            widgetWidth: '100%',
-            containerId: 'transakMount',
-          } as any
-
-          transak = new Transak(transakConfig)
-          transak.init()
-
-          // Order successful event
-          Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
-            // eslint-disable-next-line no-console
-            console.log('Order Successful:', orderData)
-          })
-
+          console.log('Generated widgetUrl from API:', data.widgetUrl)
+          
+          // Use the widgetUrl directly since sessionId encodes all our parameters
+          setWidgetUrl(data.widgetUrl)
           setIsLoading(false)
         } catch (error) {
-          console.error('Failed to initialize Transak:', error)
+          console.error('Failed to generate widget URL:', error)
           setIsLoading(false)
         }
       }
 
-      initTransak()
-    }
-
-    // Cleanup function
-    return () => {
-      if (transak) {
-        transak.close()
-      }
+      generateWidgetUrl()
     }
   }, [address, isDark, zilAddress])
+
+  // Second effect: No SDK needed - we'll use direct iframe since manual URLs work
+  // The SDK might be stripping out our URL parameters
 
   if (!address) {
     return (
@@ -234,7 +209,19 @@ const OnRampPage = () => {
           <StyledCopyAddress account={zilAddress} tooltipMessage="Copied" />
         </div>
       </AddressBox>
-      <WidgetContainer id="transakMount" />
+      <WidgetContainer>
+        {widgetUrl && (
+          <iframe
+            src={widgetUrl}
+            width="100%"
+            height="100%"
+            style={{ border: 'none' }}
+            allow="clipboard-write"
+            referrerPolicy="strict-origin-when-cross-origin"
+            title="Transak Widget"
+          />
+        )}
+      </WidgetContainer>
 
       <InfoSection>
         <InfoCard>
