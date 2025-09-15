@@ -71,7 +71,7 @@
     "@snapshot-labs/snapshot.js": "^0.4.40",
     "@stealthex-io/widget": "^1.0.1",
     "@tanstack/react-query": "^5.18.0",
-    "@transak/transak-sdk": "^3.1.3",
+    "@transak/transak-sdk": "^3.2.2",
     "@vanilla-extract/next-plugin": "^2.3.0",
     "@vercel/analytics": "^1.5.0",
     "@wallchain/sdk": "^0.6.8",
